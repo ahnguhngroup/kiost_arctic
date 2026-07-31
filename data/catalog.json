@@ -489,6 +489,3401 @@
     98
    ],
    "units": "m"
+  },
+  {
+   "id": "m_topaz5_1d__siage",
+   "group": "① TOPAZ5 — CMEMS Arctic (10일)",
+   "model": "TOPAZ5",
+   "name": "해빙 연령 (siage)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 5.0,
+   "lut": "freeboard",
+   "units": "day",
+   "desc": "m_topaz5_1d__siage",
+   "png": "Data_Out/topaz5_1d/TOPAZ5_siage_preview.png",
+   "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siage_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_topaz5_1d__siconc",
+   "group": "① TOPAZ5 — CMEMS Arctic (10일)",
+   "model": "TOPAZ5",
+   "name": "해빙농도 (siconc)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 1.0,
+   "lut": "ice",
+   "units": "",
+   "desc": "m_topaz5_1d__siconc",
+   "png": "Data_Out/topaz5_1d/TOPAZ5_siconc_preview.png",
+   "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_siconc_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_topaz5_1d__sisnthick",
+   "group": "① TOPAZ5 — CMEMS Arctic (10일)",
+   "model": "TOPAZ5",
+   "name": "적설두께 (sisnthick)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 1.0,
+   "lut": "freeboard",
+   "units": "m",
+   "desc": "m_topaz5_1d__sisnthick",
+   "png": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_preview.png",
+   "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sisnthick_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_topaz5_1d__sithick",
+   "group": "① TOPAZ5 — CMEMS Arctic (10일)",
+   "model": "TOPAZ5",
+   "name": "해빙두께 (sithick)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 5.0,
+   "lut": "freeboard",
+   "units": "m",
+   "desc": "m_topaz5_1d__sithick",
+   "png": "Data_Out/topaz5_1d/TOPAZ5_sithick_preview.png",
+   "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_sithick_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_topaz5_1d__vxsi",
+   "group": "① TOPAZ5 — CMEMS Arctic (10일)",
+   "model": "TOPAZ5",
+   "name": "해빙 표류 x (vxsi)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -0.5,
+   "vmax": 0.5,
+   "lut": "thermal",
+   "units": "m/s",
+   "desc": "m_topaz5_1d__vxsi",
+   "png": "Data_Out/topaz5_1d/TOPAZ5_vxsi_preview.png",
+   "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxsi_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_topaz5_1d__vysi",
+   "group": "① TOPAZ5 — CMEMS Arctic (10일)",
+   "model": "TOPAZ5",
+   "name": "해빙 표류 y (vysi)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -0.5,
+   "vmax": 0.5,
+   "lut": "thermal",
+   "units": "m/s",
+   "desc": "m_topaz5_1d__vysi",
+   "png": "Data_Out/topaz5_1d/TOPAZ5_vysi_preview.png",
+   "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vysi_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_topaz5_1d__thetao",
+   "group": "① TOPAZ5 — CMEMS Arctic (10일)",
+   "model": "TOPAZ5",
+   "name": "수온 (thetao)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -2.0,
+   "vmax": 12.0,
+   "lut": "thermal",
+   "units": "°C",
+   "desc": "m_topaz5_1d__thetao",
+   "png": "Data_Out/topaz5_1d/TOPAZ5_thetao_preview.png",
+   "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_thetao_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_topaz5_1d__vxo",
+   "group": "① TOPAZ5 — CMEMS Arctic (10일)",
+   "model": "TOPAZ5",
+   "name": "표층 해류 x (vxo)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -1.0,
+   "vmax": 1.0,
+   "lut": "thermal",
+   "units": "m/s",
+   "desc": "m_topaz5_1d__vxo",
+   "png": "Data_Out/topaz5_1d/TOPAZ5_vxo_preview.png",
+   "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vxo_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_topaz5_1d__vyo",
+   "group": "① TOPAZ5 — CMEMS Arctic (10일)",
+   "model": "TOPAZ5",
+   "name": "표층 해류 y (vyo)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -1.0,
+   "vmax": 1.0,
+   "lut": "thermal",
+   "units": "m/s",
+   "desc": "m_topaz5_1d__vyo",
+   "png": "Data_Out/topaz5_1d/TOPAZ5_vyo_preview.png",
+   "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_vyo_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_topaz5_1d__so",
+   "group": "① TOPAZ5 — CMEMS Arctic (10일)",
+   "model": "TOPAZ5",
+   "name": "염분 (so)",
+   "type": "series",
+   "nav": 0,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 25.0,
+   "vmax": 36.0,
+   "lut": "thermal",
+   "units": "1e-3",
+   "desc": "m_topaz5_1d__so",
+   "png": "Data_Out/topaz5_1d/TOPAZ5_so_preview.png",
+   "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/topaz5_1d/TOPAZ5_so_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_nextsim_hm__siconc",
+   "group": "② neXtSIM-F — CMEMS Arctic 해빙 (D+9)",
+   "model": "neXtSIM-F",
+   "name": "해빙농도 (siconc)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 1.0,
+   "lut": "ice",
+   "units": "",
+   "desc": "m_nextsim_hm__siconc",
+   "png": "Data_Out/nextsim_hm/neXtSIMF_siconc_preview.png",
+   "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_siconc_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_nextsim_hm__sithick",
+   "group": "② neXtSIM-F — CMEMS Arctic 해빙 (D+9)",
+   "model": "neXtSIM-F",
+   "name": "해빙두께 (sithick)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 5.0,
+   "lut": "freeboard",
+   "units": "m",
+   "desc": "m_nextsim_hm__sithick",
+   "png": "Data_Out/nextsim_hm/neXtSIMF_sithick_preview.png",
+   "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_sithick_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_nextsim_hm__vxsi",
+   "group": "② neXtSIM-F — CMEMS Arctic 해빙 (D+9)",
+   "model": "neXtSIM-F",
+   "name": "해빙 표류 x (vxsi)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -0.5,
+   "vmax": 0.5,
+   "lut": "thermal",
+   "units": "m/s",
+   "desc": "m_nextsim_hm__vxsi",
+   "png": "Data_Out/nextsim_hm/neXtSIMF_vxsi_preview.png",
+   "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vxsi_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_nextsim_hm__vysi",
+   "group": "② neXtSIM-F — CMEMS Arctic 해빙 (D+9)",
+   "model": "neXtSIM-F",
+   "name": "해빙 표류 y (vysi)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -0.5,
+   "vmax": 0.5,
+   "lut": "thermal",
+   "units": "m/s",
+   "desc": "m_nextsim_hm__vysi",
+   "png": "Data_Out/nextsim_hm/neXtSIMF_vysi_preview.png",
+   "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260728_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260728",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/nextsim_hm/neXtSIMF_vysi_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_riops_2d__iiceconc",
+   "group": "③ RIOPS — 캐나다 지역 (84시간)",
+   "model": "RIOPS",
+   "name": "해빙농도 (iiceconc)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 1.0,
+   "lut": "ice",
+   "units": "",
+   "desc": "m_riops_2d__iiceconc",
+   "png": "Data_Out/riops_2d/RIOPS_iiceconc_preview.png",
+   "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P000_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260725T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-25T00:00:00Z",
+     "label": "+0h (07-25 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P006",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P006_EPSG3413_cog.tif",
+     "t": "2026-07-25T06:00:00Z",
+     "label": "+6h (07-25 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P012",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P012_EPSG3413_cog.tif",
+     "t": "2026-07-25T12:00:00Z",
+     "label": "+12h (07-25 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P018",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P018_EPSG3413_cog.tif",
+     "t": "2026-07-25T18:00:00Z",
+     "label": "+18h (07-25 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P024",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P024_EPSG3413_cog.tif",
+     "t": "2026-07-26T00:00:00Z",
+     "label": "+24h (07-26 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P030",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P030_EPSG3413_cog.tif",
+     "t": "2026-07-26T06:00:00Z",
+     "label": "+30h (07-26 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P036",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P036_EPSG3413_cog.tif",
+     "t": "2026-07-26T12:00:00Z",
+     "label": "+36h (07-26 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P042",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P042_EPSG3413_cog.tif",
+     "t": "2026-07-26T18:00:00Z",
+     "label": "+42h (07-26 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P048",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P048_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+48h (07-27 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260727T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+0h (07-27 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P054",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P054_EPSG3413_cog.tif",
+     "t": "2026-07-27T06:00:00Z",
+     "label": "+54h (07-27 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P060",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P060_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "+60h (07-27 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P066",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P066_EPSG3413_cog.tif",
+     "t": "2026-07-27T18:00:00Z",
+     "label": "+66h (07-27 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P072",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P072_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+72h (07-28 00Z)"
+    },
+    {
+     "id": "20260728T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260728T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+0h (07-28 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P078",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P078_EPSG3413_cog.tif",
+     "t": "2026-07-28T06:00:00Z",
+     "label": "+78h (07-28 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P084",
+     "cog": "Data_Out/riops_2d/RIOPS_iiceconc_20260725T00Z_P084_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "+84h (07-28 12Z)"
+    }
+   ]
+  },
+  {
+   "id": "m_riops_2d__iicevol",
+   "group": "③ RIOPS — 캐나다 지역 (84시간)",
+   "model": "RIOPS",
+   "name": "해빙부피/면적 (평균두께) (iicevol)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 5.0,
+   "lut": "freeboard",
+   "units": "m",
+   "desc": "m_riops_2d__iicevol",
+   "png": "Data_Out/riops_2d/RIOPS_iicevol_preview.png",
+   "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P000_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260725T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-25T00:00:00Z",
+     "label": "+0h (07-25 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P006",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P006_EPSG3413_cog.tif",
+     "t": "2026-07-25T06:00:00Z",
+     "label": "+6h (07-25 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P012",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P012_EPSG3413_cog.tif",
+     "t": "2026-07-25T12:00:00Z",
+     "label": "+12h (07-25 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P018",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P018_EPSG3413_cog.tif",
+     "t": "2026-07-25T18:00:00Z",
+     "label": "+18h (07-25 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P024",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P024_EPSG3413_cog.tif",
+     "t": "2026-07-26T00:00:00Z",
+     "label": "+24h (07-26 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P030",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P030_EPSG3413_cog.tif",
+     "t": "2026-07-26T06:00:00Z",
+     "label": "+30h (07-26 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P036",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P036_EPSG3413_cog.tif",
+     "t": "2026-07-26T12:00:00Z",
+     "label": "+36h (07-26 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P042",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P042_EPSG3413_cog.tif",
+     "t": "2026-07-26T18:00:00Z",
+     "label": "+42h (07-26 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P048",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P048_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+48h (07-27 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260727T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+0h (07-27 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P054",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P054_EPSG3413_cog.tif",
+     "t": "2026-07-27T06:00:00Z",
+     "label": "+54h (07-27 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P060",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P060_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "+60h (07-27 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P066",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P066_EPSG3413_cog.tif",
+     "t": "2026-07-27T18:00:00Z",
+     "label": "+66h (07-27 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P072",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P072_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+72h (07-28 00Z)"
+    },
+    {
+     "id": "20260728T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260728T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+0h (07-28 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P078",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P078_EPSG3413_cog.tif",
+     "t": "2026-07-28T06:00:00Z",
+     "label": "+78h (07-28 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P084",
+     "cog": "Data_Out/riops_2d/RIOPS_iicevol_20260725T00Z_P084_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "+84h (07-28 12Z)"
+    }
+   ]
+  },
+  {
+   "id": "m_riops_2d__sossheig",
+   "group": "③ RIOPS — 캐나다 지역 (84시간)",
+   "model": "RIOPS",
+   "name": "해수면고도 (조석 포함) (sossheig)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -2.0,
+   "vmax": 2.0,
+   "lut": "thermal",
+   "units": "m",
+   "desc": "m_riops_2d__sossheig",
+   "png": "Data_Out/riops_2d/RIOPS_sossheig_preview.png",
+   "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P000_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260725T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-25T00:00:00Z",
+     "label": "+0h (07-25 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P006",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P006_EPSG3413_cog.tif",
+     "t": "2026-07-25T06:00:00Z",
+     "label": "+6h (07-25 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P012",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P012_EPSG3413_cog.tif",
+     "t": "2026-07-25T12:00:00Z",
+     "label": "+12h (07-25 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P018",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P018_EPSG3413_cog.tif",
+     "t": "2026-07-25T18:00:00Z",
+     "label": "+18h (07-25 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P024",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P024_EPSG3413_cog.tif",
+     "t": "2026-07-26T00:00:00Z",
+     "label": "+24h (07-26 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P030",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P030_EPSG3413_cog.tif",
+     "t": "2026-07-26T06:00:00Z",
+     "label": "+30h (07-26 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P036",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P036_EPSG3413_cog.tif",
+     "t": "2026-07-26T12:00:00Z",
+     "label": "+36h (07-26 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P042",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P042_EPSG3413_cog.tif",
+     "t": "2026-07-26T18:00:00Z",
+     "label": "+42h (07-26 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P048",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P048_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+48h (07-27 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260727T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+0h (07-27 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P054",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P054_EPSG3413_cog.tif",
+     "t": "2026-07-27T06:00:00Z",
+     "label": "+54h (07-27 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P060",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P060_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "+60h (07-27 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P066",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P066_EPSG3413_cog.tif",
+     "t": "2026-07-27T18:00:00Z",
+     "label": "+66h (07-27 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P072",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P072_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+72h (07-28 00Z)"
+    },
+    {
+     "id": "20260728T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260728T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+0h (07-28 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P078",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P078_EPSG3413_cog.tif",
+     "t": "2026-07-28T06:00:00Z",
+     "label": "+78h (07-28 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P084",
+     "cog": "Data_Out/riops_2d/RIOPS_sossheig_20260725T00Z_P084_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "+84h (07-28 12Z)"
+    }
+   ]
+  },
+  {
+   "id": "m_riops_2d__votemper",
+   "group": "③ RIOPS — 캐나다 지역 (84시간)",
+   "model": "RIOPS",
+   "name": "표층 수온 (0.5 m) (votemper)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -2.0,
+   "vmax": 30.0,
+   "lut": "thermal",
+   "units": "°C",
+   "desc": "m_riops_2d__votemper",
+   "png": "Data_Out/riops_2d/RIOPS_votemper_preview.png",
+   "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P000_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260725T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-25T00:00:00Z",
+     "label": "+0h (07-25 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P006",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P006_EPSG3413_cog.tif",
+     "t": "2026-07-25T06:00:00Z",
+     "label": "+6h (07-25 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P012",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P012_EPSG3413_cog.tif",
+     "t": "2026-07-25T12:00:00Z",
+     "label": "+12h (07-25 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P018",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P018_EPSG3413_cog.tif",
+     "t": "2026-07-25T18:00:00Z",
+     "label": "+18h (07-25 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P024",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P024_EPSG3413_cog.tif",
+     "t": "2026-07-26T00:00:00Z",
+     "label": "+24h (07-26 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P030",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P030_EPSG3413_cog.tif",
+     "t": "2026-07-26T06:00:00Z",
+     "label": "+30h (07-26 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P036",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P036_EPSG3413_cog.tif",
+     "t": "2026-07-26T12:00:00Z",
+     "label": "+36h (07-26 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P042",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P042_EPSG3413_cog.tif",
+     "t": "2026-07-26T18:00:00Z",
+     "label": "+42h (07-26 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P048",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P048_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+48h (07-27 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260727T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+0h (07-27 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P054",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P054_EPSG3413_cog.tif",
+     "t": "2026-07-27T06:00:00Z",
+     "label": "+54h (07-27 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P060",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P060_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "+60h (07-27 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P066",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P066_EPSG3413_cog.tif",
+     "t": "2026-07-27T18:00:00Z",
+     "label": "+66h (07-27 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P072",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P072_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+72h (07-28 00Z)"
+    },
+    {
+     "id": "20260728T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260728T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+0h (07-28 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P078",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P078_EPSG3413_cog.tif",
+     "t": "2026-07-28T06:00:00Z",
+     "label": "+78h (07-28 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P084",
+     "cog": "Data_Out/riops_2d/RIOPS_votemper_20260725T00Z_P084_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "+84h (07-28 12Z)"
+    }
+   ]
+  },
+  {
+   "id": "m_riops_2d__vosaline",
+   "group": "③ RIOPS — 캐나다 지역 (84시간)",
+   "model": "RIOPS",
+   "name": "표층 염분 (0.5 m) (vosaline)",
+   "type": "series",
+   "nav": 0,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 25.0,
+   "vmax": 38.0,
+   "lut": "thermal",
+   "units": "1e-3",
+   "desc": "m_riops_2d__vosaline",
+   "png": "Data_Out/riops_2d/RIOPS_vosaline_preview.png",
+   "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P000_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260725T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-25T00:00:00Z",
+     "label": "+0h (07-25 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P006",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P006_EPSG3413_cog.tif",
+     "t": "2026-07-25T06:00:00Z",
+     "label": "+6h (07-25 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P012",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P012_EPSG3413_cog.tif",
+     "t": "2026-07-25T12:00:00Z",
+     "label": "+12h (07-25 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P018",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P018_EPSG3413_cog.tif",
+     "t": "2026-07-25T18:00:00Z",
+     "label": "+18h (07-25 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P024",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P024_EPSG3413_cog.tif",
+     "t": "2026-07-26T00:00:00Z",
+     "label": "+24h (07-26 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P030",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P030_EPSG3413_cog.tif",
+     "t": "2026-07-26T06:00:00Z",
+     "label": "+30h (07-26 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P036",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P036_EPSG3413_cog.tif",
+     "t": "2026-07-26T12:00:00Z",
+     "label": "+36h (07-26 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P042",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P042_EPSG3413_cog.tif",
+     "t": "2026-07-26T18:00:00Z",
+     "label": "+42h (07-26 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P048",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P048_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+48h (07-27 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260727T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+0h (07-27 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P054",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P054_EPSG3413_cog.tif",
+     "t": "2026-07-27T06:00:00Z",
+     "label": "+54h (07-27 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P060",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P060_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "+60h (07-27 12Z)"
+    },
+    {
+     "id": "20260725T00Z_P066",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P066_EPSG3413_cog.tif",
+     "t": "2026-07-27T18:00:00Z",
+     "label": "+66h (07-27 18Z)"
+    },
+    {
+     "id": "20260725T00Z_P072",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P072_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+72h (07-28 00Z)"
+    },
+    {
+     "id": "20260728T00Z_P000",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260728T00Z_P000_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+0h (07-28 00Z)"
+    },
+    {
+     "id": "20260725T00Z_P078",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P078_EPSG3413_cog.tif",
+     "t": "2026-07-28T06:00:00Z",
+     "label": "+78h (07-28 06Z)"
+    },
+    {
+     "id": "20260725T00Z_P084",
+     "cog": "Data_Out/riops_2d/RIOPS_vosaline_20260725T00Z_P084_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "+84h (07-28 12Z)"
+    }
+   ]
+  },
+  {
+   "id": "m_met_aice__SIC",
+   "group": "④ MET-AICE — 딥러닝 SIC (D+10)",
+   "model": "MET-AICE",
+   "name": "해빙농도 (SIC)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 100.0,
+   "lut": "ice",
+   "units": "%",
+   "desc": "m_met_aice__SIC",
+   "png": "Data_Out/met_aice/METAICE_SIC_preview.png",
+   "cog": "Data_Out/met_aice/METAICE_SIC_20260727T00Z_D1_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260727T00Z_D1",
+     "cog": "Data_Out/met_aice/METAICE_SIC_20260727T00Z_D1_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "D+1 (07-28)"
+    },
+    {
+     "id": "20260728T00Z_D1",
+     "cog": "Data_Out/met_aice/METAICE_SIC_20260728T00Z_D1_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "D+1 (07-29)"
+    },
+    {
+     "id": "20260727T00Z_D5",
+     "cog": "Data_Out/met_aice/METAICE_SIC_20260727T00Z_D5_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "D+5 (08-01)"
+    },
+    {
+     "id": "20260728T00Z_D5",
+     "cog": "Data_Out/met_aice/METAICE_SIC_20260728T00Z_D5_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "D+5 (08-02)"
+    },
+    {
+     "id": "20260727T00Z_D10",
+     "cog": "Data_Out/met_aice/METAICE_SIC_20260727T00Z_D10_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "D+10 (08-06)"
+    },
+    {
+     "id": "20260728T00Z_D10",
+     "cog": "Data_Out/met_aice/METAICE_SIC_20260728T00Z_D10_EPSG3413_cog.tif",
+     "t": "2026-08-07T12:00:00Z",
+     "label": "D+10 (08-07)"
+    }
+   ]
+  },
+  {
+   "id": "m_giops_2d__iiceconc",
+   "group": "⑤ GIOPS — 캐나다 전지구 (240시간)",
+   "model": "GIOPS",
+   "name": "해빙농도 (iiceconc)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 1.0,
+   "lut": "ice",
+   "units": "",
+   "desc": "m_giops_2d__iiceconc",
+   "png": "Data_Out/giops_2d/GIOPS_iiceconc_preview.png",
+   "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_Anal000_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260727T00Z_Anal000",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_Anal000_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+0h (07-27 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P003",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P003_EPSG3413_cog.tif",
+     "t": "2026-07-27T03:00:00Z",
+     "label": "+3h (07-27 03Z)"
+    },
+    {
+     "id": "20260727T00Z_P012",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P012_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "+12h (07-27 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P024",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P024_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+24h (07-28 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P036",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P036_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "+36h (07-28 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P048",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P048_EPSG3413_cog.tif",
+     "t": "2026-07-29T00:00:00Z",
+     "label": "+48h (07-29 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P060",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P060_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "+60h (07-29 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P072",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P072_EPSG3413_cog.tif",
+     "t": "2026-07-30T00:00:00Z",
+     "label": "+72h (07-30 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P084",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P084_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "+84h (07-30 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P096",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P096_EPSG3413_cog.tif",
+     "t": "2026-07-31T00:00:00Z",
+     "label": "+96h (07-31 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P108",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P108_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "+108h (07-31 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P120",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P120_EPSG3413_cog.tif",
+     "t": "2026-08-01T00:00:00Z",
+     "label": "+120h (08-01 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P132",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P132_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "+132h (08-01 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P144",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P144_EPSG3413_cog.tif",
+     "t": "2026-08-02T00:00:00Z",
+     "label": "+144h (08-02 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P156",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P156_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "+156h (08-02 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P168",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P168_EPSG3413_cog.tif",
+     "t": "2026-08-03T00:00:00Z",
+     "label": "+168h (08-03 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P180",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P180_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "+180h (08-03 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P192",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P192_EPSG3413_cog.tif",
+     "t": "2026-08-04T00:00:00Z",
+     "label": "+192h (08-04 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P204",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P204_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "+204h (08-04 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P216",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P216_EPSG3413_cog.tif",
+     "t": "2026-08-05T00:00:00Z",
+     "label": "+216h (08-05 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P228",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P228_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "+228h (08-05 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P240",
+     "cog": "Data_Out/giops_2d/GIOPS_iiceconc_20260727T00Z_P240_EPSG3413_cog.tif",
+     "t": "2026-08-06T00:00:00Z",
+     "label": "+240h (08-06 00Z)"
+    }
+   ]
+  },
+  {
+   "id": "m_giops_2d__iicevol",
+   "group": "⑤ GIOPS — 캐나다 전지구 (240시간)",
+   "model": "GIOPS",
+   "name": "해빙부피/면적 (평균두께) (iicevol)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 5.0,
+   "lut": "freeboard",
+   "units": "m",
+   "desc": "m_giops_2d__iicevol",
+   "png": "Data_Out/giops_2d/GIOPS_iicevol_preview.png",
+   "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P003_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260727T00Z_P003",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P003_EPSG3413_cog.tif",
+     "t": "2026-07-27T03:00:00Z",
+     "label": "+3h (07-27 03Z)"
+    },
+    {
+     "id": "20260727T00Z_P012",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P012_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "+12h (07-27 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P024",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P024_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+24h (07-28 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P036",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P036_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "+36h (07-28 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P048",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P048_EPSG3413_cog.tif",
+     "t": "2026-07-29T00:00:00Z",
+     "label": "+48h (07-29 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P060",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P060_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "+60h (07-29 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P072",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P072_EPSG3413_cog.tif",
+     "t": "2026-07-30T00:00:00Z",
+     "label": "+72h (07-30 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P084",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P084_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "+84h (07-30 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P096",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P096_EPSG3413_cog.tif",
+     "t": "2026-07-31T00:00:00Z",
+     "label": "+96h (07-31 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P108",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P108_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "+108h (07-31 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P120",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P120_EPSG3413_cog.tif",
+     "t": "2026-08-01T00:00:00Z",
+     "label": "+120h (08-01 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P132",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P132_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "+132h (08-01 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P144",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P144_EPSG3413_cog.tif",
+     "t": "2026-08-02T00:00:00Z",
+     "label": "+144h (08-02 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P156",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P156_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "+156h (08-02 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P168",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P168_EPSG3413_cog.tif",
+     "t": "2026-08-03T00:00:00Z",
+     "label": "+168h (08-03 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P180",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P180_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "+180h (08-03 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P192",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P192_EPSG3413_cog.tif",
+     "t": "2026-08-04T00:00:00Z",
+     "label": "+192h (08-04 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P204",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P204_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "+204h (08-04 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P216",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P216_EPSG3413_cog.tif",
+     "t": "2026-08-05T00:00:00Z",
+     "label": "+216h (08-05 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P228",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P228_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "+228h (08-05 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P240",
+     "cog": "Data_Out/giops_2d/GIOPS_iicevol_20260727T00Z_P240_EPSG3413_cog.tif",
+     "t": "2026-08-06T00:00:00Z",
+     "label": "+240h (08-06 00Z)"
+    }
+   ]
+  },
+  {
+   "id": "m_giops_2d__sossheig",
+   "group": "⑤ GIOPS — 캐나다 전지구 (240시간)",
+   "model": "GIOPS",
+   "name": "해수면고도 (조석 포함) (sossheig)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -2.0,
+   "vmax": 2.0,
+   "lut": "thermal",
+   "units": "m",
+   "desc": "m_giops_2d__sossheig",
+   "png": "Data_Out/giops_2d/GIOPS_sossheig_preview.png",
+   "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_Anal000_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260727T00Z_Anal000",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_Anal000_EPSG3413_cog.tif",
+     "t": "2026-07-27T00:00:00Z",
+     "label": "+0h (07-27 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P003",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P003_EPSG3413_cog.tif",
+     "t": "2026-07-27T03:00:00Z",
+     "label": "+3h (07-27 03Z)"
+    },
+    {
+     "id": "20260727T00Z_P012",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P012_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "+12h (07-27 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P024",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P024_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+24h (07-28 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P036",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P036_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "+36h (07-28 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P048",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P048_EPSG3413_cog.tif",
+     "t": "2026-07-29T00:00:00Z",
+     "label": "+48h (07-29 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P060",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P060_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "+60h (07-29 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P072",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P072_EPSG3413_cog.tif",
+     "t": "2026-07-30T00:00:00Z",
+     "label": "+72h (07-30 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P084",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P084_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "+84h (07-30 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P096",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P096_EPSG3413_cog.tif",
+     "t": "2026-07-31T00:00:00Z",
+     "label": "+96h (07-31 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P108",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P108_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "+108h (07-31 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P120",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P120_EPSG3413_cog.tif",
+     "t": "2026-08-01T00:00:00Z",
+     "label": "+120h (08-01 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P132",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P132_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "+132h (08-01 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P144",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P144_EPSG3413_cog.tif",
+     "t": "2026-08-02T00:00:00Z",
+     "label": "+144h (08-02 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P156",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P156_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "+156h (08-02 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P168",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P168_EPSG3413_cog.tif",
+     "t": "2026-08-03T00:00:00Z",
+     "label": "+168h (08-03 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P180",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P180_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "+180h (08-03 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P192",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P192_EPSG3413_cog.tif",
+     "t": "2026-08-04T00:00:00Z",
+     "label": "+192h (08-04 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P204",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P204_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "+204h (08-04 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P216",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P216_EPSG3413_cog.tif",
+     "t": "2026-08-05T00:00:00Z",
+     "label": "+216h (08-05 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P228",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P228_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "+228h (08-05 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P240",
+     "cog": "Data_Out/giops_2d/GIOPS_sossheig_20260727T00Z_P240_EPSG3413_cog.tif",
+     "t": "2026-08-06T00:00:00Z",
+     "label": "+240h (08-06 00Z)"
+    }
+   ]
+  },
+  {
+   "id": "m_giops_2d__votemper",
+   "group": "⑤ GIOPS — 캐나다 전지구 (240시간)",
+   "model": "GIOPS",
+   "name": "표층 수온 (0.5 m) (votemper)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -2.0,
+   "vmax": 30.0,
+   "lut": "thermal",
+   "units": "°C",
+   "desc": "m_giops_2d__votemper",
+   "png": "Data_Out/giops_2d/GIOPS_votemper_preview.png",
+   "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P003_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260727T00Z_P003",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P003_EPSG3413_cog.tif",
+     "t": "2026-07-27T03:00:00Z",
+     "label": "+3h (07-27 03Z)"
+    },
+    {
+     "id": "20260727T00Z_P012",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P012_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "+12h (07-27 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P024",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P024_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+24h (07-28 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P036",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P036_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "+36h (07-28 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P048",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P048_EPSG3413_cog.tif",
+     "t": "2026-07-29T00:00:00Z",
+     "label": "+48h (07-29 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P060",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P060_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "+60h (07-29 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P072",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P072_EPSG3413_cog.tif",
+     "t": "2026-07-30T00:00:00Z",
+     "label": "+72h (07-30 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P084",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P084_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "+84h (07-30 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P096",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P096_EPSG3413_cog.tif",
+     "t": "2026-07-31T00:00:00Z",
+     "label": "+96h (07-31 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P108",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P108_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "+108h (07-31 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P120",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P120_EPSG3413_cog.tif",
+     "t": "2026-08-01T00:00:00Z",
+     "label": "+120h (08-01 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P132",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P132_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "+132h (08-01 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P144",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P144_EPSG3413_cog.tif",
+     "t": "2026-08-02T00:00:00Z",
+     "label": "+144h (08-02 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P156",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P156_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "+156h (08-02 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P168",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P168_EPSG3413_cog.tif",
+     "t": "2026-08-03T00:00:00Z",
+     "label": "+168h (08-03 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P180",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P180_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "+180h (08-03 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P192",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P192_EPSG3413_cog.tif",
+     "t": "2026-08-04T00:00:00Z",
+     "label": "+192h (08-04 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P204",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P204_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "+204h (08-04 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P216",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P216_EPSG3413_cog.tif",
+     "t": "2026-08-05T00:00:00Z",
+     "label": "+216h (08-05 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P228",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P228_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "+228h (08-05 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P240",
+     "cog": "Data_Out/giops_2d/GIOPS_votemper_20260727T00Z_P240_EPSG3413_cog.tif",
+     "t": "2026-08-06T00:00:00Z",
+     "label": "+240h (08-06 00Z)"
+    }
+   ]
+  },
+  {
+   "id": "m_giops_2d__vosaline",
+   "group": "⑤ GIOPS — 캐나다 전지구 (240시간)",
+   "model": "GIOPS",
+   "name": "표층 염분 (0.5 m) (vosaline)",
+   "type": "series",
+   "nav": 0,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 25.0,
+   "vmax": 38.0,
+   "lut": "thermal",
+   "units": "1e-3",
+   "desc": "m_giops_2d__vosaline",
+   "png": "Data_Out/giops_2d/GIOPS_vosaline_preview.png",
+   "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P003_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260727T00Z_P003",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P003_EPSG3413_cog.tif",
+     "t": "2026-07-27T03:00:00Z",
+     "label": "+3h (07-27 03Z)"
+    },
+    {
+     "id": "20260727T00Z_P012",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P012_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "+12h (07-27 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P024",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P024_EPSG3413_cog.tif",
+     "t": "2026-07-28T00:00:00Z",
+     "label": "+24h (07-28 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P036",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P036_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "+36h (07-28 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P048",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P048_EPSG3413_cog.tif",
+     "t": "2026-07-29T00:00:00Z",
+     "label": "+48h (07-29 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P060",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P060_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "+60h (07-29 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P072",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P072_EPSG3413_cog.tif",
+     "t": "2026-07-30T00:00:00Z",
+     "label": "+72h (07-30 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P084",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P084_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "+84h (07-30 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P096",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P096_EPSG3413_cog.tif",
+     "t": "2026-07-31T00:00:00Z",
+     "label": "+96h (07-31 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P108",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P108_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "+108h (07-31 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P120",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P120_EPSG3413_cog.tif",
+     "t": "2026-08-01T00:00:00Z",
+     "label": "+120h (08-01 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P132",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P132_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "+132h (08-01 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P144",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P144_EPSG3413_cog.tif",
+     "t": "2026-08-02T00:00:00Z",
+     "label": "+144h (08-02 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P156",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P156_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "+156h (08-02 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P168",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P168_EPSG3413_cog.tif",
+     "t": "2026-08-03T00:00:00Z",
+     "label": "+168h (08-03 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P180",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P180_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "+180h (08-03 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P192",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P192_EPSG3413_cog.tif",
+     "t": "2026-08-04T00:00:00Z",
+     "label": "+192h (08-04 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P204",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P204_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "+204h (08-04 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P216",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P216_EPSG3413_cog.tif",
+     "t": "2026-08-05T00:00:00Z",
+     "label": "+216h (08-05 00Z)"
+    },
+    {
+     "id": "20260727T00Z_P228",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P228_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "+228h (08-05 12Z)"
+    },
+    {
+     "id": "20260727T00Z_P240",
+     "cog": "Data_Out/giops_2d/GIOPS_vosaline_20260727T00Z_P240_EPSG3413_cog.tif",
+     "t": "2026-08-06T00:00:00Z",
+     "label": "+240h (08-06 00Z)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__siconc",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "해빙농도 (siconc)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 1.0,
+   "lut": "ice",
+   "units": "",
+   "desc": "m_foam_gl4__siconc",
+   "png": "Data_Out/foam_gl4/FOAM_siconc_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_siconc_dm20260725_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260725_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_siconc_dm20260725_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-25T12:00:00Z",
+     "label": "07-25 (b-2d)"
+    },
+    {
+     "id": "dm20260726_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_siconc_dm20260726_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-26T12:00:00Z",
+     "label": "07-26 (b-1d)"
+    },
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_siconc_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    },
+    {
+     "id": "dm20260728_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_siconc_dm20260728_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28 (b+1d)"
+    },
+    {
+     "id": "dm20260729_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_siconc_dm20260729_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29 (b+2d)"
+    },
+    {
+     "id": "dm20260730_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_siconc_dm20260730_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30 (b+3d)"
+    },
+    {
+     "id": "dm20260731_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_siconc_dm20260731_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31 (b+4d)"
+    },
+    {
+     "id": "dm20260801_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_siconc_dm20260801_b20260727_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01 (b+5d)"
+    },
+    {
+     "id": "dm20260802_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_siconc_dm20260802_b20260727_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02 (b+6d)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__sithick",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "해빙두께 (sithick)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 5.0,
+   "lut": "freeboard",
+   "units": "m",
+   "desc": "m_foam_gl4__sithick",
+   "png": "Data_Out/foam_gl4/FOAM_sithick_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_sithick_dm20260725_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260725_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_sithick_dm20260725_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-25T12:00:00Z",
+     "label": "07-25 (b-2d)"
+    },
+    {
+     "id": "dm20260726_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_sithick_dm20260726_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-26T12:00:00Z",
+     "label": "07-26 (b-1d)"
+    },
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_sithick_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    },
+    {
+     "id": "dm20260728_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_sithick_dm20260728_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28 (b+1d)"
+    },
+    {
+     "id": "dm20260729_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_sithick_dm20260729_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29 (b+2d)"
+    },
+    {
+     "id": "dm20260730_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_sithick_dm20260730_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30 (b+3d)"
+    },
+    {
+     "id": "dm20260731_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_sithick_dm20260731_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31 (b+4d)"
+    },
+    {
+     "id": "dm20260801_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_sithick_dm20260801_b20260727_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01 (b+5d)"
+    },
+    {
+     "id": "dm20260802_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_sithick_dm20260802_b20260727_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02 (b+6d)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__usi",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "해빙 표류 동향 (usi)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -0.5,
+   "vmax": 0.5,
+   "lut": "thermal",
+   "units": "m/s",
+   "desc": "m_foam_gl4__usi",
+   "png": "Data_Out/foam_gl4/FOAM_usi_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_usi_dm20260725_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260725_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_usi_dm20260725_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-25T12:00:00Z",
+     "label": "07-25 (b-2d)"
+    },
+    {
+     "id": "dm20260726_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_usi_dm20260726_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-26T12:00:00Z",
+     "label": "07-26 (b-1d)"
+    },
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_usi_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    },
+    {
+     "id": "dm20260728_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_usi_dm20260728_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28 (b+1d)"
+    },
+    {
+     "id": "dm20260729_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_usi_dm20260729_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29 (b+2d)"
+    },
+    {
+     "id": "dm20260730_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_usi_dm20260730_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30 (b+3d)"
+    },
+    {
+     "id": "dm20260731_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_usi_dm20260731_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31 (b+4d)"
+    },
+    {
+     "id": "dm20260801_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_usi_dm20260801_b20260727_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01 (b+5d)"
+    },
+    {
+     "id": "dm20260802_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_usi_dm20260802_b20260727_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02 (b+6d)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__vsi",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "해빙 표류 북향 (vsi)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -0.5,
+   "vmax": 0.5,
+   "lut": "thermal",
+   "units": "m/s",
+   "desc": "m_foam_gl4__vsi",
+   "png": "Data_Out/foam_gl4/FOAM_vsi_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_vsi_dm20260725_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260725_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_vsi_dm20260725_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-25T12:00:00Z",
+     "label": "07-25 (b-2d)"
+    },
+    {
+     "id": "dm20260726_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_vsi_dm20260726_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-26T12:00:00Z",
+     "label": "07-26 (b-1d)"
+    },
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_vsi_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    },
+    {
+     "id": "dm20260728_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_vsi_dm20260728_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28 (b+1d)"
+    },
+    {
+     "id": "dm20260729_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_vsi_dm20260729_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29 (b+2d)"
+    },
+    {
+     "id": "dm20260730_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_vsi_dm20260730_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30 (b+3d)"
+    },
+    {
+     "id": "dm20260731_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_vsi_dm20260731_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31 (b+4d)"
+    },
+    {
+     "id": "dm20260801_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_vsi_dm20260801_b20260727_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01 (b+5d)"
+    },
+    {
+     "id": "dm20260802_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_vsi_dm20260802_b20260727_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02 (b+6d)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__bottomT",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "저층 수온 (bottomT)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -2.0,
+   "vmax": 10.0,
+   "lut": "thermal",
+   "units": "°C",
+   "desc": "m_foam_gl4__bottomT",
+   "png": "Data_Out/foam_gl4/FOAM_bottomT_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_bottomT_dm20260727_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_bottomT_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__mlotst",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "혼합층 두께 (mlotst)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 500.0,
+   "lut": "thermal",
+   "units": "m",
+   "desc": "m_foam_gl4__mlotst",
+   "png": "Data_Out/foam_gl4/FOAM_mlotst_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_mlotst_dm20260727_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_mlotst_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__thetao",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "수온 (thetao)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -2.0,
+   "vmax": 30.0,
+   "lut": "thermal",
+   "units": "°C",
+   "desc": "m_foam_gl4__thetao",
+   "png": "Data_Out/foam_gl4/FOAM_thetao_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_thetao_dm20260727_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_thetao_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__uo",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "동향 해류 (uo)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -1.0,
+   "vmax": 1.0,
+   "lut": "thermal",
+   "units": "m/s",
+   "desc": "m_foam_gl4__uo",
+   "png": "Data_Out/foam_gl4/FOAM_uo_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_uo_dm20260727_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_uo_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__vo",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "북향 해류 (vo)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -1.0,
+   "vmax": 1.0,
+   "lut": "thermal",
+   "units": "m/s",
+   "desc": "m_foam_gl4__vo",
+   "png": "Data_Out/foam_gl4/FOAM_vo_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_vo_dm20260727_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_vo_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__zos",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "해수면고도 (zos)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -2.0,
+   "vmax": 2.0,
+   "lut": "thermal",
+   "units": "m",
+   "desc": "m_foam_gl4__zos",
+   "png": "Data_Out/foam_gl4/FOAM_zos_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_zos_dm20260727_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_zos_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    }
+   ]
+  },
+  {
+   "id": "m_foam_gl4__so",
+   "group": "⑥ FOAM — UK Met Office 전지구 (7일)",
+   "model": "FOAM",
+   "name": "염분 (so)",
+   "type": "series",
+   "nav": 0,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 25.0,
+   "vmax": 38.0,
+   "lut": "thermal",
+   "units": "1e-3",
+   "desc": "m_foam_gl4__so",
+   "png": "Data_Out/foam_gl4/FOAM_so_preview.png",
+   "cog": "Data_Out/foam_gl4/FOAM_so_dm20260727_b20260727_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "dm20260727_b20260727",
+     "cog": "Data_Out/foam_gl4/FOAM_so_dm20260727_b20260727_EPSG3413_cog.tif",
+     "t": "2026-07-27T12:00:00Z",
+     "label": "07-27 (b+0d)"
+    }
+   ]
+  },
+  {
+   "id": "m_glo12_1d__siconc",
+   "group": "⑦ GLO12 — CMEMS 전지구 (10일)",
+   "model": "GLO12",
+   "name": "해빙농도 (siconc)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 1.0,
+   "lut": "ice",
+   "units": "",
+   "desc": "m_glo12_1d__siconc",
+   "png": "Data_Out/glo12_1d/GLO12_siconc_preview.png",
+   "cog": "Data_Out/glo12_1d/GLO12_siconc_20260705_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260705",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260705_EPSG3413_cog.tif",
+     "t": "2026-07-05T12:00:00Z",
+     "label": "07-05"
+    },
+    {
+     "id": "20260728",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/glo12_1d/GLO12_siconc_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_glo12_1d__sithick",
+   "group": "⑦ GLO12 — CMEMS 전지구 (10일)",
+   "model": "GLO12",
+   "name": "해빙두께 (sithick)",
+   "type": "series",
+   "nav": 2,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 0.0,
+   "vmax": 5.0,
+   "lut": "freeboard",
+   "units": "m",
+   "desc": "m_glo12_1d__sithick",
+   "png": "Data_Out/glo12_1d/GLO12_sithick_preview.png",
+   "cog": "Data_Out/glo12_1d/GLO12_sithick_20260705_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260705",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260705_EPSG3413_cog.tif",
+     "t": "2026-07-05T12:00:00Z",
+     "label": "07-05"
+    },
+    {
+     "id": "20260728",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/glo12_1d/GLO12_sithick_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_glo12_1d__thetao",
+   "group": "⑦ GLO12 — CMEMS 전지구 (10일)",
+   "model": "GLO12",
+   "name": "수온 (thetao)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -2.0,
+   "vmax": 30.0,
+   "lut": "thermal",
+   "units": "°C",
+   "desc": "m_glo12_1d__thetao",
+   "png": "Data_Out/glo12_1d/GLO12_thetao_preview.png",
+   "cog": "Data_Out/glo12_1d/GLO12_thetao_20260705_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260705",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260705_EPSG3413_cog.tif",
+     "t": "2026-07-05T12:00:00Z",
+     "label": "07-05"
+    },
+    {
+     "id": "20260728",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/glo12_1d/GLO12_thetao_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_glo12_1d__zos",
+   "group": "⑦ GLO12 — CMEMS 전지구 (10일)",
+   "model": "GLO12",
+   "name": "해수면고도 (zos)",
+   "type": "series",
+   "nav": 1,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": -2.0,
+   "vmax": 2.0,
+   "lut": "thermal",
+   "units": "m",
+   "desc": "m_glo12_1d__zos",
+   "png": "Data_Out/glo12_1d/GLO12_zos_preview.png",
+   "cog": "Data_Out/glo12_1d/GLO12_zos_20260705_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260705",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260705_EPSG3413_cog.tif",
+     "t": "2026-07-05T12:00:00Z",
+     "label": "07-05"
+    },
+    {
+     "id": "20260728",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/glo12_1d/GLO12_zos_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
+  },
+  {
+   "id": "m_glo12_1d__so",
+   "group": "⑦ GLO12 — CMEMS 전지구 (10일)",
+   "model": "GLO12",
+   "name": "염분 (so)",
+   "type": "series",
+   "nav": 0,
+   "kind": "palette",
+   "enc": "linear",
+   "vmin": 25.0,
+   "vmax": 38.0,
+   "lut": "thermal",
+   "units": "1e-3",
+   "desc": "m_glo12_1d__so",
+   "png": "Data_Out/glo12_1d/GLO12_so_preview.png",
+   "cog": "Data_Out/glo12_1d/GLO12_so_20260705_EPSG3413_cog.tif",
+   "frames": [
+    {
+     "id": "20260705",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260705_EPSG3413_cog.tif",
+     "t": "2026-07-05T12:00:00Z",
+     "label": "07-05"
+    },
+    {
+     "id": "20260728",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260728_EPSG3413_cog.tif",
+     "t": "2026-07-28T12:00:00Z",
+     "label": "07-28"
+    },
+    {
+     "id": "20260729",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260729_EPSG3413_cog.tif",
+     "t": "2026-07-29T12:00:00Z",
+     "label": "07-29"
+    },
+    {
+     "id": "20260730",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260730_EPSG3413_cog.tif",
+     "t": "2026-07-30T12:00:00Z",
+     "label": "07-30"
+    },
+    {
+     "id": "20260731",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260731_EPSG3413_cog.tif",
+     "t": "2026-07-31T12:00:00Z",
+     "label": "07-31"
+    },
+    {
+     "id": "20260801",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260801_EPSG3413_cog.tif",
+     "t": "2026-08-01T12:00:00Z",
+     "label": "08-01"
+    },
+    {
+     "id": "20260802",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260802_EPSG3413_cog.tif",
+     "t": "2026-08-02T12:00:00Z",
+     "label": "08-02"
+    },
+    {
+     "id": "20260803",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260803_EPSG3413_cog.tif",
+     "t": "2026-08-03T12:00:00Z",
+     "label": "08-03"
+    },
+    {
+     "id": "20260804",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260804_EPSG3413_cog.tif",
+     "t": "2026-08-04T12:00:00Z",
+     "label": "08-04"
+    },
+    {
+     "id": "20260805",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260805_EPSG3413_cog.tif",
+     "t": "2026-08-05T12:00:00Z",
+     "label": "08-05"
+    },
+    {
+     "id": "20260806",
+     "cog": "Data_Out/glo12_1d/GLO12_so_20260806_EPSG3413_cog.tif",
+     "t": "2026-08-06T12:00:00Z",
+     "label": "08-06"
+    }
+   ]
   }
  ]
 }

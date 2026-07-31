@@ -56,6 +56,13 @@ class RangeHandler(SimpleHTTPRequestHandler):
             remaining -= len(chunk)
         self._range_len = None
 
+    def end_headers(self):
+        # 로컬 개발 서버: 항상 재검증하게 해서 index.html / catalog.json 을
+        # 고쳐도 브라우저 캐시 때문에 옛 화면이 보이는 일이 없도록 한다.
+        self.send_header('Cache-Control', 'no-cache, must-revalidate')
+        self.send_header('Pragma', 'no-cache')
+        super().end_headers()
+
     def log_message(self, fmt, *args):  # 조용한 로그
         pass
 
