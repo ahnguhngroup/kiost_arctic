@@ -19,7 +19,16 @@
   /* ---------- 왼쪽: 데이터 리스트 ---------- */
   #list-top { flex: 1.35; overflow-y: auto; min-height: 0; }
   #list-top .grp { padding: 6px 10px 3px; font-size: 11px; font-weight: 700;
-                   color: #667; background: #f2f5f8; position: sticky; top: 0; }
+                   color: #667; background: #f2f5f8; position: sticky; top: 0;
+                   display: flex; align-items: center; cursor: pointer; }
+  #list-top .grp:hover { background: #e8eef4; }
+  #list-top .grp .gn { flex: 1; }
+  #list-top .grp .gc { flex: none; font-size: 10px; color: #778; font-weight: 400; }
+  #fold-btns { display: flex; gap: 3px; margin-left: auto; }
+  #fold-btns button { border: 1px solid #b9c7d4; background: #fff; color: #46596b;
+                      border-radius: 4px; cursor: pointer; font-size: 11px;
+                      padding: 3px 6px; line-height: 1; white-space: nowrap; }
+  #fold-btns button:hover { background: #0f4c81; color: #fff; }
   .item { display: flex; align-items: center; padding: 5px 8px 5px 12px;
           cursor: pointer; border-bottom: 1px solid #eef1f4; }
   .item:hover { background: #eaf2fb; }
@@ -29,6 +38,24 @@
                  border-radius: 4px; cursor: pointer; font-size: 12px;
                  width: 22px; height: 22px; line-height: 1; }
   .item button:hover { background: #0f4c81; color: #fff; }
+  /* 데이터 제목 줄 + 그 아래 데이터(파일) 줄 */
+  .ttl { display: flex; align-items: center; padding: 6px 8px 4px 10px; cursor: pointer;
+         font-weight: 700; font-size: 12.5px; color: #123; background: #f8fafc;
+         border-top: 1px solid #e6ebf0; }
+  .ttl:hover { background: #eef4fa; }
+  .ttl .nm { flex: 1; }
+  .ttl .car, .grp .car { flex: none; width: 14px; color: #6a7a8a; font-size: 10px;
+                         transition: transform .12s; margin-right: 2px; }
+  .ttl.closed .car, .grp.closed .car { transform: rotate(-90deg); }
+  .ttl .cnt { flex: none; font-size: 10.5px; color: #556; background: #eef1f4;
+              border-radius: 9px; padding: 0 6px; margin-right: 5px; }
+  .ttl button.all { border: 1px solid #9db6cc; background: #fff; color: #0f4c81;
+                    border-radius: 4px; cursor: pointer; font-size: 11px; height: 22px;
+                    padding: 0 6px; line-height: 1; }
+  .ttl button.all:hover { background: #0f4c81; color: #fff; }
+  .item.sub { padding-left: 24px; font-size: 12px; }
+  .item.sub .nm { font-family: Consolas, 'D2Coding', monospace; font-size: 11.5px;
+                  color: #2a3a4a; word-break: break-all; }
   /* ---------- 왼쪽 하단: 그리기 목록 ---------- */
   #queue-wrap { flex: 1; display: flex; flex-direction: column; min-height: 0;
                 border-top: 2px solid #c6ccd4; }
@@ -108,15 +135,16 @@
                      padding: 6px 8px; margin: 8px 0; }
   #desc-empty { color: #99a; padding: 24px 14px; text-align: center; }
   /* ---------- 왼쪽 상단: 탭 + 검색 ---------- */
-  #list-tools { display: flex; gap: 6px; padding: 7px 8px; background: #f2f5f8;
-                border-bottom: 1px solid #d7dde3; align-items: center; }
+  #list-tools { display: flex; flex-wrap: wrap; gap: 6px; padding: 7px 8px;
+                background: #f2f5f8; border-bottom: 1px solid #d7dde3;
+                align-items: center; }
   #tabs { display: flex; border: 1px solid #b9c7d4; border-radius: 5px;
           overflow: hidden; }
   #tabs button { border: none; background: #fff; color: #46596b; cursor: pointer;
                  font-size: 11.5px; padding: 4px 9px; }
   #tabs button + button { border-left: 1px solid #dde4ea; }
   #tabs button.on { background: #0f4c81; color: #fff; font-weight: 700; }
-  #q { flex: 1; min-width: 0; border: 1px solid #cfd8e0; border-radius: 5px;
+  #q { flex: 1 1 140px; min-width: 0; border: 1px solid #cfd8e0; border-radius: 5px;
        padding: 4px 7px; font-size: 12px; }
   .item .dot { width: 7px; height: 7px; border-radius: 50%; margin-right: 7px;
                flex: none; background: #c3ccd5; }
@@ -135,6 +163,21 @@
             align-items: center; }
   #mapctl label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
   #mapctl .sw { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+  #mapctl button.tool { border: 1px solid #9db6cc; background: #fff; color: #0f4c81;
+                        border-radius: 4px; cursor: pointer; font-size: 12px; padding: 2px 8px; }
+  #mapctl button.tool:hover { background: #eaf2fb; }
+  #mapctl button.tool.on { background: #ff3d8a; border-color: #ff3d8a; color: #fff; }
+  #map.eta-mode canvas { cursor: crosshair !important; }
+  .ship-pop { font-size: 12px; line-height: 1.45; min-width: 210px; }
+  .ship-pop h4 { margin: 0 0 4px; font-size: 12.5px; color: #0f4c81; }
+  .ship-pop table { border-collapse: collapse; }
+  .ship-pop td { padding: 1px 6px 1px 0; vertical-align: top; white-space: nowrap; }
+  .ship-pop td.k { color: #667; }
+  .ship-pop .eta td { border-top: 1px solid #e3e8ee; }
+  .ship-pop .warn { color: #b8480e; margin-top: 4px; }
+  .ship-pop button.del { margin-top: 6px; border: 1px solid #d66; background: #fff; color: #b33;
+                         border-radius: 4px; cursor: pointer; font-size: 11.5px; padding: 2px 8px; }
+  .ship-pop button.del:hover { background: #b33; color: #fff; }
   /* ---------- 애니메이션 재생 막대 ---------- */
   #player { position: absolute; left: 10px; right: 10px; bottom: 42px; z-index: 7;
             background: rgba(255,255,255,.95); border: 1px solid #cfd8e0;
@@ -177,6 +220,10 @@
         <button data-tab="obs">관측</button>
       </div>
       <input id="q" type="search" placeholder="이름·변수 검색">
+      <div id="fold-btns">
+        <button id="fold-open" title="모든 제품의 하위 목록 펼치기">펼침</button>
+        <button id="fold-close" title="모든 제품의 하위 목록 접기">접기</button>
+      </div>
     </div>
     <div id="list-top"></div>
     <div id="queue-wrap">
@@ -196,6 +243,11 @@
         <span class="sw" style="background:#ff8a3d"></span>
         <span class="sw" style="background:#4dd7ff"></span> 항해 경로 (NSR)</label>
       <label><input type="checkbox" id="ck-regions" checked> 권역</label>
+      <label title="PANSTAR_ACRO_track.geojson — 1시간 간격 점에 마우스를 올리면 시각·속력 표시">
+        <input type="checkbox" id="ck-ship" checked>
+        <span class="sw" style="background:#ffd400"></span> 선박 항적 (PANSTAR ACRO)</label>
+      <button id="btn-eta" class="tool" title="켠 뒤 지도를 클릭하면 그 지점까지의 거리와, 선박의 기존 속력으로 계산한 예상 도달 시각을 팝업으로 표시">📍 예상위치 찍기</button>
+      <button id="btn-eta-clear" class="tool" title="찍은 점 모두 지우기">찍은 점 지우기</button>
     </div>
     <div id="player">
       <div id="pl-row">
@@ -368,6 +420,7 @@ map.on('load', () => {
       .setLngLat(toFake((rg.lon_min + rg.lon_max) / 2, rg.lat_max)).addTo(map);
   }
   loadRoute();                       // 항해 경로 (NSR)
+  loadShip();                        // 선박 항적 (PANSTAR ACRO) + 예상위치 도구
 });
 
 const coordsBox = document.getElementById('coords');
@@ -409,6 +462,43 @@ boot().catch(e => {
  * 모델 항목은 변수별로 나뉘고, 항행 활용도(nav 2/1/0)를 색점으로 구분한다. */
 const isSeries = (e) => e.type === 'series' && Array.isArray(e.frames) && e.frames.length > 1;
 let listTab = 'all', listQuery = '';
+// 접기/펼치기 상태 — 제목(제품)별·그룹별. 처음엔 파일이 여러 개인 제품은 접힘.
+const foldTitle = new Map();      // titleKey -> true(열림)/false(닫힘)
+const foldGroup = new Map();      // group    -> true(열림)/false(닫힘)
+let foldDefaultOpen = null;       // '펼침'/'접기' 버튼을 누르면 기본 상태를 바꾼다
+
+/* ---- 표시 이름 규칙 ----
+ * 목록은 [데이터 제목] 아래에 [데이터 이름]이 놓이는 2단 구조다.
+ *   제목  = entry.title (없으면 name)          예: "AMSR2 L2 SIC 해빙농도"
+ *   이름  = entry.name 또는 COG 파일명(확장자·_cog 제외)
+ *   시계열(애니메이션)은 이름 뒤에 시간 범위 [t0 ~ t1 · N프레임]을 붙인다. */
+const cogStem = (p) => (p || '').split('/').pop()
+  .replace(/_cog\.tif$/i, '').replace(/\.tiff?$/i, '');
+function fmtT(iso) {                       // '2026-08-10T12:00:00Z' -> '08-10 12Z' / '08-10 00:15Z'
+  if (!iso) return '';
+  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(iso);
+  if (!m) return iso;
+  return `${m[2]}-${m[3]} ${m[4]}${m[5] === '00' ? '' : ':' + m[5]}Z`;
+}
+function rangeLabel(e) {
+  if (!isSeries(e)) return '';
+  const a = e.frames[0].t, b = e.frames[e.frames.length - 1].t;
+  const ya = (a || '').slice(0, 4), yb = (b || '').slice(0, 4);
+  return `${ya}-${fmtT(a)} ~ ${ya === yb ? '' : yb + '-'}${fmtT(b)}`;
+}
+const titleOf = (e) => e.title || e.name || e.id;
+function itemName(e) {                    // 제목 아래 줄에 보이는 데이터 이름
+  const base = e.title ? (e.name || cogStem(e.cog)) : cogStem(e.cog) || e.name;
+  if (isSeries(e)) return `${base} [${rangeLabel(e)} · ${e.frames.length}프레임]`;
+  if (e.type === 'series' && Array.isArray(e.frames) && e.frames.length === 1)
+    return `${base} [${(e.frames[0].t || '').slice(0, 4)}-${fmtT(e.frames[0].t)}]`;
+  return base;
+}
+function displayName(e) {                 // 그리기 목록·범례·상태줄용 (제목 · 이름)
+  if (!e) return '';
+  return e.title ? `${e.title} · ${itemName(e)}`
+                 : (isSeries(e) ? `${e.name} [${rangeLabel(e)}]` : e.name);
+}
 
 function renderList() {
   const box = document.getElementById('list-top');
@@ -419,8 +509,8 @@ function renderList() {
     if (listTab === 'model' && !model) return false;
     if (listTab === 'obs' && model) return false;
     if (!q) return true;
-    return ((e.name || '') + ' ' + (e.group || '') + ' ' + (e.id || ''))
-      .toLowerCase().includes(q);
+    return ((e.name || '') + ' ' + (e.title || '') + ' ' + (e.group || '') + ' ' +
+            (e.id || '') + ' ' + cogStem(e.cog)).toLowerCase().includes(q);
   };
   const rows = CATALOG.filter(pass);
   if (!rows.length) {
@@ -428,27 +518,80 @@ function renderList() {
                     '해당하는 데이터가 없습니다</div>';
     return;
   }
-  let grp = null, sec = null;
+  // 섹션 -> 그룹 -> 제목 -> 데이터(파일) 순으로 묶는다 (catalog 순서 유지)
+  let grp = null, sec = null, ttl = null, ttlBox = null;
+  const titleKey = (e) => `${e.group}|${titleOf(e)}`;
+  const countByTitle = {};
+  for (const e of rows) countByTitle[titleKey(e)] = (countByTitle[titleKey(e)] || 0) + 1;
+
   for (const e of rows) {
-    const thisSec = e.model ? '예측 모델 (시계열 · 애니메이션)' : '관측 자료 (단일 시각)';
+    const thisSec = e.model ? '예측 모델 (시계열 · 애니메이션)' : '관측 자료';
     if (thisSec !== sec) {
-      sec = thisSec; grp = null;
+      sec = thisSec; grp = null; ttl = null;
       const h = document.createElement('div');
       h.className = 'sechd'; h.textContent = sec;
       box.appendChild(h);
     }
     if (e.group !== grp) {
-      grp = e.group;
+      grp = e.group; ttl = null;
       const g = document.createElement('div');
-      g.className = 'grp'; g.textContent = grp;
+      g.className = 'grp';
+      const gOpen = q ? true : (foldGroup.has(grp) ? foldGroup.get(grp) : true);
+      g.classList.toggle('closed', !gOpen);
+      const nInGrp = rows.filter(x => x.group === grp).length;
+      g.innerHTML = `<span class="car">▼</span><span class="gn">${grp}</span>` +
+                    `<span class="gc">${nInGrp}</span>`;
+      g.title = '클릭: 이 그룹 접기/펼치기';
+      const gk = grp;
+      g.onclick = () => { foldGroup.set(gk, !(foldGroup.has(gk) ? foldGroup.get(gk) : true));
+                          renderList(); };
       box.appendChild(g);
     }
-    const it = document.createElement('div');
-    it.className = 'item'; it.dataset.id = e.id;
-    const dot = e.model ? `<span class="dot n${e.nav || 0}" title="${
-      e.nav === 2 ? '항행 직접 활용' : e.nav === 1 ? '항행 보조' : '참고'}"></span>` : '';
+    const grpOpen = q ? true : (foldGroup.has(grp) ? foldGroup.get(grp) : true);
+    if (!grpOpen) continue;                  // 접힌 그룹: 제목·데이터 줄 모두 숨김
+    const tk = titleKey(e);
+    if (tk !== ttl) {                         // ── 데이터 제목 줄
+      ttl = tk;
+      const t = document.createElement('div');
+      t.className = 'ttl';
+      const dot = e.model ? `<span class="dot n${e.nav || 0}" title="${
+        e.nav === 2 ? '항행 직접 활용' : e.nav === 1 ? '항행 보조' : '참고'}"></span>` : '';
+      const n = countByTitle[tk];
+      // 열림 여부: 검색 중이면 항상 열림, 아니면 저장된 상태 > 전체 버튼 > 기본(1개면 열림)
+      const open = q ? true : (foldTitle.has(tk) ? foldTitle.get(tk)
+                       : (foldDefaultOpen !== null ? foldDefaultOpen : n <= 1));
+      t.classList.toggle('closed', !open);
+      t.innerHTML = `<span class="car">▼</span>${dot}<span class="nm">${titleOf(e)}</span>` +
+                    (n > 1 ? `<span class="cnt">${n}개</span>` : '');
+      if (n > 1) {                            // 스와스처럼 여러 파일이면 한 번에 추가
+        const all = document.createElement('button');
+        all.className = 'all'; all.textContent = '＋전체';
+        all.title = '이 제목의 데이터를 모두 그리기 목록에 추가';
+        const ids = rows.filter(x => titleKey(x) === tk).map(x => x.id);
+        all.onclick = (ev) => { ev.stopPropagation(); ids.forEach(addToQueue); };
+        t.appendChild(all);
+      }
+      // 제목 줄 클릭 = 접기/펼치기 (+ 설명 표시). 캐럿(▼)만 눌러도 같다.
+      const tkk = tk, firstId = e.id;
+      t.onclick = () => {
+        const cur = foldTitle.has(tkk) ? foldTitle.get(tkk)
+                  : (foldDefaultOpen !== null ? foldDefaultOpen : n <= 1);
+        foldTitle.set(tkk, !cur);
+        selectedId = firstId; showDesc(firstId);
+        renderList();
+      };
+      box.appendChild(t);
+      ttlBox = t;
+    }
+    {
+      const open = q ? true : (foldTitle.has(tk) ? foldTitle.get(tk)
+                       : (foldDefaultOpen !== null ? foldDefaultOpen : countByTitle[tk] <= 1));
+      if (!open) continue;                   // 접힌 제목: 데이터 줄 숨김
+    }
+    const it = document.createElement('div');  // ── 데이터 이름 줄 (COG 파일 단위)
+    it.className = 'item sub' + (e.id === selectedId ? ' sel' : ''); it.dataset.id = e.id;
     const fr = isSeries(e) ? `<span class="fr">▶${e.frames.length}</span>` : '';
-    it.innerHTML = `${dot}<span class="nm">${e.name}</span>${fr}`;
+    it.innerHTML = `<span class="nm" title="${cogStem(e.cog)}">${itemName(e)}</span>${fr}`;
     const btn = document.createElement('button');
     btn.textContent = '＋'; btn.title = '그리기 목록에 추가';
     btn.onclick = (ev) => { ev.stopPropagation(); addToQueue(e.id); };
@@ -466,6 +609,10 @@ document.querySelectorAll('#tabs button').forEach(b => {
   };
 });
 document.getElementById('q').oninput = (ev) => { listQuery = ev.target.value; renderList(); };
+document.getElementById('fold-open').onclick = () => {
+  foldTitle.clear(); foldGroup.clear(); foldDefaultOpen = true; renderList(); };
+document.getElementById('fold-close').onclick = () => {
+  foldTitle.clear(); foldGroup.clear(); foldDefaultOpen = false; renderList(); };
 
 function selectItem(id) {
   selectedId = id;
@@ -531,7 +678,7 @@ function renderQueue() {
     it.className = 'qitem'; it.draggable = true; it.dataset.id = id;
     if (hiddenIds.has(id)) it.classList.add('off');
     it.innerHTML = `<span class="handle">⋮⋮</span><span class="no">${idx + 1}</span>` +
-                   `<span class="nm">${e ? e.name : id}</span>`;
+                   `<span class="nm" title="${e ? cogStem(e.cog) : ''}">${e ? displayName(e) : id}</span>`;
     const eye = document.createElement('button');
     eye.className = 'eye'; eye.textContent = hiddenIds.has(id) ? '🚫' : '👁';
     eye.title = hiddenIds.has(id) ? '보이기' : '보이지 않기';
@@ -782,7 +929,7 @@ function renderLegends() {
     const nm = document.createElement('div');
     nm.className = 'lg-name';
     const sfr = series[id];
-    nm.innerHTML = e.name + (lg.units ? ` <span class="u">(${lg.units})</span>` : '') +
+    nm.innerHTML = displayName(e) + (lg.units ? ` <span class="u">(${lg.units})</span>` : '') +
                    (lg.title ? ` <span class="u">(${lg.title})</span>` : '') +
                    (sfr && sfr.label ? ` <span class="u">· ${sfr.label}</span>` : '');
     it.appendChild(nm);
@@ -848,6 +995,7 @@ function formatCellValue(d, v) {
 }
 
 map.on('click', (ev) => {
+  if (etaMode) return;                       // 예상위치 도구 사용 중에는 셀값 팝업 생략
   const [xm, ym] = metersFromFake(ev.lngLat.lng, ev.lngLat.lat);
   const rows = [];
   for (let i = drawnLayers.length - 1; i >= 0; i--) {      // 위 레이어부터
@@ -865,7 +1013,7 @@ map.on('click', (ev) => {
                   (d.nod !== null && v === d.nod) ||
                   (d.entry.kind === 'palette' && v === 0);
     rows.push({ nod: isNod,
-      html: `<tr><td class="k">${d.entry.name}</td>` +
+      html: `<tr><td class="k">${displayName(d.entry)}</td>` +
             `<td>${isNod ? '<span class="nod">nodata</span>' : formatCellValue(d, v)}</td></tr>` });
   }
   if (!rows.length || rows.every(r => r.nod)) return;   // 전부 nodata 면 팝업 없음
@@ -899,7 +1047,7 @@ document.getElementById('btn-draw').onclick = async () => {
   let union = null;
   for (let i = 0; i < queue.length; i++) {
     const entry = CATALOG.find(x => x.id === queue[i]);
-    setStatus(`그리는 중 (${i + 1}/${queue.length}) — ${entry.name}`);
+    setStatus(`그리는 중 (${i + 1}/${queue.length}) — ${displayName(entry)}`);
     try {
       const ser = isSeries(entry);
       const frames = ser ? entry.frames.map(f => ({ ...f, ms: Date.parse(f.t) })) : null;
@@ -924,7 +1072,7 @@ document.getElementById('btn-draw').onclick = async () => {
         : [[ax, ay], [bx, by]];
     } catch (err) {
       console.error(entry.id, err);
-      setStatus(`오류: ${entry.name} — ${err.message || err}`);
+      setStatus(`오류: ${displayName(entry)} — ${err.message || err}`);
       await new Promise(r => setTimeout(r, 1500));
     }
   }
@@ -1012,7 +1160,7 @@ function renderPlayerLegend() {
     const f = s.frames[s.idx];
     const lag = Math.abs(f.ms - now) / 3600000;
     const warn = lag > 12 ? ' class="lag"' : '';
-    return `<span><b>${s.entry.model || ''}</b> ${s.entry.name} — ` +
+    return `<span><b>${s.entry.model || ''}</b> ${s.entry.title ? s.entry.title + ' · ' : ''}${s.entry.name} — ` +
            `<span${warn}>${f.label}</span></span>`;
   }).join('');
 }
@@ -1176,6 +1324,245 @@ document.getElementById('ck-regions').onchange = (ev) => {
     if (!routeLabels.some(m => m.getElement() === el))
       el.style.display = on ? '' : 'none';
 };
+
+/* ================================================================
+ * 선박 항적 (PANSTAR ACRO) — PANSTAR_ACRO_track.geojson (tools/make_ship_track.py 생성)
+ *  - track(LineString) + 1시간 대표점(Point, 마우스 오버 시 시각·속력 팝업) + 마지막 위치
+ *  - 예상위치 도구: 지도를 클릭하면 마지막 위치에서 그 지점까지 거리와
+ *    기존 속력(현재 SOG / 최근 24h 평균 / 항해중 평균)으로 계산한 예상 도달 시각 팝업.
+ *    찍은 점은 팝업의 [삭제] 또는 [찍은 점 지우기]로 제거.
+ * ================================================================ */
+let SHIP = null, etaMode = false, userPts = [], userSeq = 0, hoverPop = null;
+const SHIP_FILE = 'PANSTAR_ACRO_track.geojson';
+const KM_PER_NMI = 1.852;
+
+function havKm(lo1, la1, lo2, la2) {
+  const R = 6371.0088, p1 = la1 * D2R, p2 = la2 * D2R;
+  const dp = p2 - p1, dl = (lo2 - lo1) * D2R;
+  const a = Math.sin(dp / 2) ** 2 + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) ** 2;
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
+}
+function bearingDeg(lo1, la1, lo2, la2) {
+  const p1 = la1 * D2R, p2 = la2 * D2R, dl = (lo2 - lo1) * D2R;
+  const y = Math.sin(dl) * Math.cos(p2);
+  const x = Math.cos(p1) * Math.sin(p2) - Math.sin(p1) * Math.cos(p2) * Math.cos(dl);
+  return ((Math.atan2(y, x) * R2D) + 360) % 360;
+}
+const utcMs = (s) => s ? Date.parse(s.replace(' ', 'T') + 'Z') : NaN;
+function fmtUTC(ms) {
+  const d = new Date(ms);
+  const p = (n) => String(n).padStart(2, '0');
+  return `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())} ` +
+         `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}`;
+}
+const fmtKST = (ms) => fmtUTC(ms + 9 * 3600000);
+const fmtLL = (lon, lat) => `${Math.abs(lat).toFixed(3)}°${lat >= 0 ? 'N' : 'S'}, ` +
+                            `${Math.abs(lon).toFixed(3)}°${lon >= 0 ? 'E' : 'W'}`;
+function fmtDur(h) {
+  if (!isFinite(h)) return '—';
+  const d = Math.floor(h / 24), hh = Math.floor(h % 24), mm = Math.round((h % 1) * 60);
+  return (d ? `${d}일 ` : '') + `${hh}시간 ${mm}분`;
+}
+
+async function loadShip() {
+  let gj;
+  try {
+    gj = await fetch(SHIP_FILE).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  } catch (e) { console.warn('ship track:', e); document.getElementById('ck-ship').parentElement.style.opacity = .45; return; }
+  const P = gj.properties || {};
+  const line = gj.features.find(f => f.properties.kind === 'track');
+  const last = gj.features.find(f => f.properties.kind === 'last');
+  const pts = gj.features.filter(f => f.properties.kind === 'hourly');
+  if (!line || !last) return;
+  SHIP = {
+    props: P,
+    last: { lon: last.geometry.coordinates[0], lat: last.geometry.coordinates[1],
+            t: utcMs(last.properties.utc), sog: last.properties.sog_kn,
+            cog: last.properties.cog, status: last.properties.status },
+    avg24: P.avg_kn_24h, avgAll: P.avg_kn_underway,
+  };
+  map.addSource('ship-line', { type: 'geojson', data: { type: 'Feature', properties: line.properties,
+    geometry: { type: 'LineString', coordinates: line.geometry.coordinates.map(([lo, la]) => toFake(lo, la)) } } });
+  map.addLayer({ id: 'ship-casing', type: 'line', source: 'ship-line',
+    layout: { 'line-cap': 'round', 'line-join': 'round' },
+    paint: { 'line-color': '#1a1a1a', 'line-width': 4.5, 'line-opacity': .6 } });
+  map.addLayer({ id: 'ship-line', type: 'line', source: 'ship-line',
+    layout: { 'line-cap': 'round', 'line-join': 'round' },
+    paint: { 'line-color': '#ffd400', 'line-width': 2 } });
+  map.addSource('ship-pts', { type: 'geojson', data: { type: 'FeatureCollection',
+    features: pts.map(f => ({ type: 'Feature', properties: f.properties,
+      geometry: { type: 'Point', coordinates: toFake(f.geometry.coordinates[0], f.geometry.coordinates[1]) } })) } });
+  map.addLayer({ id: 'ship-pts', type: 'circle', source: 'ship-pts',
+    paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 2, 2.5, 5, 4.5, 8, 6],
+             'circle-color': '#ffd400', 'circle-stroke-color': '#222', 'circle-stroke-width': 1 } });
+  map.addSource('ship-last', { type: 'geojson', data: { type: 'Feature', properties: last.properties,
+    geometry: { type: 'Point', coordinates: toFake(SHIP.last.lon, SHIP.last.lat) } } });
+  map.addLayer({ id: 'ship-last', type: 'circle', source: 'ship-last',
+    paint: { 'circle-radius': 7, 'circle-color': '#ff3d3d', 'circle-stroke-color': '#fff', 'circle-stroke-width': 2 } });
+  // 사용자 점 + 마지막 위치에서의 점선
+  map.addSource('user-lines', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+  map.addLayer({ id: 'user-lines', type: 'line', source: 'user-lines',
+    paint: { 'line-color': '#ff3d8a', 'line-width': 1.6, 'line-dasharray': [2, 2] } });
+  map.addSource('user-pts', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+  map.addLayer({ id: 'user-pts', type: 'circle', source: 'user-pts',
+    paint: { 'circle-radius': 7, 'circle-color': '#ff3d8a', 'circle-stroke-color': '#fff', 'circle-stroke-width': 2 } });
+  map.addLayer({ id: 'user-pts-no', type: 'symbol', source: 'user-pts',
+    layout: { 'text-field': ['get', 'no'], 'text-size': 10, 'text-allow-overlap': true },
+    paint: { 'text-color': '#fff' } });
+
+  const lbl = document.getElementById('ck-ship').parentElement;
+  lbl.title = `${P.ship || ''} · ${P.t_start} ~ ${P.t_end} UTC · 기록 ${P.n_records}건 · ` +
+              `1시간 점 ${P.n_hourly}개 · 항적 ${Math.round(P.total_km).toLocaleString()} km`;
+
+  // ── 마우스 오버 팝업 (1시간 대표점 / 마지막 위치)
+  hoverPop = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 10, maxWidth: '320px' });
+  const showHover = (e, isLast) => {
+    const f = e.features[0], pr = f.properties;
+    const tu = utcMs(pr.utc);
+    const html = `<div class="ship-pop"><h4>${isLast ? '🔴 마지막 위치' : '⏱ 1시간 대표점'}${
+        pr.idx !== undefined ? ` #${pr.idx}` : ''}</h4><table>` +
+      `<tr><td class="k">시각 (UTC)</td><td><b>${pr.utc}</b></td></tr>` +
+      `<tr><td class="k">시각 (KST)</td><td>${fmtKST(tu)}</td></tr>` +
+      (pr.cst ? `<tr><td class="k">기록 (CST)</td><td>${pr.cst}</td></tr>` : '') +
+      `<tr><td class="k">위치</td><td>${fmtLL(pr.lon !== undefined ? pr.lon : f.geometry.coordinates[0],
+                                         pr.lat !== undefined ? pr.lat : f.geometry.coordinates[1])}</td></tr>` +
+      `<tr><td class="k">대지속력 (SOG)</td><td>${pr.sog_kn ?? '—'} kn</td></tr>` +
+      (pr.seg_kn !== undefined && pr.seg_kn !== null ? `<tr><td class="k">구간 평균속력</td><td>${pr.seg_kn} kn</td></tr>` : '') +
+      `<tr><td class="k">침로 / 선수</td><td>${pr.cog ?? '—'}° / ${pr.heading ?? '—'}°</td></tr>` +
+      `<tr><td class="k">항해 상태</td><td>${pr.status || '—'}</td></tr></table></div>`;
+    hoverPop.setLngLat(e.lngLat).setHTML(html).addTo(map);
+    map.getCanvas().style.cursor = 'pointer';
+  };
+  const hideHover = () => { hoverPop.remove(); if (!etaMode) map.getCanvas().style.cursor = ''; };
+  map.on('mouseenter', 'ship-pts', (e) => showHover(e, false));
+  map.on('mousemove', 'ship-pts', (e) => showHover(e, false));
+  map.on('mouseleave', 'ship-pts', hideHover);
+  map.on('mouseenter', 'ship-last', (e) => showHover(e, true));
+  map.on('mouseleave', 'ship-last', hideHover);
+  map.on('click', 'user-pts', (e) => {
+    const id = e.features[0].properties.id;
+    const u = userPts.find(x => x.id === id);
+    if (u) openEtaPopup(u);
+  });
+  map.on('mouseenter', 'user-pts', () => { map.getCanvas().style.cursor = 'pointer'; });
+  map.on('mouseleave', 'user-pts', () => { if (!etaMode) map.getCanvas().style.cursor = ''; });
+}
+
+function setShipVisible(on) {
+  for (const id of ['ship-casing', 'ship-line', 'ship-pts', 'ship-last'])
+    if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
+}
+document.getElementById('ck-ship').onchange = (ev) => setShipVisible(ev.target.checked);
+
+/* ── 예상 도달 시각 계산: 마지막 위치 -> 지점 대권거리 / 기존 속력 */
+function etaCalc(lon, lat) {
+  const L = SHIP.last;
+  const km = havKm(L.lon, L.lat, lon, lat), nmi = km / KM_PER_NMI;
+  const brg = bearingDeg(L.lon, L.lat, lon, lat);
+  const cands = [['현재 속력 (마지막 SOG)', L.sog], ['최근 24시간 평균', SHIP.avg24],
+                 ['항해중 전체 평균', SHIP.avgAll]]
+    .filter(([, kn]) => isFinite(kn) && kn > 0.5)
+    .map(([name, kn]) => ({ name, kn, hours: nmi / kn, eta: L.t + nmi / kn * 3600000 }));
+  let off = null;
+  if (isFinite(L.cog)) {
+    off = Math.abs(((brg - L.cog + 540) % 360) - 180);
+  }
+  return { km, nmi, brg, cands, off };
+}
+function etaHtml(u) {
+  const r = etaCalc(u.lon, u.lat), L = SHIP.last;
+  let html = `<div class="ship-pop"><h4>📍 예상 위치 #${u.no}</h4><table>` +
+    `<tr><td class="k">찍은 지점</td><td>${fmtLL(u.lon, u.lat)}</td></tr>` +
+    `<tr><td class="k">기준 (마지막 위치)</td><td>${fmtLL(L.lon, L.lat)}<br>${fmtUTC(L.t)} UTC</td></tr>` +
+    `<tr><td class="k">거리</td><td><b>${r.km.toFixed(1)} km</b> (${r.nmi.toFixed(1)} nmi)</td></tr>` +
+    `<tr><td class="k">방위</td><td>${r.brg.toFixed(0)}° (현재 침로 ${isFinite(L.cog) ? L.cog + '°' : '—'})</td></tr>`;
+  if (!r.cands.length) {
+    html += `<tr><td colspan="2" class="warn">속력 정보가 없어 예상 시각을 계산할 수 없습니다</td></tr>`;
+  } else {
+    html += `<tr><td colspan="2" style="padding-top:5px;color:#0f4c81"><b>예상 도달 시각</b></td></tr>`;
+    for (const c of r.cands) {
+      html += `<tr class="eta"><td class="k">${c.name}<br><span style="color:#889">${c.kn.toFixed(1)} kn · ${fmtDur(c.hours)}</span></td>` +
+              `<td><b>${fmtUTC(c.eta)} UTC</b><br>${fmtKST(c.eta)} KST</td></tr>`;
+    }
+  }
+  html += '</table>';
+  if (r.off !== null && r.off > 90)
+    html += `<div class="warn">⚠ 현재 침로와 ${r.off.toFixed(0)}° 어긋난(뒤쪽) 지점입니다 — 직진 가정이 맞지 않을 수 있음</div>`;
+  html += `<button class="del" onclick="removeUserPt(${u.id})">✕ 이 점 삭제</button></div>`;
+  return html;
+}
+function openEtaPopup(u) {
+  if (u.popup) u.popup.remove();
+  u.popup = new maplibregl.Popup({ offset: 12, maxWidth: '340px' })
+    .setLngLat(u.fake).setHTML(etaHtml(u)).addTo(map);
+}
+function refreshUserLayers() {
+  if (!map.getSource('user-pts')) return;
+  const L = SHIP ? toFake(SHIP.last.lon, SHIP.last.lat) : null;
+  map.getSource('user-pts').setData({ type: 'FeatureCollection',
+    features: userPts.map(u => ({ type: 'Feature', properties: { id: u.id, no: String(u.no) },
+                                  geometry: { type: 'Point', coordinates: u.fake } })) });
+  map.getSource('user-lines').setData({ type: 'FeatureCollection',
+    features: L ? userPts.map(u => ({ type: 'Feature', properties: {},
+      geometry: { type: 'LineString', coordinates: gcFake(SHIP.last.lon, SHIP.last.lat, u.lon, u.lat) } })) : [] });
+}
+function gcFake(lo1, la1, lo2, la2) {     // 대권 경로를 가상좌표 폴리라인으로 (40분할)
+  const p1 = la1 * D2R, l1 = lo1 * D2R, p2 = la2 * D2R, l2 = lo2 * D2R;
+  const d = 2 * Math.asin(Math.min(1, Math.sqrt(Math.sin((p2 - p1) / 2) ** 2 +
+            Math.cos(p1) * Math.cos(p2) * Math.sin((l2 - l1) / 2) ** 2)));
+  const out = [];
+  const n = 40;
+  for (let i = 0; i <= n; i++) {
+    const f = i / n;
+    if (d < 1e-9) { out.push(toFake(lo1, la1)); continue; }
+    const A = Math.sin((1 - f) * d) / Math.sin(d), B = Math.sin(f * d) / Math.sin(d);
+    const x = A * Math.cos(p1) * Math.cos(l1) + B * Math.cos(p2) * Math.cos(l2);
+    const y = A * Math.cos(p1) * Math.sin(l1) + B * Math.cos(p2) * Math.sin(l2);
+    const z = A * Math.sin(p1) + B * Math.sin(p2);
+    out.push(toFake(Math.atan2(y, x) * R2D, Math.atan2(z, Math.hypot(x, y)) * R2D));
+  }
+  return out;
+}
+function addUserPt(lon, lat, fake) {
+  const u = { id: ++userSeq, no: userPts.length + 1, lon, lat, fake, popup: null };
+  userPts.push(u);
+  refreshUserLayers();
+  openEtaPopup(u);
+}
+window.removeUserPt = (id) => {
+  const i = userPts.findIndex(u => u.id === id);
+  if (i < 0) return;
+  if (userPts[i].popup) userPts[i].popup.remove();
+  userPts.splice(i, 1);
+  userPts.forEach((u, k) => { u.no = k + 1; });
+  refreshUserLayers();
+};
+document.getElementById('btn-eta-clear').onclick = () => {
+  for (const u of userPts) if (u.popup) u.popup.remove();
+  userPts = [];
+  refreshUserLayers();
+};
+document.getElementById('btn-eta').onclick = () => {
+  etaMode = !etaMode;
+  document.getElementById('btn-eta').classList.toggle('on', etaMode);
+  document.getElementById('map').classList.toggle('eta-mode', etaMode);
+  map.getCanvas().style.cursor = etaMode ? 'crosshair' : '';
+  setStatus(etaMode ? '예상위치 도구: 지도를 클릭하면 예상 도달 시각을 계산합니다 (다시 누르면 종료)'
+                    : '');
+};
+map.on('click', (ev) => {
+  if (!etaMode || !SHIP) return;
+  // 기존 사용자 점 위 클릭이면 팝업만 (레이어 핸들러가 처리)
+  if (map.getLayer('user-pts') &&
+      map.queryRenderedFeatures(ev.point, { layers: ['user-pts'] }).length) return;
+  const [x, y] = metersFromFake(ev.lngLat.lng, ev.lngLat.lat);
+  const [lon, lat] = inverse(x, y);
+  if (!isFinite(lat) || lat < 10) return;
+  addUserPt(lon, lat, [ev.lngLat.lng, ev.lngLat.lat]);
+});
+document.addEventListener('keydown', (ev) => {
+  if (ev.key === 'Escape' && etaMode) document.getElementById('btn-eta').click();
+});
 
 document.getElementById('btn-clear').onclick = () => {
   clearDrawn();          // 지도에서 제거

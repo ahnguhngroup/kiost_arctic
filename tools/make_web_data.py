@@ -3,16 +3,39 @@
 
 무엇을 하는가
 --------------
+0. **읽을 날짜 폴더 선택(--date)** — 기본 `folder`: Data_Out 의 각 제품 폴더
+   (<제품>/yyyy/mm/dd)에 있는 **최종(최신) 날짜 폴더 하나**를 그대로 읽는다
+   (모델별 날짜 폴더는 하나뿐이라고 가정; 여러 개면 최신을 쓰고 경고). 특정 기준일로
+   맞추려면 today | yesterday | YYYYMMDD | latest 로 지정 — 그러면 아래 규칙대로
+   그 날짜 폴더의 자료만 읽는다.
+   기준일 폴더 = 예측 기준일(bulletin/run) 폴더. 유효일별 폴더로 저장되는 모델
+   (neXtSIM-F·GLO12 등 파일명에 기준일이 없는 일평균 제품)은 기준일 ~ +lead_days
+   폴더를 함께 읽어 예측 시계열을 완성한다. 옛 평면 배치 파일도 파일명 날짜로 같은
+   기준을 적용한다.
 1. `SRC_ROOT`(기본 E:/workspace2026/arctic/test_data/Data_Out) 의 **모델 7종**
-   폴더에서 GeoTIFF 를 찾아 변수별 시계열로 묶는다.
+   (topaz5_1d · nextsim_hm · riops_2d · met_aice · giops_2d · foam_gl4 · glo12_1d)
+   폴더에서 GeoTIFF 를 찾아 변수별 시계열로 묶는다. **관측 자료**는 AMSR 계열
+   (AMSR2/AMSR3 L2·L3·A25) + ASIP L3/L4 + Sentinel-3 IST(s3e_ist) 를 기준일 폴더에서
+   그대로 복사한다 (SAT_PRODUCTS; VIIRS·ICESat-2 는 --sat-extra 지정 시에만).
 2. 각 프레임을 지도와 같은 **EPSG:3413 북극 격자**로 재투영하고, 변수 레지스트리의
    표출범위(vmin/vmax)로 **Byte(1..255) 스케일**해 COG 로 저장한다
    (byte 0 = nodata = 투명). float32 원본 대비 용량이 1/10 이하로 줄고,
    기존 위성자료 항목과 같은 `kind:"palette", enc:"linear"` 경로로 그려진다.
+   **출력 경로도 Data_Out 규칙을 따른다**: web/Data_Out/<모델>/yyyy/mm/dd/…
+   (원본이 있던 날짜 폴더와 동일).
 3. 변수별 미리보기 PNG(설명 패널용)를 만든다.
 4. `data/catalog.json` 과 `data/descriptions.json` 에 모델 항목을 갱신한다.
    기존 위성자료 항목은 그대로 두고, `m_` 로 시작하는 모델 항목만 교체한다.
 5. `data/route_nsr.geojson` (항해 경로) 도 함께 갱신한다.
+
+용량 관리 (기본 동작)
+--------------------
+변환을 시작하기 전에 **web/Data_Out 아래를 모두 비운다** — 웹 폴더에는 선택한
+기준일의 자료만 남아 용량이 최소가 된다. 비운 뒤 catalog 에서 파일이 사라진
+항목(위성자료 포함)은 자동 제거된다(설명 json 은 보존 — 파이프라인이 web_catalog
+로 다시 등록하면 그대로 살아난다). `--keep-others` 를 주면 모델 폴더만 비우고
+위성자료 폴더는 남긴다. `--no-purge` 는 아무것도 지우지 않는다(이전 방식).
+처리할 자료가 하나도 없으면 아무것도 지우지 않고 종료한다.
 
 왜 재투영이 필요한가
 --------------------
@@ -24,11 +47,15 @@
 
 사용
 ----
-    python make_web_data.py                     # 전체 모델·전체 변수
-    python make_web_data.py --models topaz5_1d riops_2d
+    python make_web_data.py                     # 제품별 최종 날짜 폴더(--date folder), 전체
+    python make_web_data.py --date 20260801     # 특정 기준일
+    python make_web_data.py --date latest       # 모델 폴더에 있는 가장 최근 기준일
+    python make_web_data.py --date yesterday --models topaz5_1d riops_2d
     python make_web_data.py --vars siconc sithick
     python make_web_data.py --lat-min 60 --dry-run
     python make_web_data.py --src E:/other/Data_Out
+    python make_web_data.py --keep-others       # 위성자료 웹 폴더는 지우지 않음
+    python make_web_data.py --no-purge          # 아무것도 지우지 않음(누적)
 
 필요: gdal(osgeo), numpy, pillow
 """
@@ -45,6 +72,32 @@ from datetime import datetime, timedelta, timezone
 HERE = os.path.dirname(os.path.abspath(__file__))
 WEB = os.path.dirname(HERE)
 DEFAULT_SRC = r'E:/workspace2026/arctic/test_data/Data_Out'
+
+sys.path.insert(0, HERE)
+from dated_dirs import date_of_name  # noqa: E402  (utils 공통 날짜 규칙)
+
+# 기준일 태그 (파일명에 예측 기준일이 들어 있는 경우: <bul>b_ / _b<bul>)
+_RE_BUL = re.compile(r'(?:^|_)(\d{8})b(?=_)|_b(\d{8})(?=[_.]|$)')
+# 날짜 폴더 yyyy/mm/dd 판별
+_RE_Y, _RE_MD = re.compile(r'^\d{4}$'), re.compile(r'^\d{2}$')
+
+# ── 실행 옵션 직접 지정 ------------------------------------------------------
+# bat(명령행)와 같은 옵션 문자열을 코드에서도 지정할 수 있다.
+#   MAIN_ARGS = None                     -> bat/명령행 옵션을 그대로 사용 (기본)
+#   MAIN_ARGS = '--date 20260801 ...'    -> 인자 없이 실행(IDE Run 등)하면 이 옵션 사용
+# 명령행 인자가 하나라도 있으면 항상 명령행(bat)이 우선한다.
+MAIN_ARGS = None
+
+
+def _main_argv():
+    """명령행 인자 우선, 없으면 MAIN_ARGS(코드 지정 옵션) 사용."""
+    import shlex
+    if len(sys.argv) > 1:
+        return sys.argv[1:]
+    if MAIN_ARGS:
+        print(f'(MAIN_ARGS 사용: {MAIN_ARGS})')
+        return shlex.split(MAIN_ARGS)
+    return []
 
 EPSG3413_PROJ4 = ('+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +k=1 +x_0=0 '
                   '+y_0=0 +datum=WGS84 +units=m +no_defs')
@@ -142,26 +195,37 @@ NAV_TAG = {2: '★ 항행 직접', 1: '◆ 항행 보조', 0: '· 참고'}
 D8 = r'(?P<date>\d{8})'
 RC = r'(?P<region>full|arctic)_(?P<crs>PS|LAEA|EPSG4326|EPSG3413)'
 
+# 파일명 규칙 (2026-08-31 이후 신형: <기준일>b_<예측일…>, 구형도 함께 인식)
+#   TOPAZ5  TOPAZ5_P1D-m_<var>_NH_6km_<bul>b_<valid>_<RC>
+#   NEXTSIM NEXTSIM_hm_<var>_NH_3km_<bul>b_<valid>_<RC>          (구형: _<valid>_)
+#   RIOPS   RIOPS_<var>_NH_5km_<bul>b_<valid>T<HH>Z_P<lead>_<RC>  (구형: <run>T<HH>Z_P<lead>)
+#   AICE    AICE_<var>_NH_5km_<bul>b_<valid>_D<lead>_<RC>         (구형: <run>T<HH>Z_D<lead>)
+#   GIOPS   GIOPS_<var>_NH_5km_<bul>b_<valid>T<HH>Z_(P<lead>|Anal000)_<RC>
+#   FOAM    FOAM_<var>_<GL4|GLO|NH>_<res>_<bul>b_dm<valid>[_HHZ]_<RC> (구형: dm<valid>_b<bul>)
+#   GLO12   GLO12_P1D-m_<var>_GLO_9km_<bul>b_<valid>_<RC>          (구형: _<valid>_)
+# 그룹: date=예측(valid) 날짜, bul=기준일(있으면), hh=예측 시각(run 기준 구형은 run 시각),
+#       lead/anal, vhh=신형 예측 시각
+BUL = r'(?:(?P<bul>\d{8})b_)?'
 MODELS = {
     'topaz5_1d': dict(
         no=1, model='TOPAZ5', group='① TOPAZ5 — CMEMS Arctic (10일)',
         org='NERSC / MET Norway (CMEMS ARC MFC)', res_m=6000, axis='date',
         grid='극사영 6.25 km', fc='기준일 + 예보 10일 (일평균)',
         re=re.compile(r'^TOPAZ5_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9]+)_'
-                      r'NH_[A-Za-z0-9.-]+_' + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
+                      r'NH_[A-Za-z0-9.-]+_' + BUL + D8 + r'(?:_b\d{8})?_' + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
     'nextsim_hm': dict(
         no=2, model='neXtSIM-F', group='② neXtSIM-F — CMEMS Arctic 해빙 (D+9)',
         org='NERSC / MET Norway (CMEMS ARC MFC)', res_m=4000, axis='date',
         grid='극사영 3 km (실효 ~10 km)', fc='기준일 + 예보 9일 (시간평균 -> 일평균)',
         re=re.compile(r'^NEXTSIM_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9_]+?)_'
-                      r'NH_[A-Za-z0-9.-]+_' + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
+                      r'NH_[A-Za-z0-9.-]+_' + BUL + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
     'riops_2d': dict(
         no=3, model='RIOPS', group='③ RIOPS — 캐나다 지역 (84시간)',
         org='ECCC / CCMEP (MSC Datamart)', res_m=5000, axis='run_lead_h',
         grid='극사영 5 km (ps5km60N)', fc='run 00/06/12/18Z, 리드 0~84시간',
-        re=re.compile(r'^RIOPS_(?P<var>[A-Za-z0-9]+)_NH_[A-Za-z0-9.-]+_'
+        re=re.compile(r'^RIOPS_(?P<var>[A-Za-z0-9]+)_NH_[A-Za-z0-9.-]+_' + BUL
                       + D8 + r'T(?P<hh>\d{2})Z_P(?P<lead>\d{3})_' + RC
                       + r'(?P<cog>_cog)?\.tif$'),
     ),
@@ -169,15 +233,15 @@ MODELS = {
         no=4, model='MET-AICE', group='④ MET-AICE — 딥러닝 SIC (D+10)',
         org='MET Norway (THREDDS)', res_m=5000, axis='run_lead_d',
         grid='LAEA 5 km (유럽 북극)', fc='생산일 기준 D+1 ~ D+10',
-        re=re.compile(r'^AICE_(?P<var>[A-Za-z0-9]+)_NH_[A-Za-z0-9.-]+_'
-                      + D8 + r'T(?P<hh>\d{2})Z_D(?P<lead>\d+)_' + RC
+        re=re.compile(r'^AICE_(?P<var>[A-Za-z0-9]+)_NH_[A-Za-z0-9.-]+_' + BUL
+                      + D8 + r'(?:T(?P<hh>\d{2})Z)?_D(?P<lead>\d+)_' + RC
                       + r'(?P<cog>_cog)?\.tif$'),
     ),
     'giops_2d': dict(
         no=5, model='GIOPS', group='⑤ GIOPS — 캐나다 전지구 (240시간)',
         org='ECCC / CCMEP (MSC Datamart)', res_m=5000, axis='run_lead_h',
         grid='극사영 5 km (ps5km60N)', fc='run 00/12Z, 분석 + 리드 0~240시간',
-        re=re.compile(r'^GIOPS_(?P<var>[A-Za-z0-9]+)_NH_[A-Za-z0-9.-]+_'
+        re=re.compile(r'^GIOPS_(?P<var>[A-Za-z0-9]+)_NH_[A-Za-z0-9.-]+_' + BUL
                       + D8 + r'T(?P<hh>\d{2})Z_(?:P(?P<lead>\d{3})|Anal(?P<anal>\d{3}))_'
                       + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
@@ -186,7 +250,8 @@ MODELS = {
         org='UK Met Office (AWS Open Data)', res_m=20000, axis='valid_bulletin',
         grid='정규 경위도 1/4° (GL4)', fc='생산일 세트의 유효일 (-2 ~ +7일)',
         re=re.compile(r'^FOAM_(?P<var>[A-Za-z0-9]+)_(?P<reg4>GL4|GLO|NH)_'
-                      r'[A-Za-z0-9.-]+_dm(?P<date>\d{8})_b(?P<bull>\d{8})_'
+                      r'[A-Za-z0-9.-]+_' + BUL + r'(?:dm|hi|oi)(?P<date>\d{8})'
+                      r'(?:_(?P<hh>\d{2})Z)?(?:_b(?P<bull>\d{8}))?_'
                       + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
     'glo12_1d': dict(
@@ -194,9 +259,228 @@ MODELS = {
         org="Mercator Ocean Int'l (CMEMS GLO MFC)", res_m=9000, axis='date',
         grid='정규 경위도 1/12°', fc='기준일 + 예보 10일 (일평균)',
         re=re.compile(r'^GLO12_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9]+)_'
-                      r'GLO_[A-Za-z0-9.-]+_' + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
+                      r'GLO_[A-Za-z0-9.-]+_' + BUL + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
 }
+
+# ---------------------------------------------------------------- 위성(관측) 제품
+# 파이프라인이 이미 EPSG:3413 (Byte 또는 float) COG 로 내보낸 관측 자료 — 재투영 없이
+# **복사**만 한다. 기준일 폴더(Data_Out/<folder>/yyyy/mm/dd)의 **모든 파일**(스와스면
+# 그날 전체 패스)을 각각 하나의 항목으로 등록한다: id = <제품id>__<COG stem>,
+# title = 제품 제목, name = COG stem. series=True 제품(A25 합성)은 그날 파일을 프레임으로
+# 묶은 시계열 1항목.
+#
+# 웹에 올리는 관측 자료 범위 (2026-08-31 결정): **AMSR 계열(AMSR2/AMSR3 L2·L3·A25) +
+# ASIP L3/L4 + Sentinel-3 IST(s3e_ist)**. VIIRS·ICESat-2 는 _SAT_INACTIVE 로 내려 두어
+# 기본 처리에서 제외한다 (--sat-extra 로 개별 지정 시에만 처리).
+_PCT_ICE = dict(kind='palette', enc='percent', vmin=0, vmax=100, lut='ice', units='%')
+_SST = dict(kind='palette', enc='linear', vmin=-2, vmax=35, lut='thermal', units='°C')
+_SSW = dict(kind='palette', enc='linear', vmin=0, vmax=30, lut='freeboard', units='m/s')
+_ASW = dict(kind='palette', enc='linear', vmin=0, vmax=60, lut='freeboard', units='m/s')
+_TIT = dict(kind='palette', enc='linear', vmin=0, vmax=20, lut='thermal', units='cm')
+_TSI = dict(kind='palette', enc='classes')
+_SIM = dict(kind='palette', enc='linear', vmin=-40, vmax=40, lut='thermal', units='cm/s')
+_VNP29 = dict(kind='palette', enc='values', override=True,
+              colors={'1': [43, 108, 176], '100': [215, 25, 28]})
+_IST = dict(kind='palette', enc='linear', vmin=210, vmax=313, lut='thermal', units='K')
+_FB = dict(kind='float', lut='freeboard', stretch=[2, 98], units='m')
+# Sentinel-3 SL_2_IST (float GeoTIFF): 해빙비율 0..1, 빙표면온도 K
+_S3_SIF = dict(kind='float', lut='ice', vmin=0, vmax=1, units='fraction')
+_S3_IST = dict(kind='float', lut='thermal', vmin=240, vmax=280, units='K')
+
+# (id, group, title, Data_Out 폴더, 파일 stem 패턴(fnmatch, _cog/.tif 제외), meta, 옵션)
+SAT_PRODUCTS = [
+    # ── AMSR2 L2 ──
+    ('amsr2_l2_SIC', 'AMSR2 L2 (표준)', 'AMSR2 L2 SIC 해빙농도', 'amsr2_l2_SIC',
+     'SIC_L2_AMSR2_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr2_l2_SST', 'AMSR2 L2 (표준)', 'AMSR2 L2 SST 해수면온도', 'amsr2_l2_SST',
+     'SST_L2_AMSR2_NH_swath_*_full_EPSG3413', _SST, {}),
+    ('amsr2_l2_SSW', 'AMSR2 L2 (표준)', 'AMSR2 L2 SSW 해상풍', 'amsr2_l2_SSW',
+     'SSW_L2_AMSR2_NH_swath_*_full_EPSG3413', _SSW, {}),
+    ('amsr2_l2_research_HSI', 'AMSR2 L2 (연구)', 'AMSR2 L2 HSI 고해상 해빙',
+     'amsr2_l2_research_HSI', 'HSI_L2_AMSR2_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr2_l2_research_ASW', 'AMSR2 L2 (연구)', 'AMSR2 L2 ASW 전천후 해상풍',
+     'amsr2_l2_research_ASW', 'ASW_L2_AMSR2_NH_swath_*_full_EPSG3413', _ASW, {}),
+    ('amsr2_l2_research_TIT', 'AMSR2 L2 (연구)', 'AMSR2 L2 TIT 박빙 두께',
+     'amsr2_l2_research_TIT', 'TIT_L2_AMSR2_NH_swath_*_full_EPSG3413', _TIT, {}),
+    ('amsr2_l2_research_TSI', 'AMSR2 L2 (연구)', 'AMSR2 L2 TSI 박빙 탐지',
+     'amsr2_l2_research_TSI', 'TSI_L2_AMSR2_NH_swath_*_full_EPSG3413', _TSI, {}),
+    # ── AMSR2 L3 ──
+    ('amsr2_l3_10_SIC', 'AMSR2 L3 (표준)', 'AMSR2 L3 SIC 10 km', 'amsr2_l3_10_SIC',
+     'SIC_L3_AMSR2_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr2_l3_25_SIC', 'AMSR2 L3 (표준)', 'AMSR2 L3 SIC 25 km', 'amsr2_l3_25_SIC',
+     'SIC_L3_AMSR2_NH_25km_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr2_l3_10_SST', 'AMSR2 L3 (표준)', 'AMSR2 L3 SST 0.1°', 'amsr2_l3_10_SST',
+     'SST_L3_AMSR2_*_full_EPSG3413', _SST, {}),
+    ('amsr2_l3_25_SST', 'AMSR2 L3 (표준)', 'AMSR2 L3 SST 0.25°', 'amsr2_l3_25_SST',
+     'SST_L3_AMSR2_*_full_EPSG3413', _SST, {}),
+    ('amsr2_l3_10_SSW', 'AMSR2 L3 (표준)', 'AMSR2 L3 SSW 0.1°', 'amsr2_l3_10_SSW',
+     'SSW_L3_AMSR2_*_full_EPSG3413', _SSW, {}),
+    ('amsr2_l3_25_SSW', 'AMSR2 L3 (표준)', 'AMSR2 L3 SSW 0.25°', 'amsr2_l3_25_SSW',
+     'SSW_L3_AMSR2_*_full_EPSG3413', _SSW, {}),
+    ('amsr2_l3_research_HSI', 'AMSR2 L3 (연구)', 'AMSR2 L3 HSI 10 km',
+     'amsr2_l3_research_HSI', 'HSI_L3_AMSR2_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr2_l3_research_ASW', 'AMSR2 L3 (연구)', 'AMSR2 L3 ASW 0.1°',
+     'amsr2_l3_research_ASW', 'ASW_L3_AMSR2_*_full_EPSG3413', _ASW, {}),
+    ('amsr2_l3_research_TIT', 'AMSR2 L3 (연구)', 'AMSR2 L3 TIT 박빙 두께',
+     'amsr2_l3_research_TIT', 'TIT_L3_AMSR2_NH_*_full_EPSG3413', _TIT, {}),
+    ('amsr2_l3_research_SIM_U', 'AMSR2 L3 (연구)', 'AMSR2 L3 SIM U성분',
+     'amsr2_l3_research_SIM', 'SIM_L3_AMSR2_NH_25km_*_U_full_EPSG3413', _SIM, {}),
+    ('amsr2_l3_research_SIM_SPD', 'AMSR2 L3 (연구)', 'AMSR2 L3 SIM 속도',
+     'amsr2_l3_research_SIM', 'SIM_L3_AMSR2_NH_25km_*_SPD_full_EPSG3413', _SIM, {}),
+    ('amsr2_l3_research_TSI', 'AMSR2 L3 (연구)', 'AMSR2 L3 TSI 박빙 탐지',
+     'amsr2_l3_research_TSI', 'TSI_L3_AMSR2_NH_10km_*_full_EPSG3413', _TSI, {}),
+    # ── AMSR3 L2 / L3 ──
+    ('amsr3_l2_SIC', 'AMSR3 L2', 'AMSR3 L2 SIC 해빙농도', 'amsr3_l2_SIC',
+     'SIC_L2_AMSR3_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr3_l2_HSI', 'AMSR3 L2', 'AMSR3 L2 HSI 고해상 해빙', 'amsr3_l2_HSI',
+     'HSI_L2_AMSR3_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr3_l2_SST', 'AMSR3 L2', 'AMSR3 L2 SST 해수면온도', 'amsr3_l2_SST',
+     'SST_L2_AMSR3_NH_swath_*_full_EPSG3413', _SST, {}),
+    ('amsr3_l2_SSW', 'AMSR3 L2', 'AMSR3 L2 SSW 해상풍', 'amsr3_l2_SSW',
+     'SSW_L2_AMSR3_NH_swath_*_full_EPSG3413', _SSW, {}),
+    ('amsr3_l2_ASW', 'AMSR3 L2', 'AMSR3 L2 ASW 전천후 해상풍', 'amsr3_l2_ASW',
+     'ASW_L2_AMSR3_NH_swath_*_full_EPSG3413', _ASW, {}),
+    ('amsr3_l3_SIC', 'AMSR3 L3', 'AMSR3 L3 SIC 10 km', 'amsr3_l3_SIC',
+     'SIC_L3_AMSR3_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr3_l3_HSI', 'AMSR3 L3', 'AMSR3 L3 HSI 10 km', 'amsr3_l3_HSI',
+     'HSI_L3_AMSR3_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr3_l3_SST', 'AMSR3 L3', 'AMSR3 L3 SST 10 km', 'amsr3_l3_SST',
+     'SST_L3_AMSR3_*_full_EPSG3413', _SST, {}),
+    ('amsr3_l3_SSW', 'AMSR3 L3', 'AMSR3 L3 SSW 10 km', 'amsr3_l3_SSW',
+     'SSW_L3_AMSR3_*_full_EPSG3413', _SSW, {}),
+    ('amsr3_l3_ASW', 'AMSR3 L3', 'AMSR3 L3 ASW 10 km', 'amsr3_l3_ASW',
+     'ASW_L3_AMSR3_*_full_EPSG3413', _ASW, {}),
+    ('amsr3_l3_SIM', 'AMSR3 L3', 'AMSR3 L3 SIM 해빙 이동', 'amsr3_l3_SIM',
+     'SIM_L3_AMSR3_NH_10km_*_full_EPSG3413', _SIM, {}),
+    # ── ASIP (DMI) ──
+    ('asip_l3', 'ASIP', 'ASIP L3 해빙농도 0.5 km', 'asip_l3',
+     'SIC_L3_ASIP_NH_500m_*_full_EPSG34??', _PCT_ICE, {'maxPx': 1400}),
+    ('asip_l4', 'ASIP', 'ASIP L4 해빙농도 1 km', 'asip_l4',
+     'SIC_L4_ASIP_NH_1km_*_full_EPSG34??', _PCT_ICE, {'maxPx': 1400}),
+    # ── Sentinel-3 SLSTR IST (EUMETSAT, s3_eumetsat 유틸 → Data_Out/s3e_ist) ──
+    #    스와스별 float GeoTIFF 2종: *_sea_ice_fraction_EPSG3413 / *_surface_temperature_EPSG3413
+    ('s3e_ist_sif', 'Sentinel-3 IST', 'S3 SLSTR 해빙비율 (스와스)', 's3e_ist',
+     'S3?_SL_2_IST____*_sea_ice_fraction_EPSG3413', _S3_SIF, {'maxPx': 1400}),
+    ('s3e_ist_ist', 'Sentinel-3 IST', 'S3 SLSTR 빙표면온도 (스와스)', 's3e_ist',
+     'S3?_SL_2_IST____*_surface_temperature_EPSG3413', _S3_IST, {'maxPx': 1400}),
+    # ── 합성 시계열 (그날 A25 전부 -> 애니메이션 1항목). id 는 amsr25 web_catalog 와 동일 ──
+    ('a25_amsr2_sic', 'AMSR2 A25 (L2+L3 합성)', 'AMSR2 A25 SIC 합성 (L2 + L3 백필)',
+     'amsr2_a25_SIC', 'SIC_A25_AMSR2_NH_*_full_EPSG3413', _PCT_ICE,
+     {'series': True, 'model': 'A25 AMSR2', 'nav': 2}),
+    ('a25_amsr3_sic', 'AMSR3 A25 (L2+L3 합성)', 'AMSR3 A25 SIC 합성 (L2 + L3 백필)',
+     'amsr3_a25_SIC', 'SIC_A25_AMSR3_NH_*_full_EPSG3413', _PCT_ICE,
+     {'series': True, 'model': 'A25 AMSR3', 'nav': 2}),
+]
+# 기본 처리 대상에서 제외한 제품 (--sat-extra <id> 로 개별 지정 시에만 처리)
+_SAT_INACTIVE = [
+    ('viirs_29', 'VIIRS', 'VNP29 해빙 분포 (스와스)', 'viirs_29',
+     'SIC_A*_EPSG3413', _VNP29, {}),
+    ('viirs_29p', 'VIIRS', 'VNP29P1D 일별 해빙 (타일)', 'viirs_29p',
+     'VNP29P1D.A*_sic_EPSG3413', _VNP29, {}),
+    ('viirs_30', 'VIIRS', 'VNP30 빙표면온도 (스와스)', 'viirs_30',
+     'IST_A*_EPSG3413', _IST, {}),
+    ('viirs_30p', 'VIIRS', 'VNP30P1D 일별 IST (타일)', 'viirs_30p',
+     'VNP30P1D.A*_ist_EPSG3413', _IST, {}),
+    ('icesat2_atl20', 'ICESat-2', 'ATL20 월평균 Freeboard', 'icesat2_atl20',
+     'ATL20-01_*_monthly_mean_fb', _FB, {}),
+]
+SAT_IDS = [p[0] for p in SAT_PRODUCTS]
+SAT_EXTRA_IDS = [p[0] for p in _SAT_INACTIVE]
+
+_RE_T14 = re.compile(r'(?<!\d)(\d{14})(?!\d)')
+_RE_T12 = re.compile(r'(?<!\d)(\d{12})(?!\d)')
+_RE_T8T6 = re.compile(r'(?<!\d)(\d{8})T(\d{6})(?!\d)')        # Sentinel 20260830T083305
+_RE_AJ = re.compile(r'(?:^|[._-])A(\d{7})(?:[._-](\d{4}))?')
+
+
+def file_time(stem: str):
+    """파일명 -> UTC 시각 (14/12자리, yyyymmddTHHMMSS, A연중일+HHMM, 8자리 -> 12Z)."""
+    m = _RE_T14.search(stem) or _RE_T12.search(stem)
+    if m:
+        s = m.group(1)[:12]
+        try:
+            return datetime.strptime(s, '%Y%m%d%H%M')
+        except ValueError:
+            pass
+    m = _RE_T8T6.search(stem)
+    if m:
+        try:
+            return datetime.strptime(m.group(1) + m.group(2)[:4], '%Y%m%d%H%M')
+        except ValueError:
+            pass
+    m = _RE_AJ.search(stem)
+    if m:
+        try:
+            t = datetime(int(m.group(1)[:4]), 1, 1) + timedelta(days=int(m.group(1)[4:]) - 1)
+            if m.group(2):
+                t += timedelta(hours=int(m.group(2)[:2]), minutes=int(m.group(2)[2:]))
+            return t
+        except ValueError:
+            pass
+    d = date_of_name(stem)
+    return d + timedelta(hours=12) if d else None
+
+
+def scan_satellite(src_root: str, ref, sat_filter=None, products=None):
+    """위성 파일 -> { pid: [ {stem, src, png, ddir, t} ... ] }.
+
+    ref 가 FOLDER 면 제품 폴더의 **최종(최신) 날짜 폴더** 파일 전부(스와스는 그날 전체),
+    그 외에는 기준일 ref 폴더(또는 파일명 날짜 == ref)의 파일."""
+    import fnmatch
+    out = {}
+    folder_mode = ref == FOLDER
+
+    def _stem_of(fn):
+        low = fn.lower()
+        if not low.endswith('.tif'):
+            return None
+        return fn[:-8] if low.endswith('_cog.tif') else fn[:-4]
+
+    for pid, _grp, _title, folder, pat, _meta, _opt in (products or SAT_PRODUCTS):
+        if sat_filter and pid not in sat_filter:
+            continue
+        fdir = os.path.join(src_root, folder)
+        if not os.path.isdir(fdir):
+            continue
+        files = _list_model_files(fdir)
+        pref_day = None
+        if folder_mode:
+            pref_day, n_dirs = newest_folder_date(
+                files, lambda fn: (_stem_of(fn) is not None
+                                   and fnmatch.fnmatch(_stem_of(fn), pat)))
+            if n_dirs > 1:
+                print(f'  [warn] {pid}: 날짜 폴더 {n_dirs}개 — 최신 {pref_day:%Y/%m/%d} 만 사용')
+        best = {}                                    # stem -> (pref, path, fd)
+        for fn, path, fd in files:
+            low = fn.lower()
+            if not low.endswith('.tif'):
+                continue
+            is_cog = low.endswith('_cog.tif')
+            stem = fn[:-8] if is_cog else fn[:-4]
+            if not fnmatch.fnmatch(stem, pat):
+                continue
+            if folder_mode:
+                if pref_day is not None and fd != pref_day:
+                    continue
+            else:
+                day = fd or date_of_name(stem)
+                if day is None or day.date() != ref.date():
+                    continue
+            pref = 0 if is_cog else 1
+            cur = best.get(stem)
+            if cur is None or pref < cur[0]:
+                best[stem] = (pref, path, fd)
+        items = []
+        for stem, (_pref, path, _fd) in sorted(best.items()):
+            png = os.path.join(os.path.dirname(path), stem + '.png')
+            items.append({'stem': stem, 'src': path,
+                          'png': png if os.path.isfile(png) else None,
+                          'ddir': src_date_dir(path), 't': file_time(stem)})
+        if items:
+            out[pid] = items
+    return out
+
 
 # 소스 우선순위: 넓은 영역(full) + 원본 투영 먼저. 3413 이 있으면 최우선(재투영 불필요)
 SRC_PREF = [('full', 'EPSG3413'), ('arctic', 'EPSG3413'),
@@ -224,28 +508,35 @@ def lut_rgb(name: str, t: float):
 
 # ---------------------------------------------------------------- 시간축
 def frame_time(cfg: dict, g: dict):
-    """(frame_id, ISO 시각, 표시 라벨) — 모델별 시간축을 실제 UTC 시각으로."""
+    """(frame_id, ISO 시각, 표시 라벨) — 모델별 시간축을 실제 UTC 시각으로.
+
+    신형 이름(<기준일>b_…)은 date/hh 가 이미 **예측(valid) 시각**이고,
+    구형 이름은 date/hh 가 run 시각이라 lead 를 더한다. frame_id 는 두 형식이
+    같은 프레임이면 같아지도록 예측 시각 + 리드로 만든다."""
     d = g['date']
     base = datetime(int(d[:4]), int(d[4:6]), int(d[6:8]), tzinfo=timezone.utc)
     axis = cfg['axis']
+    new_form = bool(g.get('bul'))
     if axis == 'date':
         t = base + timedelta(hours=12)              # 일평균 중앙시각
         return d, t, f'{d[4:6]}-{d[6:8]}'
     if axis == 'run_lead_h':
         hh = int(g.get('hh') or 0)
         lead = int(g.get('lead') or g.get('anal') or 0)
-        t = base + timedelta(hours=hh + lead)
-        fid = f'{d}T{hh:02d}Z_' + ('Anal000' if g.get('anal') is not None
-                                   else f'P{lead:03d}')
+        t = base + timedelta(hours=hh) if new_form else base + timedelta(hours=hh + lead)
+        ltag = 'Anal000' if g.get('anal') is not None else f'P{lead:03d}'
+        fid = f'{t:%Y%m%dT%H}Z_{ltag}'
         return fid, t, f'+{lead}h ({t.strftime("%m-%d %HZ")})'
     if axis == 'run_lead_d':
         hh = int(g.get('hh') or 0)
         lead = int(g.get('lead') or 0)
-        t = base + timedelta(hours=hh) + timedelta(days=lead, hours=12)
-        return f'{d}T{hh:02d}Z_D{lead}', t, f'D+{lead} ({t.strftime("%m-%d")})'
+        t = (base + timedelta(hours=12) if new_form
+             else base + timedelta(hours=hh) + timedelta(days=lead, hours=12))
+        return f'{t:%Y%m%d}_D{lead}', t, f'D+{lead} ({t.strftime("%m-%d")})'
     if axis == 'valid_bulletin':
-        b = g['bull']
-        t = base + timedelta(hours=12)
+        b = g.get('bul') or g.get('bull') or d
+        hh = int(g.get('hh') or 12)
+        t = base + timedelta(hours=hh)
         off = (base - datetime(int(b[:4]), int(b[4:6]), int(b[6:8]),
                                tzinfo=timezone.utc)).days
         sign = f'+{off}' if off >= 0 else str(off)
@@ -253,10 +544,158 @@ def frame_time(cfg: dict, g: dict):
     raise ValueError(axis)
 
 
+# ---------------------------------------------------------------- 날짜 규칙
+FOLDER = 'folder'          # --date folder: 제품별 최종(최신) 날짜 폴더를 그대로 사용
+
+
+def parse_date_arg(s: str):
+    """--date 해석: folder(FOLDER 반환) | today | yesterday | YYYYMMDD | latest(None 반환)."""
+    s = (s or FOLDER).strip().lower()
+    now = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0,
+                                             microsecond=0, tzinfo=None)
+    if s in (FOLDER, 'auto'):
+        return FOLDER
+    if s == 'today':
+        return now
+    if s == 'yesterday':
+        return now - timedelta(days=1)
+    if s == 'latest':
+        return None
+    d = datetime.strptime(s.replace('-', '')[:8], '%Y%m%d')
+    return d
+
+
+def _bulletin_of(fn: str):
+    """파일명에 예측 기준일 태그가 있으면 datetime, 없으면 None."""
+    m = _RE_BUL.search(fn)
+    if not m:
+        return None
+    try:
+        return datetime.strptime(m.group(1) or m.group(2), '%Y%m%d')
+    except ValueError:
+        return None
+
+
+def src_date_dir(src: str):
+    """원본 파일의 Data_Out 날짜 폴더 'yyyy/mm/dd' (없으면 파일명 날짜, 그도 없으면 '')."""
+    parts = os.path.normpath(src).split(os.sep)
+    if (len(parts) >= 4 and _RE_Y.match(parts[-4]) and _RE_MD.match(parts[-3])
+            and _RE_MD.match(parts[-2])):
+        return '/'.join(parts[-4:-1])
+    d = date_of_name(os.path.basename(src))
+    return d.strftime('%Y/%m/%d') if d else ''
+
+
+def _list_model_files(folder: str):
+    """(파일명, 경로, 폴더날짜|None) — 평면 배치 + yyyy/mm/dd 날짜 폴더."""
+    out = []
+    for f in os.listdir(folder):
+        p = os.path.join(folder, f)
+        if os.path.isfile(p):
+            out.append((f, p, None))
+    from glob import glob as _g
+    for p in _g(os.path.join(folder, '[12][09][0-9][0-9]', '[01][0-9]',
+                             '[0-3][0-9]', '*')):
+        if not os.path.isfile(p):
+            continue
+        parts = os.path.normpath(p).split(os.sep)
+        try:
+            fd = datetime.strptime(''.join(parts[-4:-1]), '%Y%m%d')
+        except ValueError:
+            continue
+        out.append((os.path.basename(p), p, fd))
+    return out
+
+
+def newest_folder_date(files, accept=None):
+    """_list_model_files 결과에서 (필터 accept 를 통과한) 파일들의 날짜 폴더 중 최신.
+
+    날짜 폴더가 없으면(옛 평면 배치) None. 여러 개면 (최신, 개수) 로 경고용 개수도 반환."""
+    fds = set()
+    for fn, _p, fd in files:
+        if fd is None:
+            continue
+        if accept is not None and not accept(fn):
+            continue
+        fds.add(fd)
+    if not fds:
+        return None, 0
+    return max(fds), len(fds)
+
+
+def _ddir_date(ddir: str, fallback):
+    """'yyyy/mm/dd' -> 'YYYY-MM-DD' (없으면 fallback datetime 사용)."""
+    if ddir and len(ddir) == 10:
+        return f'{ddir[:4]}-{ddir[5:7]}-{ddir[8:10]}'
+    return fallback.strftime('%Y-%m-%d') if fallback else ''
+
+
+def ref_date_of(cfg: dict, fn: str, folder_date):
+    """파일의 기준일(예측 run/bulletin) 과 유효일 판정 -> (bulletin|None, day)."""
+    b = _bulletin_of(fn)
+    day = folder_date or date_of_name(fn)
+    return b, day
+
+
+def frame_selected(cfg: dict, fn: str, folder_date, ref, lead_days: int):
+    """기준일 ref 에 속하는 프레임인가.
+
+    - 파일명에 기준일 태그가 있으면 태그 == ref
+    - 그 외: 폴더(또는 파일명) 날짜 == ref.
+      유효일별 폴더 모델(axis 'date', 기준일 태그 없음)은 ref < 날짜 <= ref+lead_days 도 포함
+    """
+    b, day = ref_date_of(cfg, fn, folder_date)
+    if b is not None:
+        return b.date() == ref.date()
+    if day is None:
+        return False
+    if day.date() == ref.date():
+        return True
+    if cfg['axis'] == 'date':
+        return ref.date() < day.date() <= (ref + timedelta(days=lead_days)).date()
+    return False
+
+
+def latest_ref_date(src_root: str, model_keys):
+    """--date latest: 기준일 태그/run 폴더를 가진 모델들 중 가장 최근 기준일.
+
+    (유효일별 폴더만 있는 모델은 기준일을 알 수 없어 후보에서 제외;
+     그런 모델만 있으면 가장 최근 날짜 - lead 로 추정하지 않고 그 날짜를 쓴다)"""
+    cand, fallback = [], []
+    for mk in model_keys:
+        cfg = MODELS[mk]
+        folder = os.path.join(src_root, mk)
+        if not os.path.isdir(folder):
+            continue
+        for fn, _p, fd in _list_model_files(folder):
+            if not fn.lower().endswith('.tif') or not cfg['re'].match(fn):
+                continue
+            b = _bulletin_of(fn)
+            if b is not None:
+                cand.append(b)
+            elif cfg['axis'] != 'date':          # run 기반 (riops/giops/aice)
+                d = fd or date_of_name(fn)
+                if d:
+                    cand.append(d)
+            else:
+                d = fd or date_of_name(fn)
+                if d:
+                    fallback.append(d)
+    if cand:
+        return max(cand)
+    return max(fallback) if fallback else None
+
+
 # ---------------------------------------------------------------- 스캔
-def scan(src_root: str, model_keys, var_filter):
-    """모델별 { var: { frame_id: {src, t, label, pref} } } 수집."""
+def scan(src_root: str, model_keys, var_filter, ref, lead_days: int):
+    """모델별 { var: { frame_id: {src, t, label, pref, ddir} } } 수집.
+
+    ref 가 FOLDER 면 **모델 폴더의 최종(최신) 날짜 폴더** 하나를 통째로 쓴다
+    (날짜 폴더는 모델별로 하나뿐이라고 가정; 여러 개면 최신을 쓰고 경고).
+    날짜 폴더가 없는 옛 평면 배치는 파일 전부를 대상으로 한다.
+    그 외에는 기준일 ref 규칙(frame_selected)."""
     found = {}
+    folder_mode = ref == FOLDER
     for mk in model_keys:
         cfg = MODELS[mk]
         folder = os.path.join(src_root, mk)
@@ -264,11 +703,25 @@ def scan(src_root: str, model_keys, var_filter):
             print(f'  [skip] 폴더 없음: {folder}')
             continue
         per_var: dict = {}
-        for fn in os.listdir(folder):
+        n_seen = 0
+        files = _list_model_files(folder)
+        mref, n_dirs = (None, 0)
+        if folder_mode:
+            mref, n_dirs = newest_folder_date(
+                files, lambda fn: fn.lower().endswith('.tif') and cfg['re'].match(fn))
+            if n_dirs > 1:
+                print(f'  [warn] {mk}: 날짜 폴더 {n_dirs}개 — 최신 {mref:%Y/%m/%d} 만 사용')
+        for fn, _path, fd in files:
             if not fn.lower().endswith('.tif'):
                 continue
             m = cfg['re'].match(fn)
             if not m:
+                continue
+            n_seen += 1
+            if folder_mode:
+                if mref is not None and fd != mref:
+                    continue
+            elif not frame_selected(cfg, fn, fd, ref, lead_days):
                 continue
             g = m.groupdict()
             var = g['var']
@@ -284,12 +737,45 @@ def scan(src_root: str, model_keys, var_filter):
             slot = per_var.setdefault(var, {})
             cur = slot.get(fid)
             if cur is None or pref < cur['pref']:
-                slot[fid] = {'src': os.path.join(folder, fn), 'pref': pref,
+                slot[fid] = {'src': _path, 'pref': pref,
                              't': t, 'label': label,
-                             'region': g['region'], 'crs': g['crs']}
+                             'region': g['region'], 'crs': g['crs'],
+                             'ddir': src_date_dir(_path)}
         if per_var:
             found[mk] = per_var
+        elif n_seen and not folder_mode:
+            print(f'  [skip] {mk}: 기준일 {ref:%Y-%m-%d} 자료 없음 '
+                  f'(다른 날짜 파일 {n_seen}개)')
     return found
+
+
+# ---------------------------------------------------------------- 정리(용량)
+def purge_web_data(out_root: str, model_keys, mode: str):
+    """web/Data_Out 비우기. mode: 'all' | 'models' | 'none'. 반환: 지운 바이트."""
+    if mode == 'none' or not os.path.isdir(out_root):
+        return 0
+    targets = ([os.path.join(out_root, d) for d in os.listdir(out_root)]
+               if mode == 'all' else
+               [os.path.join(out_root, mk) for mk in model_keys])
+    freed = 0
+    for t in targets:
+        if not os.path.exists(t):
+            continue
+        if os.path.isdir(t):
+            for dp, _dn, fns in os.walk(t):
+                for f in fns:
+                    try:
+                        freed += os.path.getsize(os.path.join(dp, f))
+                    except OSError:
+                        pass
+            shutil.rmtree(t, ignore_errors=True)
+        else:
+            try:
+                freed += os.path.getsize(t)
+                os.remove(t)
+            except OSError:
+                pass
+    return freed
 
 
 # ---------------------------------------------------------------- 변환
@@ -393,24 +879,85 @@ def main(argv=None) -> int:
                     help='출력 해상도(m) 강제 지정 (기본 모델별 자동)')
     ap.add_argument('--max-frames', type=int, default=0,
                     help='변수당 프레임 상한 (0 = 제한 없음)')
-    ap.add_argument('--overwrite', action='store_true', help='기존 파일 재생성')
-    ap.add_argument('--dry-run', action='store_true', help='변환 없이 목록만')
-    a = ap.parse_args(argv)
+    ap.add_argument('--date', default=FOLDER,
+                    help='folder(기본: 제품별 최종 날짜 폴더를 그대로 사용, 모델별 날짜 폴더는 '
+                         '하나라고 가정) | today | yesterday | YYYYMMDD | latest — '
+                         'Data_Out/<모델>/yyyy/mm/dd 날짜 폴더 기준')
+    ap.add_argument('--lead-days', type=int, default=10,
+                    help='유효일별 폴더 모델(neXtSIM-F·GLO12 등)에서 기준일 이후 '
+                         '함께 읽을 예측 일수 (기본 10)')
+    ap.add_argument('--no-sat', action='store_true',
+                    help='위성(관측) 자료는 처리하지 않음 (모델만)')
+    ap.add_argument('--sat', nargs='*', default=None,
+                    help=f'처리할 위성 제품 id 제한 (기본 전체: {", ".join(SAT_IDS[:4])} …)')
+    ap.add_argument('--sat-extra', nargs='*', default=None,
+                    help=f'기본 제외 제품을 추가로 처리: {", ".join(SAT_EXTRA_IDS)}')
+    ap.add_argument('--keep-others', action='store_true',
+                    help='web/Data_Out 비울 때 모델 폴더만 비우고 위성자료 폴더는 보존')
+    ap.add_argument('--no-purge', action='store_true',
+                    help='web/Data_Out 을 비우지 않음 (누적, 이전 방식)')
+    ap.add_argument('--overwrite', action='store_true',
+                    help='기존 파일 재생성 (--no-purge 와 함께 쓸 때 의미 있음)')
+    ap.add_argument('--dry-run', action='store_true', help='변환·삭제 없이 목록만')
+    a = ap.parse_args(argv if argv is not None else _main_argv())
 
     unknown = [m for m in a.models if m not in MODELS]
     if unknown:
         print(f'알 수 없는 모델: {unknown}\n사용 가능: {list(MODELS)}')
         return 2
 
-    print(f'[make_web_data] src={a.src}\n                out={a.out}')
-    found = scan(a.src, a.models, set(a.vars) if a.vars else None)
-    if not found:
-        print('처리할 자료가 없습니다. --src 경로를 확인하세요.')
+    try:
+        ref = parse_date_arg(a.date)
+    except ValueError:
+        print(f'--date 형식 오류: {a.date} (folder|today|yesterday|YYYYMMDD|latest)')
+        return 2
+    if ref is None:
+        ref = latest_ref_date(a.src, a.models)
+        if ref is None:
+            print('처리할 자료가 없습니다 (--date latest: 날짜 폴더/파일을 찾지 못함).')
+            return 1
+        print(f'[make_web_data] --date latest -> 기준일 {ref:%Y-%m-%d}')
+
+    folder_mode = ref == FOLDER
+    print(f'[make_web_data] src={a.src}\n                out={a.out}\n' +
+          ('                기준일 = 제품별 최종 날짜 폴더 (--date folder)'
+           if folder_mode else
+           f'                기준일={ref:%Y-%m-%d} (유효일 폴더 모델은 +{a.lead_days}일까지)'))
+    found = scan(a.src, a.models, set(a.vars) if a.vars else None,
+                 ref, a.lead_days)
+    extra = set(a.sat_extra or [])
+    bad_extra = sorted(extra - set(SAT_EXTRA_IDS))
+    if bad_extra:
+        print(f'알 수 없는 --sat-extra: {bad_extra}\n사용 가능: {SAT_EXTRA_IDS}')
+        return 2
+    sat_products = SAT_PRODUCTS + [p for p in _SAT_INACTIVE if p[0] in extra]
+    sat_found = {} if a.no_sat else scan_satellite(
+        a.src, ref, set(a.sat) if a.sat else None, products=sat_products)
+    if not found and not sat_found:
+        if folder_mode:
+            print('처리할 자료가 없습니다 (모델·위성 폴더에 파일 없음) — 웹 폴더는 건드리지 '
+                  '않았습니다.')
+        else:
+            print(f'기준일 {ref:%Y-%m-%d} 에 처리할 자료가 없습니다 — 웹 폴더는 건드리지 '
+                  '않았습니다. (--date 를 확인하거나 --date folder 사용)')
         return 1
+    if folder_mode:
+        # 대표 기준일 = 사용된 날짜 폴더 중 최신 (catalog.ref_date, 요약 출력용)
+        days = set()
+        for v in found.values():
+            for frames in v.values():
+                days.update(f['ddir'] for f in frames.values() if f.get('ddir'))
+        for items in sat_found.values():
+            days.update(i['ddir'] for i in items if i.get('ddir'))
+        ref = (datetime.strptime(max(days), '%Y/%m/%d') if days
+               else datetime.now(timezone.utc).replace(tzinfo=None))
+        used = sorted(days)
+        print(f'  사용한 날짜 폴더: {", ".join(used) if used else "(평면 배치)"}')
 
     total_frames = sum(len(f) for v in found.values() for f in v.values())
+    n_sat_files = sum(len(v) for v in sat_found.values())
     print(f'  모델 {len(found)}종, 변수 {sum(len(v) for v in found.values())}개, '
-          f'프레임 {total_frames}개')
+          f'프레임 {total_frames}개 · 위성 제품 {len(sat_found)}종, 파일 {n_sat_files}개')
 
     if a.dry_run:
         for mk, per_var in found.items():
@@ -418,9 +965,37 @@ def main(argv=None) -> int:
             for var in sorted(per_var):
                 fr = per_var[var]
                 one = next(iter(fr.values()))
+                ddirs = sorted({i['ddir'] for i in fr.values()})
                 print(f'   {var:16s} {len(fr):3d} 프레임  '
-                      f'source={one["region"]}/{one["crs"]}')
+                      f'source={one["region"]}/{one["crs"]}  '
+                      f'-> Data_Out/{mk}/{ddirs[0] if ddirs else ""}'
+                      f'{" …" if len(ddirs) > 1 else ""}')
+        if sat_found:
+            print('\n[위성/관측] 기준일 폴더의 파일 (스와스는 그날 전체)')
+            for pid, _g, title, folder, _pat, _m, opt in sat_products:
+                items = sat_found.get(pid)
+                if not items:
+                    continue
+                kind = '시계열 1항목' if opt.get('series') else f'{len(items)}항목'
+                ddirs = sorted({i['ddir'] for i in items})
+                print(f'   {pid:26s} {len(items):3d} 파일 -> {kind}  '
+                      f'Data_Out/{folder}/{ddirs[0] if ddirs else ""}')
+                for i in items[:3]:
+                    print(f'        {i["stem"]}')
+                if len(items) > 3:
+                    print(f'        … 외 {len(items) - 3}개')
+        mode = 'none' if a.no_purge else ('models' if a.keep_others else 'all')
+        print(f'\n(dry-run) 실제 실행 시 web/Data_Out 정리 모드: {mode}')
         return 0
+
+    # ---------- 웹 데이터 폴더 비우기 (용량 최소화)
+    purge_mode = 'none' if a.no_purge else ('models' if a.keep_others else 'all')
+    # keep-others: 모델 폴더 + 이번에 다시 만드는 위성 제품 폴더만 비운다
+    purge_keys = list(a.models) + sorted({
+        folder for pid, _g, _t, folder, _p, _m, _o in sat_products if pid in sat_found})
+    freed = purge_web_data(a.out, purge_keys, purge_mode)
+    if purge_mode != 'none':
+        print(f'  web 폴더 정리({purge_mode}): {freed / 1e6:,.1f} MB 삭제 — {a.out}')
 
     try:
         from osgeo import gdal
@@ -444,9 +1019,8 @@ def main(argv=None) -> int:
             continue
         cfg = MODELS[mk]
         per_var = found[mk]
-        odir = os.path.join(a.out, mk)
-        os.makedirs(odir, exist_ok=True)
         res_m = a.res or cfg['res_m']
+        mname = cfg['model'].replace('-', '')
         print(f'\n[{mk}] {cfg["model"]} — 변수 {len(per_var)}개, '
               f'출력 {res_m} m / lat>={a.lat_min}')
 
@@ -462,11 +1036,19 @@ def main(argv=None) -> int:
                 order = order[:a.max_frames]
 
             out_frames = []
-            preview_done = False
+            first_ddir = ''
+            preview_rel = None
             for fid, info in order:
-                name = f'{cfg["model"].replace("-", "")}_{var}_{fid}_EPSG3413_cog.tif'
+                name = f'{mname}_{var}_{fid}_EPSG3413_cog.tif'
+                # 출력 경로 = Data_Out 규칙 그대로 (원본과 같은 yyyy/mm/dd 폴더)
+                ddir = info['ddir']
+                odir = os.path.join(a.out, mk, *ddir.split('/')) if ddir \
+                    else os.path.join(a.out, mk)
+                os.makedirs(odir, exist_ok=True)
                 dst = os.path.join(odir, name)
-                rel = f'Data_Out/{mk}/{name}'
+                rel = f'Data_Out/{mk}/{ddir + "/" if ddir else ""}{name}'
+                pv_path = os.path.join(odir, f'{mname}_{var}_preview.png')
+                pv_rel = f'Data_Out/{mk}/{ddir + "/" if ddir else ""}{mname}_{var}_preview.png'
                 try:
                     if a.overwrite or not os.path.isfile(dst):
                         arr, valid = warp_to_byte(gdal, np, info['src'], dst,
@@ -478,17 +1060,16 @@ def main(argv=None) -> int:
                             print(f'   [skip] 유효 화소 0: {name}')
                             continue
                         done += 1
-                        if not preview_done:
-                            write_preview(np, Image, arr, lut,
-                                          os.path.join(odir, f'{cfg["model"].replace("-", "")}'
-                                                             f'_{var}_preview.png'))
-                            preview_done = True
+                        if preview_rel is None:
+                            write_preview(np, Image, arr, lut, pv_path)
+                            preview_rel = pv_rel
                     else:
                         skipped += 1
-                        preview_done = preview_done or os.path.isfile(
-                            os.path.join(odir, f'{cfg["model"].replace("-", "")}'
-                                               f'_{var}_preview.png'))
+                        if preview_rel is None and os.path.isfile(pv_path):
+                            preview_rel = pv_rel
                     bytes_out += os.path.getsize(dst)
+                    if not first_ddir:
+                        first_ddir = info.get('ddir', '')
                     out_frames.append({'id': fid, 'cog': rel,
                                        't': info['t'].strftime('%Y-%m-%dT%H:%M:%SZ'),
                                        'label': info['label']})
@@ -502,11 +1083,14 @@ def main(argv=None) -> int:
             rank = NAV_RANK.get(var, 0)
             entries.append({
                 'id': eid, 'group': cfg['group'], 'model': cfg['model'],
-                'name': f'{kname} ({var})', 'type': 'series', 'nav': rank,
+                'title': f'{kname} ({var})',            # 데이터 제목
+                'name': f'{mname}_{var}',               # 데이터 이름 (COG 파일 계열)
+                'type': 'series', 'nav': rank,
                 'kind': 'palette', 'enc': 'linear',
                 'vmin': vmin, 'vmax': vmax, 'lut': lut, 'units': units,
                 'desc': eid,
-                'png': f'Data_Out/{mk}/{cfg["model"].replace("-", "")}_{var}_preview.png',
+                'ref_date': _ddir_date(first_ddir, ref),
+                'png': preview_rel or '',
                 'cog': out_frames[0]['cog'],
                 'frames': out_frames,
             })
@@ -515,6 +1099,7 @@ def main(argv=None) -> int:
                 'title': f'{cfg["model"]} — {kname} ({var})',
                 'fields': [
                     ['모델', f'{cfg["model"]} · {cfg["org"]}'],
+                    ['기준일', _ddir_date(first_ddir, ref)],
                     ['변수', f'{var} — {kname}'],
                     ['단위', units or '무차원'],
                     ['표출범위', f'{vmin} ~ {vmax}{(" " + units) if units else ""}'],
@@ -532,6 +1117,68 @@ def main(argv=None) -> int:
             print(f'   {var:16s} {len(out_frames):3d} 프레임  '
                   f'{kname} [{vmin}~{vmax}{units}]')
 
+    # ---------- 위성(관측) 자료: 기준일 폴더의 파일을 그대로 복사 (Data_Out 경로 규칙)
+    sat_entries, sat_descs = [], {}
+    sat_bytes = 0
+    for pid, grp, title, folder, pat, meta, opt in sat_products:
+        items = sat_found.get(pid)
+        if not items:
+            continue
+        frames, first_png = [], None
+        for it in items:
+            ddir = it['ddir']
+            odir = os.path.join(a.out, folder, *ddir.split('/')) if ddir \
+                else os.path.join(a.out, folder)
+            os.makedirs(odir, exist_ok=True)
+            base = os.path.basename(it['src'])
+            dst = os.path.join(odir, base)
+            try:
+                if a.overwrite or not os.path.isfile(dst):
+                    shutil.copy2(it['src'], dst)
+                sat_bytes += os.path.getsize(dst)
+                rel = f'Data_Out/{folder}/{ddir + "/" if ddir else ""}{base}'
+                png_rel = ''
+                if it['png']:
+                    pdst = os.path.join(odir, os.path.basename(it['png']))
+                    if a.overwrite or not os.path.isfile(pdst):
+                        shutil.copy2(it['png'], pdst)
+                    png_rel = f'Data_Out/{folder}/{ddir + "/" if ddir else ""}' \
+                              f'{os.path.basename(it["png"])}'
+                    first_png = first_png or png_rel
+                t = it['t']
+                frames.append({'id': it['stem'], 'cog': rel, 'png': png_rel,
+                               't': t.strftime('%Y-%m-%dT%H:%M:%SZ') if t else '',
+                               'label': (t.strftime('%m-%d %H:%MZ') if t else it['stem'])})
+            except Exception as exc:                           # noqa: BLE001
+                failed += 1
+                print(f'   [fail] {base}: {exc}')
+        if not frames:
+            continue
+        common = {'group': grp, 'title': title, 'desc': pid, **meta,
+                  **{k: v for k, v in opt.items() if k not in ('series',)}}
+        if opt.get('series'):
+            frames.sort(key=lambda f: f['t'])
+            sat_entries.append({
+                'id': pid, **common, 'type': 'series',
+                'name': pat.replace('*', '…'),
+                'png': first_png or '', 'cog': frames[0]['cog'],
+                'ref_date': _ddir_date(items[0].get('ddir', ''), ref),
+                'frames': [{k: v for k, v in f.items() if k != 'png'} for f in frames],
+            })
+            print(f'   [{pid}] {len(frames)} 파일 -> 시계열 1항목 ({frames[0]["label"]} ~ '
+                  f'{frames[-1]["label"]})')
+        else:
+            for f in frames:
+                sat_entries.append({
+                    'id': f'{pid}__{f["id"]}', **common,
+                    'name': f['id'], 'png': f['png'] or first_png or '',
+                    'cog': f['cog'], 't': f['t'],
+                    'ref_date': _ddir_date(items[0].get('ddir', ''), ref),
+                })
+            print(f'   [{pid}] {len(frames)} 파일 -> {len(frames)}항목')
+    if sat_entries:
+        print(f'  위성 자료 복사 {sat_bytes / 1e6:,.1f} MB')
+
     # ---------- catalog / descriptions 갱신 (기존 위성자료 항목 보존)
     dpath = os.path.join(WEB, 'data')
     os.makedirs(dpath, exist_ok=True)
@@ -541,9 +1188,35 @@ def main(argv=None) -> int:
             cat = json.load(f)
     except (OSError, ValueError):
         cat = {'crs': 'EPSG:3413', 'entries': []}
-    keep = [e for e in cat.get('entries', []) if not str(e.get('id', '')).startswith('m_')]
+    def _ours(eid):
+        eid = str(eid or '')
+        if eid.startswith('m_'):
+            return True
+        return any(eid == pid or eid.startswith(pid + '__')
+                   for pid in SAT_IDS + SAT_EXTRA_IDS)
+    keep = [e for e in cat.get('entries', []) if not _ours(e.get('id'))]
+    # 웹 폴더를 비운 뒤 파일이 사라진 항목(위성자료 등)은 목록에서 제거
+    #  — 설명(descriptions)은 보존하므로 파이프라인이 web_catalog 로 다시 등록하면 복원됨
+    pruned = []
+    if purge_mode != 'none':
+        kept2 = []
+        for e in keep:
+            cog = e.get('cog') or ''
+            if cog and not os.path.isfile(os.path.join(WEB, cog)):
+                pruned.append(e.get('id'))
+            else:
+                kept2.append(e)
+        keep = kept2
+        if pruned:
+            print(f'  catalog: 파일이 없는 항목 {len(pruned)}개 제거 '
+                  f'({", ".join(str(p) for p in pruned[:6])}'
+                  f'{" …" if len(pruned) > 6 else ""})')
     cat['crs'] = 'EPSG:3413'
-    cat['entries'] = keep + entries
+    cat['ref_date'] = ref.strftime('%Y-%m-%d')
+    # 순서: 위성 단일 항목 -> 위성 시계열(A25) -> 모델 시계열  (뷰어 섹션 구분 기준)
+    sat_single = [e for e in sat_entries if e.get('type') != 'series']
+    sat_series = [e for e in sat_entries if e.get('type') == 'series']
+    cat['entries'] = keep + sat_single + sat_series + entries
     with open(cpath, 'w', encoding='utf-8') as f:
         json.dump(cat, f, ensure_ascii=False, indent=1)
 
@@ -574,7 +1247,8 @@ def main(argv=None) -> int:
         print(f'\n[route] 생성 실패(무시): {exc}')
 
     print(f'\n완료 — 새로 변환 {done}개, 재사용 {skipped}개, 실패 {failed}개')
-    print(f'  모델 항목 {len(entries)}개, 웹 COG 총 {bytes_out / 1e6:,.1f} MB')
+    print(f'  모델 항목 {len(entries)}개 (웹 COG {bytes_out / 1e6:,.1f} MB), '
+          f'위성 항목 {len(sat_entries)}개 ({sat_bytes / 1e6:,.1f} MB)')
     print(f'  catalog: {cpath}')
     return 0
 
