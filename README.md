@@ -3,12 +3,17 @@
 북극 중심 극사영(NSIDC Polar Stereographic North, **EPSG:3413**) 지도 위에
 utils 파이프라인 산출 **COG** 를 그려 보는 데이터 목록 뷰어.
 
-두 종류의 자료를 다룬다.
+세 종류의 자료를 다룬다 (2026-09-29, Data_Out_sample 25종 기준으로 재편).
 
-- **관측 자료** — 단일 시각 COG (AMSR2/AMSR3 L2·L3·A25, ASIP L3/L4, Sentinel-3 IST)
-- **예측 모델** — 변수별 **시계열 COG**. 지도 아래 재생 막대로 예측 시간대를
-  넘기며 애니메이션으로 본다 (TOPAZ5 · neXtSIM-F · RIOPS · MET-AICE · GIOPS ·
-  FOAM · GLO12)
+- **관측 자료** (15) — 단일 시각 COG. AMSR2 연구 HSI(L2/L3/A25R 합성)·SIM,
+  AMSR3 HSI(L2/L3/A25 합성)·SIM, ASIP L3/L4, Sentinel-1 SAR(HH/HV),
+  Sentinel-2 트루컬러(RGB), Sentinel-3 IST, VIIRS(VNP29 NRT·VJ129P1D)
+- **예측 모델** (8) — 변수별 **시계열 COG**. 지도 아래 재생 막대로 예측 시간대를
+  넘기며 애니메이션으로 본다 (TOPAZ5 · **TP3A3/TP3R(KIOST 편차보정)** ·
+  neXtSIM-F · RIOPS · GIOPS · FOAM · GLO12; MET-AICE 는 기본 제외 —
+  `--models met_aice` 로 명시 시 처리)
+- **기상** (2) — GFS(0.25°: 풍속·해면기압·기온)와 WW3(북극 9 km: 파고·파주기)
+  arctic_EPSG3413 float COG 시계열. 왼쪽 목록의 **기상** 섹션/탭에 표시
 
 여기에 **북극항로(NSR) 항해 경로**가 지도 투영에 맞춰 겹쳐 그려진다.
 
@@ -86,18 +91,28 @@ run_make_web_data.bat --no-purge         # 아무것도 지우지 않고 누적 
 
 **위성(관측) 자료도 함께 준비한다** — `SAT_PRODUCTS` 레지스트리의 폴더에서
 **기준일 폴더의 파일을 모두** 찾아 web/Data_Out 의 같은 날짜 폴더로 **복사**한다
-(이미 EPSG:3413 COG 라 재투영 없음). 웹에 올리는 관측 자료 범위(2026-08-31 결정):
+(이미 EPSG:3413 COG 라 재투영 없음 — 예외: Sentinel-2 는 아래 참고).
+웹에 올리는 자료 범위 (2026-09-29, **Data_Out_sample 25종** 기준으로 재편):
 
 | 계열 | Data_Out 폴더 | 비고 |
 |---|---|---|
-| AMSR2 L2 / L3 | `amsr2_l2_*`, `amsr2_l3_*` | SIC·SST·SSW·HSI·ASW·TIT·TSI·SIM |
-| AMSR3 L2 / L3 | `amsr3_l2_*`, `amsr3_l3_*` | 〃 |
-| AMSR A25 합성 | `amsr2_a25_SIC`, `amsr3_a25_SIC` | 그날 파일 → 시계열 1항목 |
+| AMSR2 연구 HSI | `amsr2_l2_research_HSI`, `amsr2_l3_research_HSI` | L2 스와스 + L3 10 km |
+| AMSR2 A25R HSI 합성 | `amsr2_amsr25r_l2_l3_hsi` | 그날 파일 → 시계열 1항목 |
+| AMSR2 연구 SIM | `amsr2_l3_research_SIM` | U/V/속력 3제품 |
+| AMSR3 HSI | `amsr3_l2_HSI`, `amsr3_l3_HSI` | L2 스와스 + L3 10 km |
+| AMSR3 A25 HSI 합성 | `amsr3_amsr25_10_l2_l3_hsi` | 10 km 완성판 → 시계열 1항목 |
+| AMSR3 SIM | `amsr3_l3_SIM` | U/V/속력 3제품 |
 | ASIP | `asip_l3`, `asip_l4` | DMI 해빙농도 0.5/1 km |
+| Sentinel-1 SAR | `s1` | HH/HV 후방산란 (uint16, 파일별 2~98% 스트레치 회색조) |
+| Sentinel-2 광학 | `s2` | `*_RGB.tif`(EPSG4326) 를 **3413 축소 COG**(기본 2048px)로 변환 복사 — 원본 stack COG(수백 MB)는 복사하지 않음 |
 | Sentinel-3 IST | `s3e_ist` | 스와스별 float COG 2종: 해빙비율(`s3e_ist_sif`, 0~1) · 빙표면온도(`s3e_ist_ist`, K) |
+| VIIRS | `viirs_29_vnp_nrt`, `viirs_29pe_vj129p1d` | VNP29 NRT 스와스 · VJ129P1D 일별 타일 |
+| **기상** GFS | `gfs` | `aww`(풍속)·`apr`(해면기압)·`atm`(기온) — 시계열, 뷰어 '기상' 섹션(`sec:'wx'`) |
+| **기상** WW3 | `ww3` | `swh`(1차 너울고)·`twh`(전체 유의파고)·`twp`(주기) — 시계열, 〃 |
 
-VIIRS(29/29p/30/30p)·ICESat-2(ATL20) 는 `_SAT_INACTIVE` 로 내려 두어 기본 처리에서
-제외되며, `--sat-extra viirs_29 …` 로 지정할 때만 처리한다.
+그 외 표준 SIC/SST/SSW·연구 ASW/TIT/TSI·A25(L2/L2+L3) SIC 합성·VIIRS 나머지·
+ICESat-2 는 `_SAT_INACTIVE` 로 내려 두어 기본 처리에서 제외되며,
+`--sat-extra amsr2_l2_SIC …` 로 지정할 때만 처리한다.
 스와스 제품은 그날의 패스 하나하나가 catalog 항목이 되고
 (id `<제품>__<파일 stem>`, `title` = 제품 제목, `name` = 파일 stem), A25 합성처럼
 `series` 로 표시한 제품은 그날 파일을 프레임으로 묶은 시계열 1항목이 된다.
@@ -107,7 +122,8 @@ VIIRS(29/29p/30/30p)·ICESat-2(ATL20) 는 `_SAT_INACTIVE` 로 내려 두어 기�
 
 `tools/make_web_data.py` 가 하는 일:
 
-1. `E:\workspace2026\arctic\test_data\Data_Out` 의 모델 7종 폴더에서 **기준일
+1. `E:\workspace2026\arctic\test_data\Data_Out` 의 모델 8종 폴더(TOPAZ5 ·
+   TP3A3/TP3R · neXtSIM-F · RIOPS · GIOPS · FOAM · GLO12)에서 **기준일
    폴더의** GeoTIFF 를 찾아 **변수별 시계열**로 묶는다 (파일명에서 변수·시각·리드를 파싱).
 2. 지도와 같은 **EPSG:3413 북극 격자**로 재투영한다 (기본 위도 50° 이북,
    모델별 4~20 km). 파이프라인이 극사영(PS)·LAEA·경위도로만 산출하는 모델도
@@ -143,8 +159,9 @@ VIIRS(29/29p/30/30p)·ICESat-2(ATL20) 는 `_SAT_INACTIVE` 로 내려 두어 기�
 └──────────────┴──────────────────────┴──────────────┘
 ```
 
-- **왼쪽 상단 — 데이터 리스트**: `전체 / 예측 모델 / 관측` 탭과 검색창.
-  **관측 자료**와 **예측 모델**이 구분되어 표시되고, 각 그룹 아래는
+- **왼쪽 상단 — 데이터 리스트**: `전체 / 관측 / 예측 모델 / 기상` 탭과 검색창.
+  **관측 자료 → 예측 모델 → 기상** 세 섹션 순으로 표시되고(2026-09-29 재편:
+  기상 = catalog `sec:"wx"` — GFS·WW3), 각 그룹 아래는
   **데이터 제목 → 데이터 이름** 2단 구조다.
   - 데이터 제목(`title`, 굵게) = 제품/변수 단위 (예: "AMSR2 L2 SIC 해빙농도",
     "해빙농도 (siconc)"). **클릭하면 하위 데이터 목록이 접히거나 펼쳐지고**(▼/▶
@@ -256,13 +273,18 @@ descriptions.json 에 설명을 넣으면 된다.
 
 ## 선박 항적 (PANSTAR ACRO) + 예상 위치 도구
 
-`data/PANSTAR*.csv`(AIS 기록: 경위도, SOG, 침로, 선수, 상태, CST/UTC 시각)를
-`tools/make_ship_track.py` 가 하나로 묶어 **`PANSTAR_ACRO_track.geojson`**(web 루트)을
-만든다 — 지도용으로 GeoJSON 이 적합(경위도 그대로 두고 투영은 브라우저 `toFake()`).
+`data/PANSTAR*.csv`(AIS 기록: 경위도, SOG, 침로, 선수, 상태, CST/UTC 시각)와
+`data/PANSTAR*.gpkg`(GeoPackage `track_points` 레이어 — utc/cst/lon/lat/
+speed_kn/course_deg/heading_deg/turn_rate/nav_status 필드; 2026-09-29 추가,
+sqlite3 로 직접 읽어 GDAL 불필요)를 `tools/make_ship_track.py` 가 하나로 묶어
+**`PANSTAR_ACRO_track.geojson`**(web 루트)을 만든다 — 지도용으로 GeoJSON 이
+적합(경위도 그대로 두고 투영은 브라우저 `toFake()`). CSV·GPKG 가 겹치는 기간은
+UTC 시각으로 중복 제거된다.
 
 ```
-python tools\make_ship_track.py                 # data/PANSTAR*.csv 전부 -> PANSTAR_ACRO_track.geojson
+python tools\make_ship_track.py                 # data/PANSTAR*.csv + *.gpkg 전부 -> PANSTAR_ACRO_track.geojson
 python tools\make_ship_track.py --hours 2       # 대표점 간격 변경
+python tools\make_ship_track.py --gpkg-glob ""  # gpkg 제외 (CSV 만)
 ```
 
 - 파일 간 겹치는 구간은 UTC 시각으로 중복 제거하고 시각순으로 잇는다.

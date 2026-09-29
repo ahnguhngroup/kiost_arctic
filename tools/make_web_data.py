@@ -214,23 +214,40 @@ MODELS = {
         re=re.compile(r'^TOPAZ5_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9]+)_'
                       r'NH_[A-Za-z0-9.-]+_' + BUL + D8 + r'(?:_b\d{8})?_' + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
+    # KIOST 단기 편차보정 (TOPAZ5 -> A25 관측 합성 기반, utils/topaz5_kiost)
+    'topaz5_kiost_amsr3_amsr25': dict(
+        no=2, model='TP3A3', group='② TP3A3 — KIOST 보정 (AMSR3 A25, 10일)',
+        org='KIOST (TOPAZ5 + AMSR3 A25 편차보정)', res_m=6000, axis='date',
+        grid='극사영 6.25 km (TOPAZ5 격자)', fc='기준일 + 예보 10일 (일평균, 편차보정)',
+        re=re.compile(r'^TP3A3_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9]+)_'
+                      r'NH_[A-Za-z0-9.-]+_' + BUL + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
+    ),
+    'topaz5_kiost_amsr2_amsr25r': dict(
+        no=3, model='TP3R', group='③ TP3R — KIOST 보정 (AMSR2 연구 A25R, 10일)',
+        org='KIOST (TOPAZ5 + AMSR2 연구 A25R 편차보정)', res_m=6000, axis='date',
+        grid='극사영 6.25 km (TOPAZ5 격자)', fc='기준일 + 예보 10일 (일평균, 편차보정)',
+        re=re.compile(r'^TP3R_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9]+)_'
+                      r'NH_[A-Za-z0-9.-]+_' + BUL + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
+    ),
     'nextsim_hm': dict(
-        no=2, model='neXtSIM-F', group='② neXtSIM-F — CMEMS Arctic 해빙 (D+9)',
+        no=4, model='neXtSIM-F', group='④ neXtSIM-F — CMEMS Arctic 해빙 (D+9)',
         org='NERSC / MET Norway (CMEMS ARC MFC)', res_m=4000, axis='date',
         grid='극사영 3 km (실효 ~10 km)', fc='기준일 + 예보 9일 (시간평균 -> 일평균)',
         re=re.compile(r'^NEXTSIM_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9_]+?)_'
                       r'NH_[A-Za-z0-9.-]+_' + BUL + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
     'riops_2d': dict(
-        no=3, model='RIOPS', group='③ RIOPS — 캐나다 지역 (84시간)',
+        no=5, model='RIOPS', group='⑤ RIOPS — 캐나다 지역 (84시간)',
         org='ECCC / CCMEP (MSC Datamart)', res_m=5000, axis='run_lead_h',
         grid='극사영 5 km (ps5km60N)', fc='run 00/06/12/18Z, 리드 0~84시간',
         re=re.compile(r'^RIOPS_(?P<var>[A-Za-z0-9]+)_NH_[A-Za-z0-9.-]+_' + BUL
                       + D8 + r'T(?P<hh>\d{2})Z_P(?P<lead>\d{3})_' + RC
                       + r'(?P<cog>_cog)?\.tif$'),
     ),
+    # 기본 처리 제외 (2026-09-29, Data_Out_sample 25종 기준) — --models met_aice 로 명시 시 처리
     'met_aice': dict(
-        no=4, model='MET-AICE', group='④ MET-AICE — 딥러닝 SIC (D+10)',
+        inactive=True,
+        no=9, model='MET-AICE', group='⑨ MET-AICE — 딥러닝 SIC (D+10)',
         org='MET Norway (THREDDS)', res_m=5000, axis='run_lead_d',
         grid='LAEA 5 km (유럽 북극)', fc='생산일 기준 D+1 ~ D+10',
         re=re.compile(r'^AICE_(?P<var>[A-Za-z0-9]+)_NH_[A-Za-z0-9.-]+_' + BUL
@@ -238,7 +255,7 @@ MODELS = {
                       + r'(?P<cog>_cog)?\.tif$'),
     ),
     'giops_2d': dict(
-        no=5, model='GIOPS', group='⑤ GIOPS — 캐나다 전지구 (240시간)',
+        no=6, model='GIOPS', group='⑥ GIOPS — 캐나다 전지구 (240시간)',
         org='ECCC / CCMEP (MSC Datamart)', res_m=5000, axis='run_lead_h',
         grid='극사영 5 km (ps5km60N)', fc='run 00/12Z, 분석 + 리드 0~240시간',
         re=re.compile(r'^GIOPS_(?P<var>[A-Za-z0-9]+)_NH_[A-Za-z0-9.-]+_' + BUL
@@ -246,7 +263,7 @@ MODELS = {
                       + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
     'foam_gl4': dict(
-        no=6, model='FOAM', group='⑥ FOAM — UK Met Office 전지구 (7일)',
+        no=7, model='FOAM', group='⑦ FOAM — UK Met Office 전지구 (7일)',
         org='UK Met Office (AWS Open Data)', res_m=20000, axis='valid_bulletin',
         grid='정규 경위도 1/4° (GL4)', fc='생산일 세트의 유효일 (-2 ~ +7일)',
         re=re.compile(r'^FOAM_(?P<var>[A-Za-z0-9]+)_(?P<reg4>GL4|GLO|NH)_'
@@ -255,13 +272,15 @@ MODELS = {
                       + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
     'glo12_1d': dict(
-        no=7, model='GLO12', group='⑦ GLO12 — CMEMS 전지구 (10일)',
+        no=8, model='GLO12', group='⑧ GLO12 — CMEMS 전지구 (10일)',
         org="Mercator Ocean Int'l (CMEMS GLO MFC)", res_m=9000, axis='date',
         grid='정규 경위도 1/12°', fc='기준일 + 예보 10일 (일평균)',
         re=re.compile(r'^GLO12_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9]+)_'
                       r'GLO_[A-Za-z0-9.-]+_' + BUL + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
 }
+# 기본 처리 모델 = inactive 표시가 없는 것 (--models 로 명시하면 inactive 도 처리)
+MODEL_DEFAULT = [k for k, v in MODELS.items() if not v.get('inactive')]
 
 # ---------------------------------------------------------------- 위성(관측) 제품
 # 파이프라인이 이미 EPSG:3413 (Byte 또는 float) COG 로 내보낸 관측 자료 — 재투영 없이
@@ -270,9 +289,13 @@ MODELS = {
 # title = 제품 제목, name = COG stem. series=True 제품(A25 합성)은 그날 파일을 프레임으로
 # 묶은 시계열 1항목.
 #
-# 웹에 올리는 관측 자료 범위 (2026-08-31 결정): **AMSR 계열(AMSR2/AMSR3 L2·L3·A25) +
-# ASIP L3/L4 + Sentinel-3 IST(s3e_ist)**. VIIRS·ICESat-2 는 _SAT_INACTIVE 로 내려 두어
-# 기본 처리에서 제외한다 (--sat-extra 로 개별 지정 시에만 처리).
+# 웹에 올리는 자료 범위 (2026-09-29, Data_Out_sample 25종 기준으로 재편):
+#   관측 15 — AMSR2 연구 HSI(L2/L3/A25R 합성)·SIM, AMSR3 HSI(L2/L3/A25 합성)·SIM,
+#             ASIP L3/L4, Sentinel-1 SAR, Sentinel-2 광학(RGB), Sentinel-3 IST,
+#             VIIRS VNP29(NRT 스와스)·VJ129P1D(일별 타일)
+#   기상 2  — GFS(0.25°) · WW3(북극 9 km)  [opt sec='wx' -> 뷰어 '기상' 섹션]
+# 그 외(표준 SIC/SST/SSW, 연구 ASW/TIT/TSI, A25 SIC 합성 등)는 _SAT_INACTIVE 로
+# 내려 두어 기본 처리에서 제외한다 (--sat-extra 로 개별 지정 시에만 처리).
 _PCT_ICE = dict(kind='palette', enc='percent', vmin=0, vmax=100, lut='ice', units='%')
 _SST = dict(kind='palette', enc='linear', vmin=-2, vmax=35, lut='thermal', units='°C')
 _SSW = dict(kind='palette', enc='linear', vmin=0, vmax=30, lut='freeboard', units='m/s')
@@ -287,54 +310,132 @@ _FB = dict(kind='float', lut='freeboard', stretch=[2, 98], units='m')
 # Sentinel-3 SL_2_IST (float GeoTIFF): 해빙비율 0..1, 빙표면온도 K
 _S3_SIF = dict(kind='float', lut='ice', vmin=0, vmax=1, units='fraction')
 _S3_IST = dict(kind='float', lut='thermal', vmin=240, vmax=280, units='K')
+# Sentinel-1 EW GRDM 후방산란 (uint16 DN) — 파일별 2~98% 스트레치 회색조
+_S1 = dict(kind='float', lut='gray', stretch=[2, 98], units='DN')
+# Sentinel-2 트루컬러 — RGB.tif(EPSG4326 Byte 3밴드)를 3413 으로 재투영·축소 복사
+_S2_RGB = dict(kind='rgb')
+# GFS 0.25° / WW3 북극 9 km — arctic_EPSG3413 float COG 를 그대로 복사 (시계열)
+_GFS_AWW = dict(kind='float', lut='freeboard', vmin=0, vmax=30, units='m/s')
+_GFS_APR = dict(kind='float', lut='thermal', vmin=950, vmax=1050, units='hPa')
+_GFS_ATM = dict(kind='float', lut='thermal', vmin=-30, vmax=25, units='°C')
+_WW3_HS = dict(kind='float', lut='freeboard', vmin=0, vmax=8, units='m')
+_WW3_TP = dict(kind='float', lut='thermal', vmin=0, vmax=20, units='s')
 
 # (id, group, title, Data_Out 폴더, 파일 stem 패턴(fnmatch, _cog/.tif 제외), meta, 옵션)
+#   옵션: series(그날 파일 -> 시계열 1항목) / model·nav(뷰어 예측 섹션 표시)
+#         sec='wx'(뷰어 '기상' 섹션) / maxPx(렌더 상한) / rgb(RGB.tif 재투영 복사)
 SAT_PRODUCTS = [
-    # ── AMSR2 L2 ──
+    # ══ 관측 (Data_Out_sample 기준 15종) ══════════════════════════════════
+    # ── AMSR2 연구 HSI 라인: L2 스와스 -> L3 10 km -> A25R 합성 ──
+    ('amsr2_l2_research_HSI', 'AMSR2 연구 HSI', 'AMSR2 L2 HSI 고해상 해빙 (스와스)',
+     'amsr2_l2_research_HSI', 'HSI_L2_AMSR2_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr2_l3_research_HSI', 'AMSR2 연구 HSI', 'AMSR2 L3 HSI 10 km',
+     'amsr2_l3_research_HSI', 'HSI_L3_AMSR2_NH_*_full_EPSG3413', _PCT_ICE, {}),
+    ('a25r_amsr2_hsi', 'AMSR2 연구 HSI', 'AMSR2 A25R HSI 합성 (L2 + L3 백필)',
+     'amsr2_amsr25r_l2_l3_hsi', 'HSI_A25R_AMSR2_NH_*_full_EPSG3413', _PCT_ICE,
+     {'series': True}),
+    # ── AMSR2 연구 SIM (해빙 이동, U/V/속력) ──
+    ('amsr2_l3_research_SIM_U', 'AMSR2 연구 SIM', 'AMSR2 L3 SIM U성분',
+     'amsr2_l3_research_SIM', 'SIM_L3_AMSR2_NH_*_U_full_EPSG3413', _SIM, {}),
+    ('amsr2_l3_research_SIM_V', 'AMSR2 연구 SIM', 'AMSR2 L3 SIM V성분',
+     'amsr2_l3_research_SIM', 'SIM_L3_AMSR2_NH_*_V_full_EPSG3413', _SIM, {}),
+    ('amsr2_l3_research_SIM_SPD', 'AMSR2 연구 SIM', 'AMSR2 L3 SIM 속력',
+     'amsr2_l3_research_SIM', 'SIM_L3_AMSR2_NH_*_SPD_full_EPSG3413',
+     dict(kind='palette', enc='linear', vmin=0, vmax=40, lut='freeboard',
+          units='cm/s'), {}),
+    # ── AMSR3 표준 HSI 라인: L2 스와스 -> L3 10 km -> A25 합성 ──
+    ('amsr3_l2_HSI', 'AMSR3 HSI', 'AMSR3 L2 HSI 고해상 해빙 (스와스)',
+     'amsr3_l2_HSI', 'HSI_L2_AMSR3_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr3_l3_HSI', 'AMSR3 HSI', 'AMSR3 L3 HSI 10 km',
+     'amsr3_l3_HSI', 'HSI_L3_AMSR3_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
+    ('a25_amsr3_hsi', 'AMSR3 HSI', 'AMSR3 A25 HSI 합성 (L2 + L3 백필, 10 km)',
+     'amsr3_amsr25_10_l2_l3_hsi', 'HSI_A25_AMSR3_NH_*_full_EPSG3413', _PCT_ICE,
+     {'series': True}),
+    # ── AMSR3 SIM (해빙 이동) ──
+    ('amsr3_l3_SIM_U', 'AMSR3 SIM', 'AMSR3 L3 SIM U성분',
+     'amsr3_l3_SIM', 'SIM_L3_AMSR3_NH_*_U_full_EPSG3413', _SIM, {}),
+    ('amsr3_l3_SIM_V', 'AMSR3 SIM', 'AMSR3 L3 SIM V성분',
+     'amsr3_l3_SIM', 'SIM_L3_AMSR3_NH_*_V_full_EPSG3413', _SIM, {}),
+    ('amsr3_l3_SIM_SPD', 'AMSR3 SIM', 'AMSR3 L3 SIM 속력',
+     'amsr3_l3_SIM', 'SIM_L3_AMSR3_NH_*_SPD_full_EPSG3413',
+     dict(kind='palette', enc='linear', vmin=0, vmax=40, lut='freeboard',
+          units='cm/s'), {}),
+    # ── ASIP (DMI) ──
+    ('asip_l3', 'ASIP', 'ASIP L3 해빙농도 0.5 km', 'asip_l3',
+     'SIC_L3_ASIP_NH_500m_*_full_EPSG34??', _PCT_ICE, {'maxPx': 1400}),
+    ('asip_l4', 'ASIP', 'ASIP L4 해빙농도 1 km', 'asip_l4',
+     'SIC_L4_ASIP_NH_1km_*_full_EPSG34??', _PCT_ICE, {'maxPx': 1400}),
+    # ── Sentinel-1 EW GRDM SAR 후방산란 (uint16 DN, 200 m) ──
+    ('s1_hh', 'Sentinel-1 SAR', 'S1 SAR 후방산란 HH (스와스)', 's1',
+     'S1?_EW_GRD?_*_hh_EPSG3413', _S1, {'maxPx': 1400}),
+    ('s1_hv', 'Sentinel-1 SAR', 'S1 SAR 후방산란 HV (스와스)', 's1',
+     'S1?_EW_GRD?_*_hv_EPSG3413', _S1, {'maxPx': 1400}),
+    # ── Sentinel-2 트루컬러 (RGB.tif EPSG4326 -> 3413 재투영·축소 복사) ──
+    ('s2_rgb', 'Sentinel-2 광학', 'S2 트루컬러 RGB (타일)', 's2',
+     'S2?_MSIL2A_*_RGB', _S2_RGB, {'rgb': True, 'maxPx': 1400}),
+    # ── Sentinel-3 SLSTR IST (EUMETSAT, s3_eumetsat 유틸 -> Data_Out/s3e_ist) ──
+    ('s3e_ist_sif', 'Sentinel-3 IST', 'S3 SLSTR 해빙비율 (스와스)', 's3e_ist',
+     'S3?_SL_2_IST____*_sea_ice_fraction_EPSG3413', _S3_SIF, {'maxPx': 1400}),
+    ('s3e_ist_ist', 'Sentinel-3 IST', 'S3 SLSTR 빙표면온도 (스와스)', 's3e_ist',
+     'S3?_SL_2_IST____*_surface_temperature_EPSG3413', _S3_IST, {'maxPx': 1400}),
+    # ── VIIRS 해빙 분포 ──
+    ('viirs_29', 'VIIRS', 'VNP29 해빙 분포 (NRT 스와스)', 'viirs_29_vnp_nrt',
+     'SIC_A*_EPSG3413', _VNP29, {}),
+    ('viirs_29p_vj1', 'VIIRS', 'VJ129P1D 일별 해빙 (타일)',
+     'viirs_29pe_vj129p1d', 'VJ129P1D.A*_sic_EPSG3413', _VNP29, {}),
+    # ══ 기상 (GFS·WW3, 뷰어 '기상' 섹션) ═════════════════════════════════
+    ('gfs_aww', 'GFS 기상 (0.25도)', 'GFS 10 m 풍속', 'gfs',
+     'GFS_aww_*_arctic_EPSG3413', _GFS_AWW, {'series': True, 'sec': 'wx'}),
+    ('gfs_apr', 'GFS 기상 (0.25도)', 'GFS 해면기압', 'gfs',
+     'GFS_apr_*_arctic_EPSG3413', _GFS_APR, {'series': True, 'sec': 'wx'}),
+    ('gfs_atm', 'GFS 기상 (0.25도)', 'GFS 2 m 기온', 'gfs',
+     'GFS_atm_*_arctic_EPSG3413', _GFS_ATM, {'series': True, 'sec': 'wx'}),
+    ('ww3_swh', 'WW3 파랑 (9 km)', 'WW3 1차 너울 파고', 'ww3',
+     'WW3_swh_*_arctic_EPSG3413', _WW3_HS, {'series': True, 'sec': 'wx'}),
+    ('ww3_twh', 'WW3 파랑 (9 km)', 'WW3 전체 유의파고', 'ww3',
+     'WW3_twh_*_arctic_EPSG3413', _WW3_HS, {'series': True, 'sec': 'wx'}),
+    ('ww3_twp', 'WW3 파랑 (9 km)', 'WW3 전체 파주기', 'ww3',
+     'WW3_twp_*_arctic_EPSG3413', _WW3_TP, {'series': True, 'sec': 'wx'}),
+]
+# 기본 처리 대상에서 제외한 제품 (--sat-extra <id> 로 개별 지정 시에만 처리)
+#   2026-09-29 재편: 표준 SIC/SST/SSW·연구 ASW/TIT/TSI·A25 SIC 합성 계열을
+#   Data_Out_sample 25종 기준에 따라 이곳으로 내림. VIIRS 나머지·ICESat-2 는 종전대로.
+_SAT_INACTIVE = [
+    # ── AMSR2 L2 (표준) ──
     ('amsr2_l2_SIC', 'AMSR2 L2 (표준)', 'AMSR2 L2 SIC 해빙농도', 'amsr2_l2_SIC',
      'SIC_L2_AMSR2_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
     ('amsr2_l2_SST', 'AMSR2 L2 (표준)', 'AMSR2 L2 SST 해수면온도', 'amsr2_l2_SST',
      'SST_L2_AMSR2_NH_swath_*_full_EPSG3413', _SST, {}),
     ('amsr2_l2_SSW', 'AMSR2 L2 (표준)', 'AMSR2 L2 SSW 해상풍', 'amsr2_l2_SSW',
      'SSW_L2_AMSR2_NH_swath_*_full_EPSG3413', _SSW, {}),
-    ('amsr2_l2_research_HSI', 'AMSR2 L2 (연구)', 'AMSR2 L2 HSI 고해상 해빙',
-     'amsr2_l2_research_HSI', 'HSI_L2_AMSR2_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
     ('amsr2_l2_research_ASW', 'AMSR2 L2 (연구)', 'AMSR2 L2 ASW 전천후 해상풍',
      'amsr2_l2_research_ASW', 'ASW_L2_AMSR2_NH_swath_*_full_EPSG3413', _ASW, {}),
     ('amsr2_l2_research_TIT', 'AMSR2 L2 (연구)', 'AMSR2 L2 TIT 박빙 두께',
      'amsr2_l2_research_TIT', 'TIT_L2_AMSR2_NH_swath_*_full_EPSG3413', _TIT, {}),
     ('amsr2_l2_research_TSI', 'AMSR2 L2 (연구)', 'AMSR2 L2 TSI 박빙 탐지',
      'amsr2_l2_research_TSI', 'TSI_L2_AMSR2_NH_swath_*_full_EPSG3413', _TSI, {}),
-    # ── AMSR2 L3 ──
+    # ── AMSR2 L3 (표준) ──
     ('amsr2_l3_10_SIC', 'AMSR2 L3 (표준)', 'AMSR2 L3 SIC 10 km', 'amsr2_l3_10_SIC',
      'SIC_L3_AMSR2_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
     ('amsr2_l3_25_SIC', 'AMSR2 L3 (표준)', 'AMSR2 L3 SIC 25 km', 'amsr2_l3_25_SIC',
      'SIC_L3_AMSR2_NH_25km_*_full_EPSG3413', _PCT_ICE, {}),
-    ('amsr2_l3_10_SST', 'AMSR2 L3 (표준)', 'AMSR2 L3 SST 0.1°', 'amsr2_l3_10_SST',
+    ('amsr2_l3_10_SST', 'AMSR2 L3 (표준)', 'AMSR2 L3 SST 0.1도', 'amsr2_l3_10_SST',
      'SST_L3_AMSR2_*_full_EPSG3413', _SST, {}),
-    ('amsr2_l3_25_SST', 'AMSR2 L3 (표준)', 'AMSR2 L3 SST 0.25°', 'amsr2_l3_25_SST',
+    ('amsr2_l3_25_SST', 'AMSR2 L3 (표준)', 'AMSR2 L3 SST 0.25도', 'amsr2_l3_25_SST',
      'SST_L3_AMSR2_*_full_EPSG3413', _SST, {}),
-    ('amsr2_l3_10_SSW', 'AMSR2 L3 (표준)', 'AMSR2 L3 SSW 0.1°', 'amsr2_l3_10_SSW',
+    ('amsr2_l3_10_SSW', 'AMSR2 L3 (표준)', 'AMSR2 L3 SSW 0.1도', 'amsr2_l3_10_SSW',
      'SSW_L3_AMSR2_*_full_EPSG3413', _SSW, {}),
-    ('amsr2_l3_25_SSW', 'AMSR2 L3 (표준)', 'AMSR2 L3 SSW 0.25°', 'amsr2_l3_25_SSW',
+    ('amsr2_l3_25_SSW', 'AMSR2 L3 (표준)', 'AMSR2 L3 SSW 0.25도', 'amsr2_l3_25_SSW',
      'SSW_L3_AMSR2_*_full_EPSG3413', _SSW, {}),
-    ('amsr2_l3_research_HSI', 'AMSR2 L3 (연구)', 'AMSR2 L3 HSI 10 km',
-     'amsr2_l3_research_HSI', 'HSI_L3_AMSR2_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
-    ('amsr2_l3_research_ASW', 'AMSR2 L3 (연구)', 'AMSR2 L3 ASW 0.1°',
+    ('amsr2_l3_research_ASW', 'AMSR2 L3 (연구)', 'AMSR2 L3 ASW 0.1도',
      'amsr2_l3_research_ASW', 'ASW_L3_AMSR2_*_full_EPSG3413', _ASW, {}),
     ('amsr2_l3_research_TIT', 'AMSR2 L3 (연구)', 'AMSR2 L3 TIT 박빙 두께',
      'amsr2_l3_research_TIT', 'TIT_L3_AMSR2_NH_*_full_EPSG3413', _TIT, {}),
-    ('amsr2_l3_research_SIM_U', 'AMSR2 L3 (연구)', 'AMSR2 L3 SIM U성분',
-     'amsr2_l3_research_SIM', 'SIM_L3_AMSR2_NH_25km_*_U_full_EPSG3413', _SIM, {}),
-    ('amsr2_l3_research_SIM_SPD', 'AMSR2 L3 (연구)', 'AMSR2 L3 SIM 속도',
-     'amsr2_l3_research_SIM', 'SIM_L3_AMSR2_NH_25km_*_SPD_full_EPSG3413', _SIM, {}),
     ('amsr2_l3_research_TSI', 'AMSR2 L3 (연구)', 'AMSR2 L3 TSI 박빙 탐지',
      'amsr2_l3_research_TSI', 'TSI_L3_AMSR2_NH_10km_*_full_EPSG3413', _TSI, {}),
-    # ── AMSR3 L2 / L3 ──
+    # ── AMSR3 L2 / L3 (표준 SIC 등) ──
     ('amsr3_l2_SIC', 'AMSR3 L2', 'AMSR3 L2 SIC 해빙농도', 'amsr3_l2_SIC',
      'SIC_L2_AMSR3_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
-    ('amsr3_l2_HSI', 'AMSR3 L2', 'AMSR3 L2 HSI 고해상 해빙', 'amsr3_l2_HSI',
-     'HSI_L2_AMSR3_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
     ('amsr3_l2_SST', 'AMSR3 L2', 'AMSR3 L2 SST 해수면온도', 'amsr3_l2_SST',
      'SST_L2_AMSR3_NH_swath_*_full_EPSG3413', _SST, {}),
     ('amsr3_l2_SSW', 'AMSR3 L2', 'AMSR3 L2 SSW 해상풍', 'amsr3_l2_SSW',
@@ -343,54 +444,58 @@ SAT_PRODUCTS = [
      'ASW_L2_AMSR3_NH_swath_*_full_EPSG3413', _ASW, {}),
     ('amsr3_l3_SIC', 'AMSR3 L3', 'AMSR3 L3 SIC 10 km', 'amsr3_l3_SIC',
      'SIC_L3_AMSR3_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
-    ('amsr3_l3_HSI', 'AMSR3 L3', 'AMSR3 L3 HSI 10 km', 'amsr3_l3_HSI',
-     'HSI_L3_AMSR3_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
     ('amsr3_l3_SST', 'AMSR3 L3', 'AMSR3 L3 SST 10 km', 'amsr3_l3_SST',
      'SST_L3_AMSR3_*_full_EPSG3413', _SST, {}),
     ('amsr3_l3_SSW', 'AMSR3 L3', 'AMSR3 L3 SSW 10 km', 'amsr3_l3_SSW',
      'SSW_L3_AMSR3_*_full_EPSG3413', _SSW, {}),
     ('amsr3_l3_ASW', 'AMSR3 L3', 'AMSR3 L3 ASW 10 km', 'amsr3_l3_ASW',
      'ASW_L3_AMSR3_*_full_EPSG3413', _ASW, {}),
-    ('amsr3_l3_SIM', 'AMSR3 L3', 'AMSR3 L3 SIM 해빙 이동', 'amsr3_l3_SIM',
-     'SIM_L3_AMSR3_NH_10km_*_full_EPSG3413', _SIM, {}),
-    # ── ASIP (DMI) ──
-    ('asip_l3', 'ASIP', 'ASIP L3 해빙농도 0.5 km', 'asip_l3',
-     'SIC_L3_ASIP_NH_500m_*_full_EPSG34??', _PCT_ICE, {'maxPx': 1400}),
-    ('asip_l4', 'ASIP', 'ASIP L4 해빙농도 1 km', 'asip_l4',
-     'SIC_L4_ASIP_NH_1km_*_full_EPSG34??', _PCT_ICE, {'maxPx': 1400}),
-    # ── Sentinel-3 SLSTR IST (EUMETSAT, s3_eumetsat 유틸 → Data_Out/s3e_ist) ──
-    #    스와스별 float GeoTIFF 2종: *_sea_ice_fraction_EPSG3413 / *_surface_temperature_EPSG3413
-    ('s3e_ist_sif', 'Sentinel-3 IST', 'S3 SLSTR 해빙비율 (스와스)', 's3e_ist',
-     'S3?_SL_2_IST____*_sea_ice_fraction_EPSG3413', _S3_SIF, {'maxPx': 1400}),
-    ('s3e_ist_ist', 'Sentinel-3 IST', 'S3 SLSTR 빙표면온도 (스와스)', 's3e_ist',
-     'S3?_SL_2_IST____*_surface_temperature_EPSG3413', _S3_IST, {'maxPx': 1400}),
-    # ── 합성 시계열 (그날 A25 전부 -> 애니메이션 1항목). id 는 amsr25 web_catalog 와 동일 ──
+    # ── A25 SIC 합성 시계열 (표준 SIC 라인 — 기본 제외) ──
     ('a25_amsr2_sic', 'AMSR2 A25 (L2+L3 합성)', 'AMSR2 A25 SIC 합성 (L2 + L3 백필)',
-     'amsr2_a25_SIC', 'SIC_A25_AMSR2_NH_*_full_EPSG3413', _PCT_ICE,
-     {'series': True, 'model': 'A25 AMSR2', 'nav': 2}),
+     'amsr2_amsr25_l2_l3_sic', 'SIC_A25_AMSR2_NH_*_full_EPSG3413', _PCT_ICE,
+     {'series': True}),
     ('a25_amsr3_sic', 'AMSR3 A25 (L2+L3 합성)', 'AMSR3 A25 SIC 합성 (L2 + L3 백필)',
-     'amsr3_a25_SIC', 'SIC_A25_AMSR3_NH_*_full_EPSG3413', _PCT_ICE,
-     {'series': True, 'model': 'A25 AMSR3', 'nav': 2}),
-]
-# 기본 처리 대상에서 제외한 제품 (--sat-extra <id> 로 개별 지정 시에만 처리)
-_SAT_INACTIVE = [
-    ('viirs_29', 'VIIRS', 'VNP29 해빙 분포 (스와스)', 'viirs_29',
+     'amsr3_amsr25_l2_l3_sic', 'SIC_A25_AMSR3_NH_*_full_EPSG3413', _PCT_ICE,
+     {'series': True}),
+    ('a25l2_amsr2_sic', 'AMSR2 A25L2 (L2 전용 합성)',
+     'AMSR2 A25L2 SIC 시간별 L2 합성 (L3 백필 없음)',
+     'amsr2_amsr25_l2_sic', 'SIC_A25L2_AMSR2_NH_*_full_EPSG3413', _PCT_ICE,
+     {'series': True}),
+    ('a25l2_amsr3_sic', 'AMSR3 A25L2 (L2 전용 합성)',
+     'AMSR3 A25L2 SIC 시간별 L2 합성 (L3 백필 없음)',
+     'amsr3_amsr25_l2_sic', 'SIC_A25L2_AMSR3_NH_*_full_EPSG3413', _PCT_ICE,
+     {'series': True}),
+    # ── VIIRS 나머지 / ICESat-2 (종전 그대로) ──
+    ('viirs_29_j1', 'VIIRS', 'VJ129 해빙 분포 (스와스)', 'viirs_29_vj1_nrt',
      'SIC_A*_EPSG3413', _VNP29, {}),
-    ('viirs_29p', 'VIIRS', 'VNP29P1D 일별 해빙 (타일)', 'viirs_29p',
+    ('viirs_29_j2', 'VIIRS', 'VJ229 해빙 분포 (스와스)', 'viirs_29_vj2_nrt',
+     'SIC_A*_EPSG3413', _VNP29, {}),
+    ('viirs_29_arc', 'VIIRS', 'VNP29 해빙 분포 (스와스, archive)',
+     'viirs_29_vnp_archive', 'SIC_A*_EPSG3413', _VNP29, {}),
+    ('viirs_29_j1_arc', 'VIIRS', 'VJ129 해빙 분포 (스와스, archive)',
+     'viirs_29_vj1_archive', 'SIC_A*_EPSG3413', _VNP29, {}),
+    ('viirs_29_j2_arc', 'VIIRS', 'VJ229 해빙 분포 (스와스, archive)',
+     'viirs_29_vj2_archive', 'SIC_A*_EPSG3413', _VNP29, {}),
+    ('viirs_29p', 'VIIRS', 'VNP29P1D 일별 해빙 (타일)', 'viirs_29pe_vnp29p1d',
      'VNP29P1D.A*_sic_EPSG3413', _VNP29, {}),
+    ('viirs_29p_vj2', 'VIIRS', 'VJ229P1D 일별 해빙 (타일)',
+     'viirs_29pe_vj229p1d', 'VJ229P1D.A*_sic_EPSG3413', _VNP29, {}),
     ('viirs_30', 'VIIRS', 'VNP30 빙표면온도 (스와스)', 'viirs_30',
      'IST_A*_EPSG3413', _IST, {}),
-    ('viirs_30p', 'VIIRS', 'VNP30P1D 일별 IST (타일)', 'viirs_30p',
+    ('viirs_30p', 'VIIRS', 'VNP30P1D 일별 IST (타일)', 'viirs_30pe_vnp30p1d',
      'VNP30P1D.A*_ist_EPSG3413', _IST, {}),
     ('icesat2_atl20', 'ICESat-2', 'ATL20 월평균 Freeboard', 'icesat2_atl20',
      'ATL20-01_*_monthly_mean_fb', _FB, {}),
 ]
+# 과거 catalog 에만 남아 있을 수 있는 은퇴 제품 id (catalog 정리 대상에 포함)
+_SAT_RETIRED_IDS = ['amsr3_l3_SIM']
 SAT_IDS = [p[0] for p in SAT_PRODUCTS]
 SAT_EXTRA_IDS = [p[0] for p in _SAT_INACTIVE]
 
 _RE_T14 = re.compile(r'(?<!\d)(\d{14})(?!\d)')
 _RE_T12 = re.compile(r'(?<!\d)(\d{12})(?!\d)')
 _RE_T8T6 = re.compile(r'(?<!\d)(\d{8})T(\d{6})(?!\d)')        # Sentinel 20260830T083305
+_RE_T8H2 = re.compile(r'(?<!\d)(\d{8})T(\d{2})Z')             # GFS/WW3 유효시각 20260909T06Z
 _RE_AJ = re.compile(r'(?:^|[._-])A(\d{7})(?:[._-](\d{4}))?')
 
 
@@ -407,6 +512,12 @@ def file_time(stem: str):
     if m:
         try:
             return datetime.strptime(m.group(1) + m.group(2)[:4], '%Y%m%d%H%M')
+        except ValueError:
+            pass
+    m = _RE_T8H2.search(stem)                 # GFS/WW3: 유효일THHZ (P리드는 이미 반영)
+    if m:
+        try:
+            return datetime.strptime(m.group(1) + m.group(2) + '00', '%Y%m%d%H%M')
         except ValueError:
             pass
     m = _RE_AJ.search(stem)
@@ -851,6 +962,35 @@ def warp_to_byte(gdal, np, src: str, dst: str, *, bounds, res_m: int,
     return out, valid
 
 
+def rgb_to_web_cog(gdal, src: str, dst: str, max_px=2048):
+    """RGB GeoTIFF(예: S2 트루컬러, EPSG4326 Byte 3밴드) -> EPSG:3413 축소 COG.
+
+    원본(10 m급, 수백 MB)을 그대로 복사하지 않고 max_px 이하로 줄여 재투영한다.
+    검정(0,0,0)은 nodata 로 투명 처리된다 (뷰어 rgb 렌더러와 동일 규칙)."""
+    ds = gdal.Open(src, gdal.GA_ReadOnly)
+    if ds is None:
+        raise RuntimeError('열 수 없음: ' + src)
+    w, h = ds.RasterXSize, ds.RasterYSize
+    sc = max(w, h) / float(max_px)
+    if sc > 1:
+        ds = gdal.Translate('', ds, format='MEM',
+                            width=int(round(w / sc)), height=int(round(h / sc)),
+                            resampleAlg='average')
+    warped = gdal.Warp('', ds, format='MEM', dstSRS=EPSG3413_PROJ4,
+                       srcNodata=0, dstNodata=0,
+                       resampleAlg=gdal.GRA_Bilinear)
+    if warped is None:
+        raise RuntimeError('재투영 실패: ' + src)
+    drv = 'COG' if gdal.GetDriverByName('COG') else 'GTiff'
+    co = (['COMPRESS=DEFLATE'] if drv == 'COG'
+          else ['COMPRESS=DEFLATE', 'TILED=YES'])
+    out = gdal.Translate(dst, warped, format=drv, creationOptions=co)
+    if out is None:
+        raise RuntimeError('저장 실패: ' + dst)
+    out = None
+    return dst
+
+
 def write_preview(np, Image, arr_byte, lut: str, path: str, width=420):
     """미리보기 PNG (설명 패널용) — byte 0 은 투명."""
     a = arr_byte
@@ -870,8 +1010,9 @@ def main(argv=None) -> int:
     ap.add_argument('--src', default=DEFAULT_SRC, help='원본 Data_Out 경로')
     ap.add_argument('--out', default=os.path.join(WEB, 'Data_Out'),
                     help='웹 Data_Out 경로')
-    ap.add_argument('--models', nargs='*', default=list(MODELS),
-                    help='처리할 모델 폴더 (기본 전체)')
+    ap.add_argument('--models', nargs='*', default=MODEL_DEFAULT,
+                    help=f'처리할 모델 폴더 (기본 {len(MODEL_DEFAULT)}종; '
+                         f'기본 제외: {[k for k in MODELS if k not in MODEL_DEFAULT]})')
     ap.add_argument('--vars', nargs='*', default=None, help='변수 제한')
     ap.add_argument('--lat-min', type=int, default=50, choices=sorted(LAT_RADIUS),
                     help='출력 격자 위도 하한 (기본 50)')
@@ -1130,15 +1271,23 @@ def main(argv=None) -> int:
             odir = os.path.join(a.out, folder, *ddir.split('/')) if ddir \
                 else os.path.join(a.out, folder)
             os.makedirs(odir, exist_ok=True)
-            base = os.path.basename(it['src'])
+            if opt.get('rgb'):
+                # RGB 원본(대용량)은 복사 대신 3413 축소 COG 생성 (rgb_to_web_cog)
+                base = it['stem'] + '_EPSG3413_cog.tif'
+            else:
+                base = os.path.basename(it['src'])
             dst = os.path.join(odir, base)
             try:
                 if a.overwrite or not os.path.isfile(dst):
-                    shutil.copy2(it['src'], dst)
+                    if opt.get('rgb'):
+                        rgb_to_web_cog(gdal, it['src'], dst,
+                                       max_px=opt.get('warp_px', 2048))
+                    else:
+                        shutil.copy2(it['src'], dst)
                 sat_bytes += os.path.getsize(dst)
                 rel = f'Data_Out/{folder}/{ddir + "/" if ddir else ""}{base}'
                 png_rel = ''
-                if it['png']:
+                if it['png'] and not opt.get('rgb'):
                     pdst = os.path.join(odir, os.path.basename(it['png']))
                     if a.overwrite or not os.path.isfile(pdst):
                         shutil.copy2(it['png'], pdst)
@@ -1155,7 +1304,27 @@ def main(argv=None) -> int:
         if not frames:
             continue
         common = {'group': grp, 'title': title, 'desc': pid, **meta,
-                  **{k: v for k, v in opt.items() if k not in ('series',)}}
+                  **{k: v for k, v in opt.items() if k not in ('series', 'rgb',
+                                                               'warp_px')}}
+        # 설명 패널 기본 항목 (파이프라인 web_catalog 가 이미 써 둔 설명은 보존)
+        enc_txt = {'palette': f"{meta.get('enc', '')} byte",
+                   'float': 'float (파일별/고정 스트레치)',
+                   'rgb': '트루컬러 RGB'}.get(meta.get('kind'), meta.get('kind', ''))
+        sat_descs[pid] = {
+            'title': title,
+            'fields': [
+                ['그룹', grp],
+                ['Data_Out 폴더', folder],
+                ['파일 패턴', pat],
+                ['표현', enc_txt + (f" · {meta.get('vmin')}~{meta.get('vmax')}"
+                                    f"{(' ' + meta['units']) if meta.get('units') else ''}"
+                                    if meta.get('vmin') is not None else '')],
+                ['구성', ('하루 시계열 1항목' if opt.get('series')
+                          else '파일별 항목 (스와스/타일 전량)')],
+            ],
+            'note': '기준일 폴더의 산출물을 웹 폴더로 복사해 표시한다.'
+                    + (' (RGB 원본은 3413 축소 COG 로 변환)' if opt.get('rgb') else ''),
+        }
         if opt.get('series'):
             frames.sort(key=lambda f: f['t'])
             sat_entries.append({
@@ -1193,7 +1362,7 @@ def main(argv=None) -> int:
         if eid.startswith('m_'):
             return True
         return any(eid == pid or eid.startswith(pid + '__')
-                   for pid in SAT_IDS + SAT_EXTRA_IDS)
+                   for pid in SAT_IDS + SAT_EXTRA_IDS + _SAT_RETIRED_IDS)
     keep = [e for e in cat.get('entries', []) if not _ours(e.get('id'))]
     # 웹 폴더를 비운 뒤 파일이 사라진 항목(위성자료 등)은 목록에서 제거
     #  — 설명(descriptions)은 보존하므로 파이프라인이 web_catalog 로 다시 등록하면 복원됨
@@ -1229,6 +1398,8 @@ def main(argv=None) -> int:
     for k in [k for k in dd if str(k).startswith('m_')]:
         dd.pop(k)
     dd.update(descs)
+    for k, v in sat_descs.items():           # 파이프라인이 써 둔 설명은 우선
+        dd.setdefault(k, v)
     with open(xpath, 'w', encoding='utf-8') as f:
         json.dump(dd, f, ensure_ascii=False, indent=1)
 

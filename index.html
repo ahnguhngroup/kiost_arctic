@@ -216,8 +216,9 @@
     <div id="list-tools">
       <div id="tabs">
         <button data-tab="all" class="on">전체</button>
-        <button data-tab="model">예측 모델</button>
         <button data-tab="obs">관측</button>
+        <button data-tab="model">예측 모델</button>
+        <button data-tab="wx">기상</button>
       </div>
       <input id="q" type="search" placeholder="이름·변수 검색">
       <div id="fold-btns">
@@ -504,15 +505,22 @@ function renderList() {
   const box = document.getElementById('list-top');
   box.innerHTML = '';
   const q = listQuery.trim().toLowerCase();
+  // 섹션: 관측(0) / 예측 모델(1) / 기상(2 — catalog sec:'wx', GFS·WW3)
+  const secRank = (e) => e.sec === 'wx' ? 2 : (e.model ? 1 : 0);
   const pass = (e) => {
-    const model = !!e.model;
-    if (listTab === 'model' && !model) return false;
-    if (listTab === 'obs' && model) return false;
+    const s = secRank(e);
+    if (listTab === 'model' && s !== 1) return false;
+    if (listTab === 'obs' && s !== 0) return false;
+    if (listTab === 'wx' && s !== 2) return false;
     if (!q) return true;
     return ((e.name || '') + ' ' + (e.title || '') + ' ' + (e.group || '') + ' ' +
             (e.id || '') + ' ' + cogStem(e.cog)).toLowerCase().includes(q);
   };
-  const rows = CATALOG.filter(pass);
+  // 섹션이 항상 관측 -> 예측 -> 기상 순으로 묶이도록 안정 정렬 (catalog 순서 유지)
+  const rows = CATALOG.filter(pass)
+    .map((e, i) => [secRank(e), i, e])
+    .sort((a, b) => a[0] - b[0] || a[1] - b[1])
+    .map(r => r[2]);
   if (!rows.length) {
     box.innerHTML = '<div style="padding:16px;color:#99a;text-align:center">' +
                     '해당하는 데이터가 없습니다</div>';
@@ -525,7 +533,8 @@ function renderList() {
   for (const e of rows) countByTitle[titleKey(e)] = (countByTitle[titleKey(e)] || 0) + 1;
 
   for (const e of rows) {
-    const thisSec = e.model ? '예측 모델 (시계열 · 애니메이션)' : '관측 자료';
+    const thisSec = e.sec === 'wx' ? '기상 (GFS 바람 · WW3 파랑)'
+                  : e.model ? '예측 모델 (시계열 · 애니메이션)' : '관측 자료';
     if (thisSec !== sec) {
       sec = thisSec; grp = null; ttl = null;
       const h = document.createElement('div');
@@ -785,7 +794,10 @@ async function renderCog(entry, cogUrl) {
   const img0 = await tiff.getImage(0);
   const bbox = img0.getBoundingBox();   // 3413 m
   const w = img.getWidth(), h = img.getHeight();
-  const data = (await img.readRasters({ samples: [0], interleave: true }));
+  const isRGB = entry.kind === 'rgb';    // 트루컬러(S2 등): 3밴드 그대로 표시
+  const data = isRGB
+    ? (await img.readRasters({ samples: [0, 1, 2], interleave: true }))
+    : (await img.readRasters({ samples: [0], interleave: true }));
   const fd = img.getFileDirectory();
   let nod = null;
   if (typeof img.getGDALNoData === 'function') nod = img.getGDALNoData();
@@ -800,6 +812,7 @@ async function renderCog(entry, cogUrl) {
 
   // float 스트레치 범위
   let lo = entry.kind === 'float' ? entry.vmin : undefined;
+  // (rgb 는 스트레치·팔레트 없음 — 아래 픽셀 루프에서 3밴드 직접 사용)
   let hi = entry.kind === 'float' ? entry.vmax : undefined;
   if (entry.kind === 'float' && (lo === undefined || hi === undefined)) {
     const vals = [];
@@ -835,8 +848,15 @@ async function renderCog(entry, cogUrl) {
     for (let c = 0; c < outW; c++) {
       const xm = x0 + (x1 - x0) * (c + 0.5) / outW;
       const sc = Math.floor((xm - x0) / (x1 - x0) * w);
-      const v = data[sr * w + sc];
       const o = (r * outW + c) * 4;
+      if (isRGB) {                               // 트루컬러: 3밴드 직접, (0,0,0)=투명
+        const b3 = (sr * w + sc) * 3;
+        const rr = data[b3], gg = data[b3 + 1], bb = data[b3 + 2];
+        if (rr === undefined || (rr === 0 && gg === 0 && bb === 0)) continue;
+        px[o] = rr; px[o + 1] = gg; px[o + 2] = bb; px[o + 3] = 255;
+        continue;
+      }
+      const v = data[sr * w + sc];
       if (v === undefined || !isFinite(v) || (nod !== null && v === nod)) continue;
       if (cmap) {
         if (v === 0) continue;                     // byte 팔레트: 0 = nodata
@@ -857,8 +877,9 @@ async function renderCog(entry, cogUrl) {
   }
   ctx.putImageData(imd, 0, 0);
   // 클릭 셀값 조회 + 범례용 래스터·색상 정보 (호출부가 drawnData 에 넣는다)
-  const info = { entry, data, w, h, bbox, nod, lo, hi,
-                 legend: buildLegend(entry, cmap, nColors, etab, lo, hi) };
+  // rgb 는 셀값·범례 없음 (data null)
+  const info = { entry, data: isRGB ? null : data, w, h, bbox, nod, lo, hi,
+                 legend: isRGB ? null : buildLegend(entry, cmap, nColors, etab, lo, hi) };
   return {
     url: cv.toDataURL('image/png'),
     coords: [[flon0, flat1], [flon1, flat1], [flon1, flat0], [flon0, flat0]],
@@ -1002,7 +1023,7 @@ map.on('click', (ev) => {
     const id = drawnLayers[i].replace(/^cog-/, '');
     if (hiddenIds.has(id)) continue;
     const d = drawnData[id];
-    if (!d) continue;
+    if (!d || !d.data) continue;               // rgb 등 셀값 없는 레이어 제외
     const [x0, y0m, x1, y1m] = d.bbox;
     if (xm < x0 || xm > x1 || ym < y0m || ym > y1m) continue;
     const sc = Math.floor((xm - x0) / (x1 - x0) * d.w);

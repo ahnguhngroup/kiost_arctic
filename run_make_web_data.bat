@@ -28,8 +28,14 @@ REM   run_make_web_data.bat --models topaz5_1d riops_2d
 REM   run_make_web_data.bat --vars siconc sithick
 REM   run_make_web_data.bat --lat-min 60 --keep-others
 REM   run_make_web_data.bat --no-sat               models only
-REM   run_make_web_data.bat --sat amsr2_l2_SIC asip_l3   selected satellite products
-REM   run_make_web_data.bat --sat-extra viirs_29   also VIIRS/ICESat-2 (off by default)
+REM   run_make_web_data.bat --sat s1_hh asip_l3    selected satellite products
+REM   run_make_web_data.bat --sat-extra amsr2_l2_SIC   also inactive products
+REM Scope (2026-09-29, Data_Out_sample 25): obs 15 (research/AMSR3 HSI+SIM,
+REM A25R/A25 HSI merge, ASIP, S1 SAR, S2 RGB, S3 IST, VIIRS 2) + models 8
+REM (TOPAZ5, TP3A3/TP3R, neXtSIM-F, RIOPS, GIOPS, FOAM, GLO12; met_aice off)
+REM + weather GFS/WW3 (viewer 'wx' section). Standard SIC/SST/SSW etc. are
+REM inactive by default (see _SAT_INACTIVE). S2 RGB.tif is warped+shrunk to
+REM an EPSG3413 COG instead of copying the huge stack COG.
 REM Satellite products (SAT_PRODUCTS in the script) are copied as-is: every
 REM file of the reference date (all swath passes) becomes a catalog item.
 REM

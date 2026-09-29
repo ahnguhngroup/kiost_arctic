@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-"""선박 AIS 항적 CSV 여러 개 -> 웹 지도용 GeoJSON 한 파일.
+"""선박 AIS 항적 CSV/GPKG 여러 개 -> 웹 지도용 GeoJSON 한 파일.
 
 입력: data/PANSTAR*.csv (열: Longitude, Latitude, Ship speed(kn), Ship course,
       Ship heading, Turning rate, Navigation status, Last update(CST), Last update(UTC))
+      data/PANSTAR*.gpkg (GeoPackage — utc/cst/lon/lat/speed_kn/course_deg/
+      heading_deg/turn_rate/nav_status 필드를 가진 track_points 레이어;
+      sqlite3 로 직접 읽으므로 GDAL 불필요. 2026-09-29 추가)
+      CSV 와 GPKG 가 함께 있으면 병합 후 UTC 시각 기준 중복 제거.
 출력: <web>/PANSTAR_ACRO_track.geojson
   - Feature "track"  : LineString — 전체 항적(모든 기록, UTC 시각순, 중복 제거)
   - Feature "hourly" : Point ×N — **1시간 간격** 대표점(각 UTC 시각의 정시에 가장 가까운
@@ -107,6 +111,82 @@ def _read_csv(path):
             'src': os.path.basename(path),
         })
     return out
+
+
+def _parse_utc(s):
+    """'2026-08-21 06:59:53' | '2026/08/21 06:59:53+00' 등 -> datetime (UTC naive)."""
+    s = (s or '').strip()
+    for suf in ('+00:00', '+00', 'Z'):
+        if s.endswith(suf):
+            s = s[:-len(suf)].strip()
+    if '.' in s[10:]:                       # 소수점 초 ('...:53.000') 제거
+        s = s[:s.rindex('.')]
+    s = s.replace('T', ' ')
+    for fmt in ('%Y-%m-%d %H:%M:%S', '%Y/%m/%d %H:%M:%S', '%Y%m%d%H%M%S'):
+        try:
+            return datetime.strptime(s, fmt)
+        except ValueError:
+            continue
+    return None
+
+
+def _read_gpkg(path):
+    """GeoPackage track_points 레이어 -> 기록 리스트.
+
+    lon/lat/utc 가 **속성 필드**로 들어 있는 레이어를 찾아 sqlite3 로 직접
+    읽는다 (지오메트리 파싱·GDAL 불필요)."""
+    import sqlite3
+    cn = sqlite3.connect(path)
+    try:
+        try:
+            tabs = [r[0] for r in cn.execute(
+                "SELECT table_name FROM gpkg_contents WHERE data_type='features'")]
+        except sqlite3.Error:
+            tabs = [r[0] for r in cn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'")]
+        tab = None
+        for t in tabs:
+            cols = {r[1].lower() for r in cn.execute(f'PRAGMA table_info("{t}")')}
+            if {'utc', 'lon', 'lat'} <= cols:
+                tab = t
+                break
+        if tab is None:
+            print(f'  [warn] {os.path.basename(path)}: utc/lon/lat 필드를 가진 '
+                  f'레이어가 없어 건너뜀 (레이어: {tabs})')
+            return []
+        cols = {r[1].lower(): r[1] for r in cn.execute(f'PRAGMA table_info("{tab}")')}
+
+        def c(name):
+            return cols.get(name)
+        sel = [c('utc'), c('cst'), c('lon'), c('lat'), c('speed_kn'),
+               c('course_deg'), c('heading_deg'), c('turn_rate'), c('nav_status')]
+        q = ', '.join(f'"{s}"' if s else 'NULL' for s in sel)
+        out = []
+        for row in cn.execute(f'SELECT {q} FROM "{tab}"'):
+            utc, cst, lon, lat, sog, cog, hdg, rot, sta = row
+            t = _parse_utc(utc if isinstance(utc, str) else str(utc))
+            try:
+                lon, lat = float(lon), float(lat)
+            except (TypeError, ValueError):
+                continue
+            if t is None or not (-180 <= lon <= 180 and -90 <= lat <= 90):
+                continue
+
+            def num(v):
+                try:
+                    return float(v) if v is not None and str(v).strip() != '' else None
+                except (TypeError, ValueError):
+                    return None
+            out.append({
+                'lon': lon, 'lat': lat, 't': t,
+                'cst': (cst or '').strip() if isinstance(cst, str) else '',
+                'sog': num(sog), 'cog': num(cog), 'hdg': num(hdg), 'rot': num(rot),
+                'status': (sta or '').strip() if isinstance(sta, str) else '',
+                'src': os.path.basename(path),
+            })
+        return out
+    finally:
+        cn.close()
 
 
 def build(recs, hours=1.0, ship='PANSTAR ACRO'):
@@ -219,6 +299,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description='선박 항적 CSV -> GeoJSON')
     ap.add_argument('--glob', default=os.path.join(WEB, 'data', 'PANSTAR*.csv'),
                     help='입력 CSV 글롭 (기본 web/data/PANSTAR*.csv)')
+    ap.add_argument('--gpkg-glob', default=os.path.join(WEB, 'data', 'PANSTAR*.gpkg'),
+                    help='입력 GeoPackage 글롭 (기본 web/data/PANSTAR*.gpkg; '
+                         "'' 이면 gpkg 는 읽지 않음)")
     ap.add_argument('--out', default=os.path.join(WEB, 'PANSTAR_ACRO_track.geojson'),
                     help='출력 GeoJSON (기본 web/PANSTAR_ACRO_track.geojson)')
     ap.add_argument('--hours', type=float, default=1.0, help='대표점 간격(시간, 기본 1)')
@@ -226,13 +309,18 @@ def main(argv=None):
     a = ap.parse_args(argv if argv is not None else _main_argv())
 
     files = sorted(glob.glob(a.glob))
-    if not files:
-        print(f'입력 CSV 없음: {a.glob}')
+    gfiles = sorted(glob.glob(a.gpkg_glob)) if a.gpkg_glob else []
+    if not files and not gfiles:
+        print(f'입력 없음: {a.glob} / {a.gpkg_glob}')
         return 1
     recs = []
     for f in files:
         rs = _read_csv(f)
         print(f'  {os.path.basename(f)}: {len(rs)}건')
+        recs += rs
+    for f in gfiles:
+        rs = _read_gpkg(f)
+        print(f'  {os.path.basename(f)}: {len(rs)}건 (gpkg)')
         recs += rs
     fc = build(recs, hours=a.hours, ship=a.ship)
     with open(a.out, 'w', encoding='utf-8') as fp:
