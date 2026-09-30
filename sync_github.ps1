@@ -1,5 +1,15 @@
-# Sync arctic/web to the GitHub staging clone.
+# Sync arctic/web to the GitHub staging clone, then commit & push.
 # Data_Out is always wiped on the GitHub side, then replaced with the current web copy.
+# Usage (via sync_github.bat):
+#   sync_github.bat                     -> commit "web sync YYYY-MM-DD HHMM" + push
+#   sync_github.bat "my message"        -> commit with custom message + push
+#   sync_github.bat -NoPush             -> commit only (push later by hand)
+#   sync_github.bat -NoCommit           -> copy + stage only (old behaviour)
+param(
+    [string]$Message = '',
+    [switch]$NoPush,
+    [switch]$NoCommit
+)
 $ErrorActionPreference = 'Stop'
 
 $src = 'D:\workspace2026\arctic\web'
@@ -44,3 +54,36 @@ $nDst = @(Get-ChildItem $dstData -Recurse -File).Count
 $nGit = @(git -C $dst ls-files Data_Out).Count
 "web=$nSrc  staging=$nDst  git=$nGit"
 git -C $dst status -sb
+
+if ($NoCommit) {
+    Write-Host '==== staged only (-NoCommit) — commit/push skipped ===='
+    exit 0
+}
+
+# ==== commit ====
+$staged = git -C $dst diff --cached --name-only
+if (-not $staged) {
+    Write-Host '==== nothing staged — commit/push skipped ===='
+    exit 0
+}
+if (-not $Message) {
+    $Message = 'web sync ' + (Get-Date -Format 'yyyy-MM-dd HHmm')
+}
+Write-Host "==== commit: $Message ===="
+git -C $dst commit -m $Message
+if ($LASTEXITCODE -ne 0) { throw "git commit failed: $LASTEXITCODE" }
+
+if ($NoPush) {
+    Write-Host '==== committed (-NoPush) — push later by hand ===='
+    git -C $dst log --oneline -1
+    exit 0
+}
+
+# ==== push ====
+Write-Host '==== push ===='
+git -C $dst push
+if ($LASTEXITCODE -ne 0) {
+    throw "git push failed: $LASTEXITCODE (commit is kept — retry with: git -C $dst push)"
+}
+Write-Host '==== done ===='
+git -C $dst log --oneline -1
