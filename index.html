@@ -18,8 +18,9 @@
              border-bottom: 1px solid #d7dde3; color: #0f4c81; }
   /* ---------- 왼쪽: 데이터 리스트 ---------- */
   #list-top { flex: 1.35; overflow-y: auto; min-height: 0; }
-  #list-top .grp { padding: 6px 10px 3px; font-size: 11px; font-weight: 700;
-                   color: #667; background: #f2f5f8; position: sticky; top: 0;
+  /* 그룹(모듈) 줄 — 크고 진한 남색으로 위계 강조 (2026-09-29) */
+  #list-top .grp { padding: 7px 10px 4px; font-size: 13px; font-weight: 800;
+                   color: #0f4c81; background: #eef3f8; position: sticky; top: 0;
                    display: flex; align-items: center; cursor: pointer; }
   #list-top .grp:hover { background: #e8eef4; }
   #list-top .grp .gn { flex: 1; }
@@ -39,8 +40,9 @@
                  width: 22px; height: 22px; line-height: 1; }
   .item button:hover { background: #0f4c81; color: #fff; }
   /* 데이터 제목 줄 + 그 아래 데이터(파일) 줄 */
+  /* 데이터 제목(제품) 줄 — 하부 파일명보다 크게 (2026-09-29) */
   .ttl { display: flex; align-items: center; padding: 6px 8px 4px 10px; cursor: pointer;
-         font-weight: 700; font-size: 12.5px; color: #123; background: #f8fafc;
+         font-weight: 700; font-size: 11px; color: #14365c; background: #f8fafc;
          border-top: 1px solid #e6ebf0; }
   .ttl:hover { background: #eef4fa; }
   .ttl .nm { flex: 1; }
@@ -53,9 +55,12 @@
                     border-radius: 4px; cursor: pointer; font-size: 11px; height: 22px;
                     padding: 0 6px; line-height: 1; }
   .ttl button.all:hover { background: #0f4c81; color: #fff; }
-  .item.sub { padding-left: 24px; font-size: 12px; }
-  .item.sub .nm { font-family: Consolas, 'D2Coding', monospace; font-size: 11.5px;
-                  color: #2a3a4a; word-break: break-all; }
+  /* 하부 데이터(파일) 줄 — 작고 회색톤으로 (2026-09-29) */
+  .item.sub { padding-left: 26px; font-size: 11px; }
+  .item.sub .nm { font-family: Consolas, 'D2Coding', monospace; font-size: 10.5px;
+                  color: #5a6a7a; word-break: break-all; }
+  .item.sub.sel .nm { color: #123; }
+  .item.sub:hover .nm { color: #234; }
   /* ---------- 왼쪽 하단: 그리기 목록 ---------- */
   #queue-wrap { flex: 1; display: flex; flex-direction: column; min-height: 0;
                 border-top: 2px solid #c6ccd4; }
@@ -466,7 +471,7 @@ let listTab = 'all', listQuery = '';
 // 접기/펼치기 상태 — 제목(제품)별·그룹별. 처음엔 파일이 여러 개인 제품은 접힘.
 const foldTitle = new Map();      // titleKey -> true(열림)/false(닫힘)
 const foldGroup = new Map();      // group    -> true(열림)/false(닫힘)
-let foldDefaultOpen = null;       // '펼침'/'접기' 버튼을 누르면 기본 상태를 바꾼다
+let foldDefaultOpen = false;      // 기본 = 전부 접힘 (2026-09-29); '펼침'/'접기' 버튼으로 변경
 
 /* ---- 표시 이름 규칙 ----
  * 목록은 [데이터 제목] 아래에 [데이터 이름]이 놓이는 2단 구조다.
