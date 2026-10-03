@@ -832,7 +832,12 @@ async function renderCog(entry, cogUrl) {
     if (hi <= lo) hi = lo + 1e-6;
   }
 
-  // 원본 3413 bbox -> 가상좌표 캔버스 리샘플 (y 비선형 정확 처리)
+  // 원본 3413 bbox -> 가상좌표 캔버스 리샘플.
+  // 가상좌표는 메르카토르 y 가 3413 y 에 '비례'하도록 설계돼 있고,
+  // MapLibre image 소스는 모서리 사이를 메르카토르 선형으로 입히므로
+  // 캔버스 행/열 모두 3413 x·y 에 선형으로 샘플링해야 한다.
+  // (행을 가상 lat 에 선형으로 뽑으면 세로로 늘어나거나 북쪽으로
+  //  이동한 것처럼 보이는 왜곡이 생긴다 — A25/TP3 증상)
   const [x0, y0m, x1, y1m] = bbox;
   const [flon0] = fakeOfMeters(x0, 0), [flon1] = fakeOfMeters(x1, 0);
   const flat0 = fakeOfMeters(0, y0m)[1], flat1 = fakeOfMeters(0, y1m)[1];
@@ -843,12 +848,8 @@ async function renderCog(entry, cogUrl) {
   const ctx = cv.getContext('2d');
   const imd = ctx.createImageData(outW, outH);
   const px = imd.data;
-  const gx = (x1 - x0) / w, gy = (y1m - y0m) / h;   // 원본 셀 크기
   for (let r = 0; r < outH; r++) {
-    // 캔버스 행 -> 가상 lat -> 3413 y
-    const flat = flat1 + (flat0 - flat1) * (r + 0.5) / outH;   // 위(=flat1, 북) -> 아래
-    const ym = Math.asinh(Math.tan(flat * D2R)) / Math.PI * EXT;
-    const sr = Math.floor((y1m - ym) / (y1m - y0m) * h);
+    const sr = Math.floor((r + 0.5) / outH * h);   // 3413 y 선형
     if (sr < 0 || sr >= h) continue;
     for (let c = 0; c < outW; c++) {
       const xm = x0 + (x1 - x0) * (c + 0.5) / outW;
