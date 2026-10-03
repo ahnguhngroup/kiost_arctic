@@ -118,7 +118,7 @@ LAT_RADIUS = {45: 5132000, 50: 4511000, 55: 3909000, 60: 3323000, 66: 2637000}
 
 # ---------------------------------------------------------------- 변수 메타
 # (한글명, 단위, vmin, vmax, LUT) — utils 각 모델 *_common.py 의 VARIABLES 기준
-_ICE = 'ice'
+_ICE = 'sic'   # SIC 공통 색상 (2026-10 통일)
 _FB = 'freeboard'
 _TH = 'thermal'
 VAR_META = {
@@ -296,7 +296,8 @@ MODEL_DEFAULT = [k for k, v in MODELS.items() if not v.get('inactive')]
 #   기상 2  — GFS(0.25°) · WW3(북극 9 km)  [opt sec='wx' -> 뷰어 '기상' 섹션]
 # 그 외(표준 SIC/SST/SSW, 연구 ASW/TIT/TSI, A25 SIC 합성 등)는 _SAT_INACTIVE 로
 # 내려 두어 기본 처리에서 제외한다 (--sat-extra 로 개별 지정 시에만 처리).
-_PCT_ICE = dict(kind='palette', enc='percent', vmin=0, vmax=100, lut='ice', units='%')
+_PCT_ICE = dict(kind='palette', enc='percent', vmin=0, vmax=100, lut='sic',
+                override=True, units='%')   # SIC 공통 색상 — COG 내장 팔레트보다 우선
 _SST = dict(kind='palette', enc='linear', vmin=-2, vmax=35, lut='thermal', units='°C')
 _SSW = dict(kind='palette', enc='linear', vmin=0, vmax=30, lut='freeboard', units='m/s')
 _ASW = dict(kind='palette', enc='linear', vmin=0, vmax=60, lut='freeboard', units='m/s')
@@ -308,7 +309,7 @@ _VNP29 = dict(kind='palette', enc='values', override=True,
 _IST = dict(kind='palette', enc='linear', vmin=210, vmax=313, lut='thermal', units='K')
 _FB = dict(kind='float', lut='freeboard', stretch=[2, 98], units='m')
 # Sentinel-3 SL_2_IST (float GeoTIFF): 해빙비율 0..1, 빙표면온도 K
-_S3_SIF = dict(kind='float', lut='ice', vmin=0, vmax=1, units='fraction')
+_S3_SIF = dict(kind='float', lut='sic', vmin=0, vmax=1, units='fraction')
 _S3_IST = dict(kind='float', lut='thermal', vmin=240, vmax=280, units='K')
 # Sentinel-1 EW GRDM 후방산란 (uint16 DN) — 파일별 2~98% 스트레치 회색조
 _S1 = dict(kind='float', lut='gray', stretch=[2, 98], units='DN')
@@ -598,6 +599,10 @@ SRC_PREF = [('full', 'EPSG3413'), ('arctic', 'EPSG3413'),
             ('full', 'PS'), ('full', 'LAEA'), ('arctic', 'PS'), ('arctic', 'LAEA'),
             ('full', 'EPSG4326'), ('arctic', 'EPSG4326')]
 
+# SIC 공통 색상 (2026-10 통일): 0% 남색 -> 무지개 -> 100% 흰색 (index.html 과 동일)
+SIC_STOPS = [(0, (8, 28, 110)), (10, (27, 79, 196)), (20, (31, 142, 224)),
+             (35, (25, 195, 232)), (50, (47, 201, 106)), (65, (198, 221, 35)),
+             (78, (245, 168, 31)), (90, (226, 58, 46)), (100, (255, 255, 255))]
 LUTS = {
     'freeboard': [(8, 29, 88), (34, 94, 168), (65, 182, 196), (199, 233, 180),
                   (254, 204, 92), (227, 26, 28)],
@@ -609,6 +614,16 @@ LUTS = {
 
 
 def lut_rgb(name: str, t: float):
+    if name == 'sic':                      # 위치 지정 보간 (등간격 아님)
+        t = 0.0 if t != t else max(0.0, min(1.0, t))
+        v = t * 100.0
+        for (p0, c0), (p1, c1) in zip(SIC_STOPS, SIC_STOPS[1:]):
+            if v <= p1 or (p1 == 100):
+                if v <= p1:
+                    f = (v - p0) / (p1 - p0)
+                    return tuple(int(round(c0[k] * (1 - f) + c1[k] * f))
+                                 for k in range(3))
+        return SIC_STOPS[-1][1]
     a = LUTS.get(name, LUTS['gray'])
     t = 0.0 if t != t else max(0.0, min(1.0, t))
     p = t * (len(a) - 1)
