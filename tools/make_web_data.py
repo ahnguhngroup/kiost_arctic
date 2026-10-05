@@ -12,11 +12,14 @@
    (neXtSIM-F·GLO12 등 파일명에 기준일이 없는 일평균 제품)은 기준일 ~ +lead_days
    폴더를 함께 읽어 예측 시계열을 완성한다. 옛 평면 배치 파일도 파일명 날짜로 같은
    기준을 적용한다.
-1. `SRC_ROOT`(기본 E:/workspace2026/arctic/test_data/Data_Out) 의 **모델 7종**
-   (topaz5_1d · nextsim_hm · riops_2d · met_aice · giops_2d · foam_gl4 · glo12_1d)
-   폴더에서 GeoTIFF 를 찾아 변수별 시계열로 묶는다. **관측 자료**는 AMSR 계열
-   (AMSR2/AMSR3 L2·L3·A25) + ASIP L3/L4 + Sentinel-3 IST(s3e_ist) 를 기준일 폴더에서
-   그대로 복사한다 (SAT_PRODUCTS; VIIRS·ICESat-2 는 --sat-extra 지정 시에만).
+1. `SRC_ROOT`(기본 E:/workspace2026/arctic/test_data/Data_Out) 의 **모델 9종**
+   (topaz5_1d · TP3A2/TP3R/TP3A3(topaz5_kiost_*) · nextsim_hm · riops_2d ·
+   giops_2d · foam_gl4 · glo12_1d; met_aice 는 --models 명시 시) 폴더에서 GeoTIFF
+   를 찾아 변수별 시계열로 묶는다. **관측 자료**는 Data_Out 전수 기준(2026-10-04)
+   — AMSR2 표준 SIC(L2·L3 25km·A25) + AMSR2 연구 HSI(L2·L3·A25R) + AMSR3
+   SIC(L2)·HSI(L2·L3·A25) + ASIP L3/L4 + Sentinel-1/2/3 + VIIRS(NRT 3위성 +
+   P1D 타일 2종) 를 기준일 폴더에서 그대로 복사한다 (SAT_PRODUCTS;
+   ICESat-2 등 나머지는 --sat-extra 지정 시에만).
 2. 각 프레임을 지도와 같은 **EPSG:3413 북극 격자**로 재투영하고, 변수 레지스트리의
    표출범위(vmin/vmax)로 **Byte(1..255) 스케일**해 COG 로 저장한다
    (byte 0 = nodata = 투명). float32 원본 대비 용량이 1/10 이하로 줄고,
@@ -216,17 +219,24 @@ MODELS = {
     ),
     # KIOST 단기 편차보정 (TOPAZ5 -> A25 관측 합성 기반, utils/topaz5_kiost)
     'topaz5_kiost_amsr3_amsr25': dict(
-        no=2, model='TP3A3', group='② TP3A3 — KIOST 보정 (AMSR3 A25, 10일)',
-        org='KIOST (TOPAZ5 + AMSR3 A25 편차보정)', res_m=6000, axis='date',
+        no=2, model='TP3A3', group='② TP3A3 — KIOST 보정 (AMSR3 A25 HSI 10km, 10일)',
+        org='KIOST (TOPAZ5 + AMSR3 A25 HSI 편차보정)', res_m=6000, axis='date',
         grid='극사영 6.25 km (TOPAZ5 격자)', fc='기준일 + 예보 10일 (일평균, 편차보정)',
         re=re.compile(r'^TP3A3_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9]+)_'
                       r'NH_[A-Za-z0-9.-]+_' + BUL + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
-    'topaz5_kiost_amsr2_amsr25r': dict(
+    'topaz5_kiost_amsr2_research_amsr25': dict(
         no=3, model='TP3R', group='③ TP3R — KIOST 보정 (AMSR2 연구 A25R, 10일)',
         org='KIOST (TOPAZ5 + AMSR2 연구 A25R 편차보정)', res_m=6000, axis='date',
         grid='극사영 6.25 km (TOPAZ5 격자)', fc='기준일 + 예보 10일 (일평균, 편차보정)',
         re=re.compile(r'^TP3R_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9]+)_'
+                      r'NH_[A-Za-z0-9.-]+_' + BUL + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
+    ),
+    'topaz5_kiost_amsr2_amsr25': dict(
+        no=3, model='TP3A2', group='③-2 TP3A2 — KIOST 보정 (AMSR2 표준 A25 25km, 10일)',
+        org='KIOST (TOPAZ5 + AMSR2 표준 A25 25km 편차보정)', res_m=6000, axis='date',
+        grid='극사영 6.25 km (TOPAZ5 격자)', fc='기준일 + 예보 10일 (일평균, 편차보정)',
+        re=re.compile(r'^TP3A2_(?P<ds>[A-Za-z0-9-]+)_(?P<var>[A-Za-z0-9]+)_'
                       r'NH_[A-Za-z0-9.-]+_' + BUL + D8 + '_' + RC + r'(?P<cog>_cog)?\.tif$'),
     ),
     'nextsim_hm': dict(
@@ -289,12 +299,15 @@ MODEL_DEFAULT = [k for k, v in MODELS.items() if not v.get('inactive')]
 # title = 제품 제목, name = COG stem. series=True 제품(A25 합성)은 그날 파일을 프레임으로
 # 묶은 시계열 1항목.
 #
-# 웹에 올리는 자료 범위 (2026-09-29, Data_Out_sample 25종 기준으로 재편):
-#   관측 15 — AMSR2 연구 HSI(L2/L3/A25R 합성)·SIM, AMSR3 HSI(L2/L3/A25 합성)·SIM,
+# 웹에 올리는 자료 범위 (2026-10-04, Data_Out 전수 기준으로 재편 — 산출 31 폴더):
+#   관측 22 — AMSR2 표준 SIC(L2 스와스/L3 25km/A25 합성 — TP3A2 관측 라인),
+#             AMSR2 연구 HSI(L2/L3/A25R 합성 — TP3R 관측 라인),
+#             AMSR3 SIC(L2 스와스), AMSR3 HSI(L2/L3/A25 합성 — TP3A3 관측 라인),
 #             ASIP L3/L4, Sentinel-1 SAR, Sentinel-2 광학(RGB), Sentinel-3 IST,
-#             VIIRS VNP29(NRT 스와스)·VJ129P1D(일별 타일)
-#   기상 2  — GFS(0.25°) · WW3(북극 9 km)  [opt sec='wx' -> 뷰어 '기상' 섹션]
-# 그 외(표준 SIC/SST/SSW, 연구 ASW/TIT/TSI, A25 SIC 합성 등)는 _SAT_INACTIVE 로
+#             VIIRS NRT(VNP29·VJ129·VJ229 스와스)·P1D 타일(VJ129P1D·VJ229P1D)
+#   기상 6  — GFS(aww/apr/atm) · WW3(swh/twh/twp)  [opt sec='wx' -> 뷰어 '기상' 섹션]
+# 그 외(표준 SST/SSW, 연구 ASW/TIT/TSI, SIM(Data_Out 폴더 없음), 빈 폴더
+# (amsr3_l3_SIC·viirs_29pe *pe1d/vnp29p1d), ICESat-2 등)는 _SAT_INACTIVE 로
 # 내려 두어 기본 처리에서 제외한다 (--sat-extra 로 개별 지정 시에만 처리).
 _PCT_ICE = dict(kind='palette', enc='percent', vmin=0, vmax=100, lut='sic',
                 override=True, units='%')   # SIC 공통 색상 — COG 내장 팔레트보다 우선
@@ -326,41 +339,34 @@ _WW3_TP = dict(kind='float', lut='thermal', vmin=0, vmax=20, units='s')
 #   옵션: series(그날 파일 -> 시계열 1항목) / model·nav(뷰어 예측 섹션 표시)
 #         sec='wx'(뷰어 '기상' 섹션) / maxPx(렌더 상한) / rgb(RGB.tif 재투영 복사)
 SAT_PRODUCTS = [
-    # ══ 관측 (Data_Out_sample 기준 15종) ══════════════════════════════════
-    # ── AMSR2 연구 HSI 라인: L2 스와스 -> L3 10 km -> A25R 합성 ──
-    ('amsr2_l2_research_HSI', 'AMSR2 연구 HSI', 'AMSR2 L2 HSI 고해상 해빙 (스와스)',
-     'amsr2_l2_research_HSI', 'HSI_L2_AMSR2_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
-    ('amsr2_l3_research_HSI', 'AMSR2 연구 HSI', 'AMSR2 L3 HSI 10 km',
-     'amsr2_l3_research_HSI', 'HSI_L3_AMSR2_NH_*_full_EPSG3413', _PCT_ICE, {}),
-    ('a25r_amsr2_hsi', 'AMSR2 연구 HSI', 'AMSR2 A25R HSI 합성 (L2 + L3 백필)',
-     'amsr2_amsr25r_l2_l3_hsi', 'HSI_A25R_AMSR2_NH_*_full_EPSG3413', _PCT_ICE,
+    # ══ 관측 (Data_Out 전수 기준 22종, 2026-10-04) ═══════════════════════
+    # ── AMSR2 표준 SIC 라인: L2 스와스 -> L3 25 km -> A25 합성 (TP3A2 관측) ──
+    ('amsr2_l2_SIC', 'AMSR2 표준 SIC', 'AMSR2 L2 SIC 해빙농도 (스와스)',
+     'amsr2_l2_SIC', 'SIC_L2_AMSR2_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr2_l3_25_SIC', 'AMSR2 표준 SIC', 'AMSR2 L3 SIC 25 km',
+     'amsr2_l3_25_SIC', 'SIC_L3_AMSR2_NH_25km_*_full_EPSG3413', _PCT_ICE, {}),
+    ('a25_amsr2_sic', 'AMSR2 표준 SIC', 'AMSR2 A25 SIC 합성 (L2 + L3 25km 백필)',
+     'amsr2_a25_sic', 'SIC_A25_AMSR2_NH_*_full_EPSG3413', _PCT_ICE,
      {'series': True}),
-    # ── AMSR2 연구 SIM (해빙 이동, U/V/속력) ──
-    ('amsr2_l3_research_SIM_U', 'AMSR2 연구 SIM', 'AMSR2 L3 SIM U성분',
-     'amsr2_l3_research_SIM', 'SIM_L3_AMSR2_NH_*_U_full_EPSG3413', _SIM, {}),
-    ('amsr2_l3_research_SIM_V', 'AMSR2 연구 SIM', 'AMSR2 L3 SIM V성분',
-     'amsr2_l3_research_SIM', 'SIM_L3_AMSR2_NH_*_V_full_EPSG3413', _SIM, {}),
-    ('amsr2_l3_research_SIM_SPD', 'AMSR2 연구 SIM', 'AMSR2 L3 SIM 속력',
-     'amsr2_l3_research_SIM', 'SIM_L3_AMSR2_NH_*_SPD_full_EPSG3413',
-     dict(kind='palette', enc='linear', vmin=0, vmax=40, lut='freeboard',
-          units='cm/s'), {}),
-    # ── AMSR3 표준 HSI 라인: L2 스와스 -> L3 10 km -> A25 합성 ──
+    # ── AMSR2 연구 HSI 라인: L2 스와스 -> L3 10 km -> A25R 합성 (TP3R 관측) ──
+    ('amsr2_l2_research_HSI', 'AMSR2 연구 HSI', 'AMSR2 L2 HSI 고해상 해빙 (스와스)',
+     'amsr2_research_l2_HSI', 'HSI_L2_AMSR2_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
+    ('amsr2_l3_research_HSI', 'AMSR2 연구 HSI', 'AMSR2 L3 HSI 10 km',
+     'amsr2_research_l3_HSI', 'HSI_L3_AMSR2_NH_*_full_EPSG3413', _PCT_ICE, {}),
+    ('a25r_amsr2_hsi', 'AMSR2 연구 HSI', 'AMSR2 A25R HSI 합성 (L2 + L3 10km 백필)',
+     'amsr2_research_a25_hsi', 'HSI_A25R_AMSR2_NH_*_full_EPSG3413', _PCT_ICE,
+     {'series': True}),
+    # ── AMSR3 표준 SIC (L2 스와스) ──
+    ('amsr3_l2_SIC', 'AMSR3 SIC', 'AMSR3 L2 SIC 해빙농도 (스와스)',
+     'amsr3_l2_SIC', 'SIC_L2_AMSR3_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
+    # ── AMSR3 표준 HSI 라인: L2 스와스 -> L3 10 km -> A25 합성 (TP3A3 관측) ──
     ('amsr3_l2_HSI', 'AMSR3 HSI', 'AMSR3 L2 HSI 고해상 해빙 (스와스)',
      'amsr3_l2_HSI', 'HSI_L2_AMSR3_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
     ('amsr3_l3_HSI', 'AMSR3 HSI', 'AMSR3 L3 HSI 10 km',
      'amsr3_l3_HSI', 'HSI_L3_AMSR3_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
     ('a25_amsr3_hsi', 'AMSR3 HSI', 'AMSR3 A25 HSI 합성 (L2 + L3 백필, 10 km)',
-     'amsr3_amsr25_10_l2_l3_hsi', 'HSI_A25_AMSR3_NH_*_full_EPSG3413', _PCT_ICE,
+     'amsr3_a25_hsi', 'HSI_A25_AMSR3_NH_*_full_EPSG3413', _PCT_ICE,
      {'series': True}),
-    # ── AMSR3 SIM (해빙 이동) ──
-    ('amsr3_l3_SIM_U', 'AMSR3 SIM', 'AMSR3 L3 SIM U성분',
-     'amsr3_l3_SIM', 'SIM_L3_AMSR3_NH_*_U_full_EPSG3413', _SIM, {}),
-    ('amsr3_l3_SIM_V', 'AMSR3 SIM', 'AMSR3 L3 SIM V성분',
-     'amsr3_l3_SIM', 'SIM_L3_AMSR3_NH_*_V_full_EPSG3413', _SIM, {}),
-    ('amsr3_l3_SIM_SPD', 'AMSR3 SIM', 'AMSR3 L3 SIM 속력',
-     'amsr3_l3_SIM', 'SIM_L3_AMSR3_NH_*_SPD_full_EPSG3413',
-     dict(kind='palette', enc='linear', vmin=0, vmax=40, lut='freeboard',
-          units='cm/s'), {}),
     # ── ASIP (DMI) ──
     ('asip_l3', 'ASIP', 'ASIP L3 해빙농도 0.5 km', 'asip_l3',
      'SIC_L3_ASIP_NH_500m_*_full_EPSG34??', _PCT_ICE, {'maxPx': 1400}),
@@ -379,11 +385,17 @@ SAT_PRODUCTS = [
      'S3?_SL_2_IST____*_sea_ice_fraction_EPSG3413', _S3_SIF, {'maxPx': 1400}),
     ('s3e_ist_ist', 'Sentinel-3 IST', 'S3 SLSTR 빙표면온도 (스와스)', 's3e_ist',
      'S3?_SL_2_IST____*_surface_temperature_EPSG3413', _S3_IST, {'maxPx': 1400}),
-    # ── VIIRS 해빙 분포 ──
+    # ── VIIRS 해빙 분포 (NRT 3위성 + P1D 타일 2종) ──
     ('viirs_29', 'VIIRS', 'VNP29 해빙 분포 (NRT 스와스)', 'viirs_29_vnp_nrt',
+     'SIC_A*_EPSG3413', _VNP29, {}),
+    ('viirs_29_j1', 'VIIRS', 'VJ129 해빙 분포 (NRT 스와스)', 'viirs_29_vj1_nrt',
+     'SIC_A*_EPSG3413', _VNP29, {}),
+    ('viirs_29_j2', 'VIIRS', 'VJ229 해빙 분포 (NRT 스와스)', 'viirs_29_vj2_nrt',
      'SIC_A*_EPSG3413', _VNP29, {}),
     ('viirs_29p_vj1', 'VIIRS', 'VJ129P1D 일별 해빙 (타일)',
      'viirs_29pe_vj129p1d', 'VJ129P1D.A*_sic_EPSG3413', _VNP29, {}),
+    ('viirs_29p_vj2', 'VIIRS', 'VJ229P1D 일별 해빙 (타일)',
+     'viirs_29pe_vj229p1d', 'VJ229P1D.A*_sic_EPSG3413', _VNP29, {}),
     # ══ 기상 (GFS·WW3, 뷰어 '기상' 섹션) ═════════════════════════════════
     ('gfs_aww', 'GFS 기상 (0.25도)', 'GFS 10 m 풍속', 'gfs',
      'GFS_aww_*_arctic_EPSG3413', _GFS_AWW, {'series': True, 'sec': 'wx'}),
@@ -403,8 +415,6 @@ SAT_PRODUCTS = [
 #   Data_Out_sample 25종 기준에 따라 이곳으로 내림. VIIRS 나머지·ICESat-2 는 종전대로.
 _SAT_INACTIVE = [
     # ── AMSR2 L2 (표준) ──
-    ('amsr2_l2_SIC', 'AMSR2 L2 (표준)', 'AMSR2 L2 SIC 해빙농도', 'amsr2_l2_SIC',
-     'SIC_L2_AMSR2_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
     ('amsr2_l2_SST', 'AMSR2 L2 (표준)', 'AMSR2 L2 SST 해수면온도', 'amsr2_l2_SST',
      'SST_L2_AMSR2_NH_swath_*_full_EPSG3413', _SST, {}),
     ('amsr2_l2_SSW', 'AMSR2 L2 (표준)', 'AMSR2 L2 SSW 해상풍', 'amsr2_l2_SSW',
@@ -418,8 +428,6 @@ _SAT_INACTIVE = [
     # ── AMSR2 L3 (표준) ──
     ('amsr2_l3_10_SIC', 'AMSR2 L3 (표준)', 'AMSR2 L3 SIC 10 km', 'amsr2_l3_10_SIC',
      'SIC_L3_AMSR2_NH_10km_*_full_EPSG3413', _PCT_ICE, {}),
-    ('amsr2_l3_25_SIC', 'AMSR2 L3 (표준)', 'AMSR2 L3 SIC 25 km', 'amsr2_l3_25_SIC',
-     'SIC_L3_AMSR2_NH_25km_*_full_EPSG3413', _PCT_ICE, {}),
     ('amsr2_l3_10_SST', 'AMSR2 L3 (표준)', 'AMSR2 L3 SST 0.1도', 'amsr2_l3_10_SST',
      'SST_L3_AMSR2_*_full_EPSG3413', _SST, {}),
     ('amsr2_l3_25_SST', 'AMSR2 L3 (표준)', 'AMSR2 L3 SST 0.25도', 'amsr2_l3_25_SST',
@@ -435,8 +443,6 @@ _SAT_INACTIVE = [
     ('amsr2_l3_research_TSI', 'AMSR2 L3 (연구)', 'AMSR2 L3 TSI 박빙 탐지',
      'amsr2_l3_research_TSI', 'TSI_L3_AMSR2_NH_10km_*_full_EPSG3413', _TSI, {}),
     # ── AMSR3 L2 / L3 (표준 SIC 등) ──
-    ('amsr3_l2_SIC', 'AMSR3 L2', 'AMSR3 L2 SIC 해빙농도', 'amsr3_l2_SIC',
-     'SIC_L2_AMSR3_NH_swath_*_full_EPSG3413', _PCT_ICE, {}),
     ('amsr3_l2_SST', 'AMSR3 L2', 'AMSR3 L2 SST 해수면온도', 'amsr3_l2_SST',
      'SST_L2_AMSR3_NH_swath_*_full_EPSG3413', _SST, {}),
     ('amsr3_l2_SSW', 'AMSR3 L2', 'AMSR3 L2 SSW 해상풍', 'amsr3_l2_SSW',
@@ -452,11 +458,8 @@ _SAT_INACTIVE = [
     ('amsr3_l3_ASW', 'AMSR3 L3', 'AMSR3 L3 ASW 10 km', 'amsr3_l3_ASW',
      'ASW_L3_AMSR3_*_full_EPSG3413', _ASW, {}),
     # ── A25 SIC 합성 시계열 (표준 SIC 라인 — 기본 제외) ──
-    ('a25_amsr2_sic', 'AMSR2 A25 (L2+L3 합성)', 'AMSR2 A25 SIC 합성 (L2 + L3 백필)',
-     'amsr2_amsr25_l2_l3_sic', 'SIC_A25_AMSR2_NH_*_full_EPSG3413', _PCT_ICE,
-     {'series': True}),
     ('a25_amsr3_sic', 'AMSR3 A25 (L2+L3 합성)', 'AMSR3 A25 SIC 합성 (L2 + L3 백필)',
-     'amsr3_amsr25_l2_l3_sic', 'SIC_A25_AMSR3_NH_*_full_EPSG3413', _PCT_ICE,
+     'amsr3_a25_sic', 'SIC_A25_AMSR3_NH_*_full_EPSG3413', _PCT_ICE,
      {'series': True}),
     ('a25l2_amsr2_sic', 'AMSR2 A25L2 (L2 전용 합성)',
      'AMSR2 A25L2 SIC 시간별 L2 합성 (L3 백필 없음)',
@@ -467,10 +470,6 @@ _SAT_INACTIVE = [
      'amsr3_amsr25_l2_sic', 'SIC_A25L2_AMSR3_NH_*_full_EPSG3413', _PCT_ICE,
      {'series': True}),
     # ── VIIRS 나머지 / ICESat-2 (종전 그대로) ──
-    ('viirs_29_j1', 'VIIRS', 'VJ129 해빙 분포 (스와스)', 'viirs_29_vj1_nrt',
-     'SIC_A*_EPSG3413', _VNP29, {}),
-    ('viirs_29_j2', 'VIIRS', 'VJ229 해빙 분포 (스와스)', 'viirs_29_vj2_nrt',
-     'SIC_A*_EPSG3413', _VNP29, {}),
     ('viirs_29_arc', 'VIIRS', 'VNP29 해빙 분포 (스와스, archive)',
      'viirs_29_vnp_archive', 'SIC_A*_EPSG3413', _VNP29, {}),
     ('viirs_29_j1_arc', 'VIIRS', 'VJ129 해빙 분포 (스와스, archive)',
@@ -479,8 +478,23 @@ _SAT_INACTIVE = [
      'viirs_29_vj2_archive', 'SIC_A*_EPSG3413', _VNP29, {}),
     ('viirs_29p', 'VIIRS', 'VNP29P1D 일별 해빙 (타일)', 'viirs_29pe_vnp29p1d',
      'VNP29P1D.A*_sic_EPSG3413', _VNP29, {}),
-    ('viirs_29p_vj2', 'VIIRS', 'VJ229P1D 일별 해빙 (타일)',
-     'viirs_29pe_vj229p1d', 'VJ229P1D.A*_sic_EPSG3413', _VNP29, {}),
+    # ── AMSR2/AMSR3 SIM (해빙 이동) — Data_Out 에 폴더 없음 (산출 재개 시 --sat-extra) ──
+    ('amsr2_l3_research_SIM_U', 'AMSR2 연구 SIM', 'AMSR2 L3 SIM U성분',
+     'amsr2_research_l3_SIM', 'SIM_L3_AMSR2_NH_*_U_full_EPSG3413', _SIM, {}),
+    ('amsr2_l3_research_SIM_V', 'AMSR2 연구 SIM', 'AMSR2 L3 SIM V성분',
+     'amsr2_research_l3_SIM', 'SIM_L3_AMSR2_NH_*_V_full_EPSG3413', _SIM, {}),
+    ('amsr2_l3_research_SIM_SPD', 'AMSR2 연구 SIM', 'AMSR2 L3 SIM 속력',
+     'amsr2_research_l3_SIM', 'SIM_L3_AMSR2_NH_*_SPD_full_EPSG3413',
+     dict(kind='palette', enc='linear', vmin=0, vmax=40, lut='freeboard',
+          units='cm/s'), {}),
+    ('amsr3_l3_SIM_U', 'AMSR3 SIM', 'AMSR3 L3 SIM U성분',
+     'amsr3_l3_SIM', 'SIM_L3_AMSR3_NH_*_U_full_EPSG3413', _SIM, {}),
+    ('amsr3_l3_SIM_V', 'AMSR3 SIM', 'AMSR3 L3 SIM V성분',
+     'amsr3_l3_SIM', 'SIM_L3_AMSR3_NH_*_V_full_EPSG3413', _SIM, {}),
+    ('amsr3_l3_SIM_SPD', 'AMSR3 SIM', 'AMSR3 L3 SIM 속력',
+     'amsr3_l3_SIM', 'SIM_L3_AMSR3_NH_*_SPD_full_EPSG3413',
+     dict(kind='palette', enc='linear', vmin=0, vmax=40, lut='freeboard',
+          units='cm/s'), {}),
     ('viirs_30', 'VIIRS', 'VNP30 빙표면온도 (스와스)', 'viirs_30',
      'IST_A*_EPSG3413', _IST, {}),
     ('viirs_30p', 'VIIRS', 'VNP30P1D 일별 IST (타일)', 'viirs_30pe_vnp30p1d',
@@ -489,7 +503,10 @@ _SAT_INACTIVE = [
      'ATL20-01_*_monthly_mean_fb', _FB, {}),
 ]
 # 과거 catalog 에만 남아 있을 수 있는 은퇴 제품 id (catalog 정리 대상에 포함)
-_SAT_RETIRED_IDS = ['amsr3_l3_SIM']
+_SAT_RETIRED_IDS = ['amsr3_l3_SIM',
+                    'amsr2_l3_research_SIM_U', 'amsr2_l3_research_SIM_V',
+                    'amsr2_l3_research_SIM_SPD', 'amsr3_l3_SIM_U',
+                    'amsr3_l3_SIM_V', 'amsr3_l3_SIM_SPD']
 SAT_IDS = [p[0] for p in SAT_PRODUCTS]
 SAT_EXTRA_IDS = [p[0] for p in _SAT_INACTIVE]
 
@@ -749,6 +766,18 @@ def newest_folder_date(files, accept=None):
     return max(fds), len(fds)
 
 
+def folder_dates(files, accept=None):
+    """_list_model_files 결과에서 (accept 통과) 날짜 폴더 목록 — 최신순 정렬."""
+    fds = set()
+    for fn, _p, fd in files:
+        if fd is None:
+            continue
+        if accept is not None and not accept(fn):
+            continue
+        fds.add(fd)
+    return sorted(fds, reverse=True)
+
+
 def _ddir_date(ddir: str, fallback):
     """'yyyy/mm/dd' -> 'YYYY-MM-DD' (없으면 fallback datetime 사용)."""
     if ddir and len(ddir) == 10:
@@ -813,7 +842,8 @@ def latest_ref_date(src_root: str, model_keys):
 
 
 # ---------------------------------------------------------------- 스캔
-def scan(src_root: str, model_keys, var_filter, ref, lead_days: int):
+def scan(src_root: str, model_keys, var_filter, ref, lead_days: int,
+         n_bul: int = 1):
     """모델별 { var: { frame_id: {src, t, label, pref, ddir} } } 수집.
 
     ref 가 FOLDER 면 **모델 폴더의 최종(최신) 날짜 폴더** 하나를 통째로 쓴다
@@ -831,12 +861,14 @@ def scan(src_root: str, model_keys, var_filter, ref, lead_days: int):
         per_var: dict = {}
         n_seen = 0
         files = _list_model_files(folder)
-        mref, n_dirs = (None, 0)
+        mrefs = None
         if folder_mode:
-            mref, n_dirs = newest_folder_date(
+            all_fds = folder_dates(
                 files, lambda fn: fn.lower().endswith('.tif') and cfg['re'].match(fn))
-            if n_dirs > 1:
-                print(f'  [warn] {mk}: 날짜 폴더 {n_dirs}개 — 최신 {mref:%Y/%m/%d} 만 사용')
+            mrefs = set(all_fds[:max(1, n_bul)]) if all_fds else None
+            if all_fds and len(all_fds) > len(mrefs):
+                print(f'  [info] {mk}: 날짜(기준일) 폴더 {len(all_fds)}개 — '
+                      f'최신 {len(mrefs)}개 사용 (--bulletins)')
         for fn, _path, fd in files:
             if not fn.lower().endswith('.tif'):
                 continue
@@ -845,11 +877,13 @@ def scan(src_root: str, model_keys, var_filter, ref, lead_days: int):
                 continue
             n_seen += 1
             if folder_mode:
-                if mref is not None and fd != mref:
+                if mrefs is not None and fd not in mrefs:
                     continue
             elif not frame_selected(cfg, fn, fd, ref, lead_days):
                 continue
             g = m.groupdict()
+            bul = g.get('bul') or (fd.strftime('%Y%m%d') if fd else (
+                ref.strftime('%Y%m%d') if not folder_mode else ''))
             var = g['var']
             if var_filter and var not in var_filter:
                 continue
@@ -861,12 +895,12 @@ def scan(src_root: str, model_keys, var_filter, ref, lead_days: int):
             pref = pref * 2 + (0 if g.get('cog') else 1)
             fid, t, label = frame_time(cfg, g)
             slot = per_var.setdefault(var, {})
-            cur = slot.get(fid)
+            cur = slot.get((bul, fid))
             if cur is None or pref < cur['pref']:
-                slot[fid] = {'src': _path, 'pref': pref,
-                             't': t, 'label': label,
-                             'region': g['region'], 'crs': g['crs'],
-                             'ddir': src_date_dir(_path)}
+                slot[(bul, fid)] = {'src': _path, 'pref': pref,
+                                    't': t, 'label': label, 'bul': bul,
+                                    'region': g['region'], 'crs': g['crs'],
+                                    'ddir': src_date_dir(_path)}
         if per_var:
             found[mk] = per_var
         elif n_seen and not folder_mode:
@@ -1039,6 +1073,9 @@ def main(argv=None) -> int:
                     help='folder(기본: 제품별 최종 날짜 폴더를 그대로 사용, 모델별 날짜 폴더는 '
                          '하나라고 가정) | today | yesterday | YYYYMMDD | latest — '
                          'Data_Out/<모델>/yyyy/mm/dd 날짜 폴더 기준')
+    ap.add_argument('--bulletins', type=int, default=7,
+                    help='--date folder 모드에서 모델별로 담을 최근 기준일(날짜 폴더) '
+                         '수 (기본 7 — 웹 범례 아래 기준일 선택의 후보가 됨)')
     ap.add_argument('--lead-days', type=int, default=10,
                     help='유효일별 폴더 모델(neXtSIM-F·GLO12 등)에서 기준일 이후 '
                          '함께 읽을 예측 일수 (기본 10)')
@@ -1080,7 +1117,7 @@ def main(argv=None) -> int:
            if folder_mode else
            f'                기준일={ref:%Y-%m-%d} (유효일 폴더 모델은 +{a.lead_days}일까지)'))
     found = scan(a.src, a.models, set(a.vars) if a.vars else None,
-                 ref, a.lead_days)
+                 ref, a.lead_days, n_bul=max(1, a.bulletins))
     extra = set(a.sat_extra or [])
     bad_extra = sorted(extra - set(SAT_EXTRA_IDS))
     if bad_extra:
@@ -1187,14 +1224,17 @@ def main(argv=None) -> int:
                 print(f'   [skip] 표출범위 미등록 변수: {var}')
                 continue
             kname, units, vmin, vmax, lut = meta
-            order = sorted(frames_in.items(), key=lambda kv: kv[1]['t'])
+            order = sorted(frames_in.items(),
+                           key=lambda kv: (kv[1].get('bul') or '', kv[1]['t']))
             if a.max_frames:
                 order = order[:a.max_frames]
 
             out_frames = []
             first_ddir = ''
             preview_rel = None
-            for fid, info in order:
+            for (bul, fid), info in order:
+                # 기준일(bul) 접두로 프레임 id·파일명을 기준일별로 구분
+                fid = f'{bul}b_{fid}' if bul and not fid.startswith(bul) else fid
                 name = f'{mname}_{var}_{fid}_EPSG3413_cog.tif'
                 # 출력 경로 = Data_Out 규칙 그대로 (원본과 같은 yyyy/mm/dd 폴더)
                 ddir = info['ddir']
@@ -1228,7 +1268,8 @@ def main(argv=None) -> int:
                         first_ddir = info.get('ddir', '')
                     out_frames.append({'id': fid, 'cog': rel,
                                        't': info['t'].strftime('%Y-%m-%dT%H:%M:%SZ'),
-                                       'label': info['label']})
+                                       'label': info['label'],
+                                       'bul': info.get('bul') or ''})
                 except Exception as exc:                       # noqa: BLE001
                     failed += 1
                     print(f'   [fail] {name}: {exc}')
@@ -1245,7 +1286,12 @@ def main(argv=None) -> int:
                 'kind': 'palette', 'enc': 'linear',
                 'vmin': vmin, 'vmax': vmax, 'lut': lut, 'units': units,
                 'desc': eid,
-                'ref_date': _ddir_date(first_ddir, ref),
+                'ref_date': (max((f['bul'] for f in out_frames if f.get('bul')),
+                                 default='') and
+                             '{0}-{1}-{2}'.format(
+                                 *[max(f['bul'] for f in out_frames if f.get('bul'))[i:j]
+                                   for i, j in ((0, 4), (4, 6), (6, 8))]))
+                            or _ddir_date(first_ddir, ref),
                 'png': preview_rel or '',
                 'cog': out_frames[0]['cog'],
                 'frames': out_frames,

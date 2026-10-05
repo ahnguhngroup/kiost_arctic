@@ -96,11 +96,11 @@ run_make_web_data.bat --no-purge         # 아무것도 지우지 않고 누적 
 
 | 계열 | Data_Out 폴더 | 비고 |
 |---|---|---|
-| AMSR2 연구 HSI | `amsr2_l2_research_HSI`, `amsr2_l3_research_HSI` | L2 스와스 + L3 10 km |
-| AMSR2 A25R HSI 합성 | `amsr2_amsr25r_l2_l3_hsi` | 그날 파일 → 시계열 1항목 |
-| AMSR2 연구 SIM | `amsr2_l3_research_SIM` | U/V/속력 3제품 |
+| AMSR2 연구 HSI | `amsr2_research_l2_HSI`, `amsr2_research_l3_HSI` | L2 스와스 + L3 10 km |
+| AMSR2 A25R HSI 합성 | `amsr2_research_a25_hsi` | 그날 파일 → 시계열 1항목 |
+| AMSR2 연구 SIM | `amsr2_research_l3_SIM` | U/V/속력 3제품 |
 | AMSR3 HSI | `amsr3_l2_HSI`, `amsr3_l3_HSI` | L2 스와스 + L3 10 km |
-| AMSR3 A25 HSI 합성 | `amsr3_amsr25_10_l2_l3_hsi` | 10 km 완성판 → 시계열 1항목 |
+| AMSR3 A25 HSI 합성 | `amsr3_a25_hsi` | 10 km 완성판 → 시계열 1항목 |
 | AMSR3 SIM | `amsr3_l3_SIM` | U/V/속력 3제품 |
 | ASIP | `asip_l3`, `asip_l4` | DMI 해빙농도 0.5/1 km |
 | Sentinel-1 SAR | `s1` | HH/HV 후방산란 (uint16, 파일별 2~98% 스트레치 회색조) |

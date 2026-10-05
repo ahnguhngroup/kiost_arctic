@@ -18,13 +18,18 @@
              border-bottom: 1px solid #d7dde3; color: #0f4c81; }
   /* ---------- 왼쪽: 데이터 리스트 ---------- */
   #list-top { flex: 1.35; overflow-y: auto; min-height: 0; }
-  /* 그룹(모듈) 줄 — 크고 진한 남색으로 위계 강조 (2026-09-29) */
-  #list-top .grp { padding: 7px 10px 4px; font-size: 13px; font-weight: 800;
-                   color: #0f4c81; background: #eef3f8; position: sticky; top: 0;
-                   display: flex; align-items: center; cursor: pointer; }
-  #list-top .grp:hover { background: #e8eef4; }
+  /* 그룹(모듈) 줄 — 박스형 헤더 (2026-10, 섹션 박스보다 한 톤 밝게) */
+  #list-top .grp { margin: 4px 6px 2px 12px; padding: 6px 9px; font-size: 12px;
+                   font-weight: 800; color: #fff; background: #4a7d9e;
+                   border-radius: 6px; display: flex; align-items: center;
+                   gap: 6px; cursor: pointer; }
+  #list-top .grp:hover { background: #417190; }
   #list-top .grp .gn { flex: 1; }
-  #list-top .grp .gc { flex: none; font-size: 10px; color: #778; font-weight: 400; }
+  .sechd .bdg, #list-top .grp .bdg { flex: none; font-size: 10.5px; font-weight: 700;
+                   background: rgba(255,255,255,.92); border-radius: 9px;
+                   padding: 1px 8px; }
+  .sechd .bdg { color: #2f5d7e; }
+  #list-top .grp .bdg { color: #417190; }
   #fold-btns { display: flex; gap: 3px; margin-left: auto; }
   #fold-btns button { border: 1px solid #b9c7d4; background: #fff; color: #46596b;
                       border-radius: 4px; cursor: pointer; font-size: 11px;
@@ -41,14 +46,17 @@
   .item button:hover { background: #0f4c81; color: #fff; }
   /* 데이터 제목 줄 + 그 아래 데이터(파일) 줄 */
   /* 데이터 제목(제품) 줄 — 하부 파일명보다 크게 (2026-09-29) */
-  .ttl { display: flex; align-items: center; padding: 6px 8px 4px 10px; cursor: pointer;
-         font-weight: 700; font-size: 11px; color: #14365c; background: #f8fafc;
-         border-top: 1px solid #e6ebf0; }
-  .ttl:hover { background: #eef4fa; }
+  .ttl { display: flex; align-items: center; margin: 3px 6px 1px 18px;
+         padding: 5px 8px; cursor: pointer; border-radius: 5px;
+         font-weight: 700; font-size: 11px; color: #14365c; background: #e9f0f6;
+         border: 1px solid #d4e0ea; }
+  .ttl:hover { background: #ddeaf4; }
   .ttl .nm { flex: 1; }
-  .ttl .car, .grp .car { flex: none; width: 14px; color: #6a7a8a; font-size: 10px;
-                         transition: transform .12s; margin-right: 2px; }
-  .ttl.closed .car, .grp.closed .car { transform: rotate(-90deg); }
+  .ttl .car, .grp .car, .sechd .car { flex: none; width: 14px; font-size: 10px;
+                         transition: transform .12s; text-align: center; }
+  .ttl .car { color: #6a7a8a; }
+  .grp .car, .sechd .car { color: rgba(255,255,255,.9); }
+  .ttl.closed .car, .grp.closed .car, .sechd.closed .car { transform: rotate(-90deg); }
   .ttl .cnt { flex: none; font-size: 10.5px; color: #556; background: #eef1f4;
               border-radius: 9px; padding: 0 6px; margin-right: 5px; }
   .ttl button.all { border: 1px solid #9db6cc; background: #fff; color: #0f4c81;
@@ -78,6 +86,11 @@
                 padding: 0 2px; }
   .qitem.off { opacity: 0.55; }
   .qitem.off .nm { text-decoration: line-through; color: #889; }
+  #bul-bar { display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+             border-top: 1px solid #d7dde3; background: #eef3f7; }
+  #bul-bar label { font-size: 12.5px; font-weight: 700; color: #2f5d7e; white-space: nowrap; }
+  #bul-bar select { flex: 1; padding: 4px 6px; font-size: 12.5px;
+                    border: 1px solid #b9c6d1; border-radius: 5px; background: #fff; }
   #queue-btns { display: flex; gap: 8px; padding: 9px 10px;
                 border-top: 1px solid #d7dde3; background: #f2f5f8; }
   #queue-btns button { flex: 1; padding: 8px 0; border-radius: 6px; cursor: pointer;
@@ -117,6 +130,12 @@
                  flex-direction: column; min-height: 0; }
   #legend-body { overflow-y: auto; min-height: 0; padding: 8px 14px 12px; }
   #legend-empty { color: #99a; text-align: center; padding: 14px 8px; font-size: 12px; }
+  .sic-toggle { display: flex; align-items: center; gap: 6px; margin: 2px 0 8px;
+    padding: 5px 8px; background: #f2f6fa; border: 1px solid #d4dce4; border-radius: 6px; }
+  .sic-toggle .tt { font-size: 11px; font-weight: 700; color: #0f4c81; margin-right: 2px; }
+  .sic-toggle button { font-size: 11px; padding: 3px 9px; border: 1px solid #c3ccd6;
+    border-radius: 10px; background: #fff; color: #4a5b6b; cursor: pointer; }
+  .sic-toggle button.on { background: #0f4c81; border-color: #0f4c81; color: #fff; font-weight: 700; }
   .lg-item { margin-bottom: 12px; }
   .lg-item.off { opacity: 0.45; }
   .lg-name { font-size: 12px; font-weight: 700; color: #123; margin-bottom: 4px; }
@@ -158,9 +177,14 @@
   .item .fr { flex: none; font-size: 10.5px; color: #0f4c81; background: #e6eff8;
               border: 1px solid #cfe0f0; border-radius: 9px; padding: 0 6px;
               margin-right: 5px; }
-  .sechd { padding: 8px 10px 5px; font-size: 11.5px; font-weight: 800;
-           color: #0f4c81; background: #e6edf4; border-top: 1px solid #cfd8e0;
-           border-bottom: 1px solid #cfd8e0; position: sticky; top: 0; z-index: 2; }
+  /* 섹션 줄 — 진한 박스형 헤더 (2026-10) */
+  .sechd { display: flex; align-items: center; gap: 6px; margin: 8px 6px 3px;
+           padding: 8px 10px; font-size: 13px; font-weight: 800; color: #fff;
+           background: #2f5d7e; border-radius: 6px; cursor: pointer;
+           position: sticky; top: 4px; z-index: 2;
+           box-shadow: 0 1px 3px rgba(20,40,60,.18); }
+  .sechd:hover { background: #28526f; }
+  .sechd .gn { flex: 1; }
   /* ---------- 지도 위 컨트롤 ---------- */
   #mapctl { position: absolute; left: 10px; top: 10px; z-index: 6;
             background: rgba(255,255,255,.93); border-radius: 6px;
@@ -232,6 +256,10 @@
       </div>
     </div>
     <div id="list-top"></div>
+    <div id="bul-bar" title="예측 모델이 표출할 기준일(발표일) 선택 — 관측 자료에는 적용되지 않음">
+      <label for="bul-sel">모델 기준일</label>
+      <select id="bul-sel"><option value="latest">최신</option></select>
+    </div>
     <div id="queue-wrap">
       <h2>그리기 목록 <span style="font-weight:400;color:#889">(드래그로 순서 변경)</span></h2>
       <div id="queue"><div id="empty-q">상단 목록에서 [＋] 로 추가하세요</div></div>
@@ -454,7 +482,42 @@ async function boot() {
     fetch('data/descriptions.json').then(r => r.json()),
   ]);
   CATALOG = cat.entries; DESCS = des;
+  initBulSelector();
   renderList();
+}
+
+/* 기준일 선택 상자 채우기 — 모델 항목들의 bul 합집합 (최신이 위) */
+function initBulSelector() {
+  const sel = document.getElementById('bul-sel');
+  const set = new Set();
+  for (const e of CATALOG)
+    if (Array.isArray(e.frames))
+      for (const f of e.frames) if (f.bul) set.add(f.bul);
+  const buls = [...set].sort().reverse();
+  sel.innerHTML = '<option value="latest">최신</option>' + buls.map(b =>
+    `<option value="${b}">${b.slice(0, 4)}-${b.slice(4, 6)}-${b.slice(6, 8)}</option>`).join('');
+  if (bulMode !== 'latest' && !set.has(bulMode)) bulMode = 'latest';
+  sel.value = bulMode;
+  sel.onchange = () => setBulMode(sel.value);
+  if (!buls.length) document.getElementById('bul-bar').style.display = 'none';
+}
+
+/* 기준일 변경: 목록 갱신 + 이미 그려진 모델 시계열을 새 기준일 프레임으로 교체 */
+function setBulMode(v) {
+  bulMode = v || 'latest';
+  try { localStorage.setItem('bulMode', bulMode); } catch (_) { /* 무시 */ }
+  renderList();
+  const ids = Object.keys(series);
+  let changed = false;
+  for (const id of ids) {
+    const s = series[id];
+    if (!Array.isArray(s.entry.frames) || !s.entry.frames.length
+        || !s.entry.frames[0].bul) continue;
+    s.frames = framesOf(s.entry).map(f => ({ ...f, ms: Date.parse(f.t) }));
+    s.idx = 0; s.applied = false; s.label = s.frames[0].label;
+    changed = true;
+  }
+  if (changed) buildTimeline();            // setTimeIndex 가 각 레이어 이미지를 갱신
 }
 boot().catch(e => {
   document.getElementById('list-top').innerHTML =
@@ -466,11 +529,31 @@ boot().catch(e => {
 /* ---------------- 왼쪽 상단 목록 ----------------
  * 관측 자료(단일 시각)와 예측 모델(시계열)을 구분해 표시한다.
  * 모델 항목은 변수별로 나뉘고, 항행 활용도(nav 2/1/0)를 색점으로 구분한다. */
-const isSeries = (e) => e.type === 'series' && Array.isArray(e.frames) && e.frames.length > 1;
+/* ---- 모델 기준일(bulletin) 선택 ----
+ * 모델 프레임에 bul(YYYYMMDD) 이 있으면, 선택한 기준일의 프레임만 사용한다.
+ * 'latest' = 그 모델이 가진 가장 최근 기준일(기본값). 선택한 기준일이 없는
+ * 모델은 그보다 앞선 가장 가까운 기준일로 대체(없으면 가장 오래된 것). */
+let bulMode = 'latest';
+try { bulMode = localStorage.getItem('bulMode') || 'latest'; } catch (_) { /* 무시 */ }
+function framesOf(e) {
+  const fr = e && e.frames;
+  if (!Array.isArray(fr) || !fr.length || !fr[0].bul) return fr;
+  const buls = [...new Set(fr.map(f => f.bul).filter(Boolean))].sort();
+  if (!buls.length) return fr;
+  let pick;
+  if (bulMode === 'latest') pick = buls[buls.length - 1];
+  else {
+    const le = buls.filter(b => b <= bulMode);
+    pick = le.length ? le[le.length - 1] : buls[0];
+  }
+  return fr.filter(f => f.bul === pick);
+}
+const isSeries = (e) => e.type === 'series' && Array.isArray(e.frames) && framesOf(e).length > 1;
 let listTab = 'all', listQuery = '';
 // 접기/펼치기 상태 — 제목(제품)별·그룹별. 처음엔 파일이 여러 개인 제품은 접힘.
 const foldTitle = new Map();      // titleKey -> true(열림)/false(닫힘)
 const foldGroup = new Map();      // group    -> true(열림)/false(닫힘)
+const foldSec = new Map();        // 섹션     -> true(열림)/false(닫힘)
 let foldDefaultOpen = false;      // 기본 = 전부 접힘 (2026-09-29); '펼침'/'접기' 버튼으로 변경
 
 /* ---- 표시 이름 규칙 ----
@@ -488,14 +571,15 @@ function fmtT(iso) {                       // '2026-08-10T12:00:00Z' -> '08-10 1
 }
 function rangeLabel(e) {
   if (!isSeries(e)) return '';
-  const a = e.frames[0].t, b = e.frames[e.frames.length - 1].t;
+  const fr = framesOf(e);
+  const a = fr[0].t, b = fr[fr.length - 1].t;
   const ya = (a || '').slice(0, 4), yb = (b || '').slice(0, 4);
   return `${ya}-${fmtT(a)} ~ ${ya === yb ? '' : yb + '-'}${fmtT(b)}`;
 }
 const titleOf = (e) => e.title || e.name || e.id;
 function itemName(e) {                    // 제목 아래 줄에 보이는 데이터 이름
   const base = e.title ? (e.name || cogStem(e.cog)) : cogStem(e.cog) || e.name;
-  if (isSeries(e)) return `${base} [${rangeLabel(e)} · ${e.frames.length}프레임]`;
+  if (isSeries(e)) return `${base} [${rangeLabel(e)} · ${framesOf(e).length}프레임]`;
   if (e.type === 'series' && Array.isArray(e.frames) && e.frames.length === 1)
     return `${base} [${(e.frames[0].t || '').slice(0, 4)}-${fmtT(e.frames[0].t)}]`;
   return base;
@@ -534,28 +618,48 @@ function renderList() {
   // 섹션 -> 그룹 -> 제목 -> 데이터(파일) 순으로 묶는다 (catalog 순서 유지)
   let grp = null, sec = null, ttl = null, ttlBox = null;
   const titleKey = (e) => `${e.group}|${titleOf(e)}`;
-  const countByTitle = {};
-  for (const e of rows) countByTitle[titleKey(e)] = (countByTitle[titleKey(e)] || 0) + 1;
+  const secName = (e) => e.sec === 'wx' ? '기상 (GFS 바람 · WW3 파랑)'
+                       : e.model ? '예측 모델 (시계열 · 애니메이션)' : '관측 자료';
+  const countByTitle = {}, qByTitle = {};
+  const cntSec = {}, qSec = {}, cntGrp = {}, qGrp = {};
+  for (const e of rows) {
+    const tk2 = titleKey(e), s2 = secName(e), inQ = queue.includes(e.id) ? 1 : 0;
+    countByTitle[tk2] = (countByTitle[tk2] || 0) + 1;
+    qByTitle[tk2] = (qByTitle[tk2] || 0) + inQ;
+    cntSec[s2] = (cntSec[s2] || 0) + 1;  qSec[s2] = (qSec[s2] || 0) + inQ;
+    cntGrp[e.group] = (cntGrp[e.group] || 0) + 1;
+    qGrp[e.group] = (qGrp[e.group] || 0) + inQ;
+  }
 
   for (const e of rows) {
-    const thisSec = e.sec === 'wx' ? '기상 (GFS 바람 · WW3 파랑)'
-                  : e.model ? '예측 모델 (시계열 · 애니메이션)' : '관측 자료';
+    const thisSec = secName(e);
     if (thisSec !== sec) {
       sec = thisSec; grp = null; ttl = null;
       const h = document.createElement('div');
-      h.className = 'sechd'; h.textContent = sec;
+      h.className = 'sechd';
+      const sOpen = q ? true : (foldSec.has(sec) ? foldSec.get(sec) : true);
+      h.classList.toggle('closed', !sOpen);
+      h.innerHTML = `<span class="gn">${sec}</span>` +
+                    `<span class="bdg">${qSec[sec] || 0}/${cntSec[sec]}</span>` +
+                    `<span class="car">▼</span>`;
+      h.title = '클릭: 이 섹션 접기/펼치기 (선택/전체)';
+      const sk = sec;
+      h.onclick = () => { foldSec.set(sk, !(foldSec.has(sk) ? foldSec.get(sk) : true));
+                          renderList(); };
       box.appendChild(h);
     }
+    const secOpen = q ? true : (foldSec.has(sec) ? foldSec.get(sec) : true);
+    if (!secOpen) continue;                  // 접힌 섹션: 하위 전체 숨김
     if (e.group !== grp) {
       grp = e.group; ttl = null;
       const g = document.createElement('div');
       g.className = 'grp';
       const gOpen = q ? true : (foldGroup.has(grp) ? foldGroup.get(grp) : true);
       g.classList.toggle('closed', !gOpen);
-      const nInGrp = rows.filter(x => x.group === grp).length;
-      g.innerHTML = `<span class="car">▼</span><span class="gn">${grp}</span>` +
-                    `<span class="gc">${nInGrp}</span>`;
-      g.title = '클릭: 이 그룹 접기/펼치기';
+      g.innerHTML = `<span class="gn">${grp}</span>` +
+                    `<span class="bdg">${qGrp[grp] || 0}/${cntGrp[grp]}</span>` +
+                    `<span class="car">▼</span>`;
+      g.title = '클릭: 이 그룹 접기/펼치기 (선택/전체)';
       const gk = grp;
       g.onclick = () => { foldGroup.set(gk, !(foldGroup.has(gk) ? foldGroup.get(gk) : true));
                           renderList(); };
@@ -575,15 +679,16 @@ function renderList() {
       const open = q ? true : (foldTitle.has(tk) ? foldTitle.get(tk)
                        : (foldDefaultOpen !== null ? foldDefaultOpen : n <= 1));
       t.classList.toggle('closed', !open);
-      t.innerHTML = `<span class="car">▼</span>${dot}<span class="nm">${titleOf(e)}</span>` +
-                    (n > 1 ? `<span class="cnt">${n}개</span>` : '');
+      t.innerHTML = `${dot}<span class="nm">${titleOf(e)}</span>` +
+                    `<span class="cnt">${qByTitle[tk] || 0}/${n}</span>` +
+                    `<span class="car">▼</span>`;
       if (n > 1) {                            // 스와스처럼 여러 파일이면 한 번에 추가
         const all = document.createElement('button');
         all.className = 'all'; all.textContent = '＋전체';
         all.title = '이 제목의 데이터를 모두 그리기 목록에 추가';
         const ids = rows.filter(x => titleKey(x) === tk).map(x => x.id);
         all.onclick = (ev) => { ev.stopPropagation(); ids.forEach(addToQueue); };
-        t.appendChild(all);
+        t.insertBefore(all, t.querySelector('.cnt'));
       }
       // 제목 줄 클릭 = 접기/펼치기 (+ 설명 표시). 캐럿(▼)만 눌러도 같다.
       const tkk = tk, firstId = e.id;
@@ -604,7 +709,7 @@ function renderList() {
     }
     const it = document.createElement('div');  // ── 데이터 이름 줄 (COG 파일 단위)
     it.className = 'item sub' + (e.id === selectedId ? ' sel' : ''); it.dataset.id = e.id;
-    const fr = isSeries(e) ? `<span class="fr">▶${e.frames.length}</span>` : '';
+    const fr = isSeries(e) ? `<span class="fr">▶${framesOf(e).length}</span>` : '';
     it.innerHTML = `<span class="nm" title="${cogStem(e.cog)}">${itemName(e)}</span>${fr}`;
     const btn = document.createElement('button');
     btn.textContent = '＋'; btn.title = '그리기 목록에 추가';
@@ -624,9 +729,9 @@ document.querySelectorAll('#tabs button').forEach(b => {
 });
 document.getElementById('q').oninput = (ev) => { listQuery = ev.target.value; renderList(); };
 document.getElementById('fold-open').onclick = () => {
-  foldTitle.clear(); foldGroup.clear(); foldDefaultOpen = true; renderList(); };
+  foldTitle.clear(); foldGroup.clear(); foldSec.clear(); foldDefaultOpen = true; renderList(); };
 document.getElementById('fold-close').onclick = () => {
-  foldTitle.clear(); foldGroup.clear(); foldDefaultOpen = false; renderList(); };
+  foldTitle.clear(); foldGroup.clear(); foldSec.clear(); foldDefaultOpen = false; renderList(); };
 
 function selectItem(id) {
   selectedId = id;
@@ -655,10 +760,11 @@ function addToQueue(id) {
   if (queue.includes(id)) return;           // 중복 추가 방지
   queue.push(id);
   renderQueue();
+  renderList();                              // 섹션/그룹 선택 개수 배지 갱신
 }
 function removeFromQueue(id) {
   const i = queue.indexOf(id);
-  if (i >= 0) queue.splice(i, 1);
+  if (i >= 0) { queue.splice(i, 1); renderList(); }  // 배지 갱신
   hiddenIds.delete(id);
   const lid = 'cog-' + id;                  // 이미 그려져 있으면 지도에서도 제거
   if (map.getLayer(lid)) map.removeLayer(lid);
@@ -740,7 +846,26 @@ const SIC_STOPS = {
   c: [[8,28,110],[27,79,196],[31,142,224],[25,195,232],[47,201,106],
       [198,221,35],[245,168,31],[226,58,46],[255,255,255]],
 };
+/* WMO/JCOMM 총빙량(ice chart colour code) 계급 — 선택 옵션.
+ * Ice free(<1%)는 표준의 #0064ff 대신 rainbow 0% 남색과 통일. */
+const SIC_WMO_CLASSES = [
+  { max: 1,       color: [8, 28, 110],    name: 'Ice free (무빙)' },
+  { max: 10,      color: [150, 200, 255], name: '개수면 <1/10' },
+  { max: 40,      color: [140, 255, 160], name: '성긴 유빙 1~3/10' },
+  { max: 70,      color: [255, 255, 0],   name: '산재 유빙 4~6/10' },
+  { max: 90,      color: [255, 125, 7],   name: '밀집 유빙 7~8/10' },
+  { max: 100.001, color: [255, 0, 0],     name: '초밀집 9~10/10' },
+];
+let sicMode = 'rainbow';                      // 'rainbow' | 'wmo'
+try { if (localStorage.getItem('sicMode') === 'wmo') sicMode = 'wmo'; } catch (e) {}
+function wmoColor(t) {
+  if (!isFinite(t)) t = 0;
+  const v = Math.max(0, Math.min(1, t)) * 100;
+  for (const c of SIC_WMO_CLASSES) if (v < c.max) return c.color;
+  return SIC_WMO_CLASSES[SIC_WMO_CLASSES.length - 1].color;
+}
 function sicColor(t) {                        // t: 0..1
+  if (sicMode === 'wmo') return wmoColor(t);
   if (!isFinite(t)) t = 0;
   const v = Math.max(0, Math.min(1, t)) * 100;
   const P = SIC_STOPS.p, C = SIC_STOPS.c;
@@ -768,7 +893,7 @@ function lutColor(name, t) {
  *  classes: byte = 클래스값+1. byte 0 = nodata 투명) */
 const entryTableCache = {};
 function buildEntryTable(entry) {
-  const key = entry.id;
+  const key = entry.id + (entry.lut === 'sic' ? ':' + sicMode : '');
   if (entryTableCache[key]) return entryTableCache[key];
   const rgb = new Uint8Array(256 * 3);
   const alpha = new Uint8Array(256);            // 0 = 투명
@@ -917,6 +1042,10 @@ async function renderCog(entry, cogUrl) {
  * 범례 — 오른쪽 하단, 그려진 레이어의 색상 범례
  * ================================================================ */
 function buildLegend(entry, cmap, nColors, etab, lo, hi) {
+  if (entry.lut === 'sic' && sicMode === 'wmo') {   // WMO 계급 — 이름 포함 범례
+    return { type: 'chips', title: 'WMO 총빙량',
+             chips: SIC_WMO_CLASSES.map(c => ({ color: c.color, label: c.name })) };
+  }
   const byteColor = (i) => {
     if (cmap) return [cmap[i] >> 8, cmap[nColors + i] >> 8, cmap[2 * nColors + i] >> 8];
     if (etab) return [etab.rgb[i * 3], etab.rgb[i * 3 + 1], etab.rgb[i * 3 + 2]];
@@ -960,10 +1089,45 @@ function buildLegend(entry, cmap, nColors, etab, lo, hi) {
            units: entry.units || '' };
 }
 
+/* SIC 색상 모드 전환 (rainbow <-> WMO 총빙량 계급) — 그려진 sic 레이어 즉시 다시 그림 */
+async function setSicMode(mode) {
+  if (mode === sicMode) return;
+  sicMode = mode;
+  try { localStorage.setItem('sicMode', mode); } catch (e) {}
+  for (const lid of [...drawnLayers]) {
+    const id = lid.replace(/^cog-/, '');
+    const d = drawnData[id];
+    if (!d || !d.entry || d.entry.lut !== 'sic') continue;
+    try {
+      const sfr = series[id];
+      const res = sfr ? await getFrame(d.entry, sfr.idx, sfr.frames)
+                      : await renderCog(d.entry);
+      const src = map.getSource(lid);
+      if (src && src.updateImage)
+        src.updateImage({ url: res.url, coordinates: res.coords });
+      drawnData[id] = res.info;
+    } catch (err) { console.error('sic 모드 전환', id, err); }
+  }
+  renderLegends();
+}
+
 function renderLegends() {
   const box = document.getElementById('legend-body');
   box.innerHTML = '';
   const ids = drawnLayers.map(l => l.replace(/^cog-/, '')).reverse();  // 위 레이어부터
+  // SIC 레이어가 하나라도 그려져 있으면 색상 모드 토글 표시
+  if (ids.some(id => drawnData[id] && drawnData[id].entry &&
+                     drawnData[id].entry.lut === 'sic')) {
+    const tg = document.createElement('div');
+    tg.className = 'sic-toggle';
+    tg.innerHTML =
+      '<span class="tt">SIC 색상</span>' +
+      `<button class="${sicMode === 'rainbow' ? 'on' : ''}" data-m="rainbow">Rainbow 연속</button>` +
+      `<button class="${sicMode === 'wmo' ? 'on' : ''}" data-m="wmo">WMO 총빙량</button>`;
+    tg.querySelectorAll('button').forEach(b =>
+      b.onclick = () => setSicMode(b.dataset.m));
+    box.appendChild(tg);
+  }
   let count = 0;
   for (const id of ids) {
     const d = drawnData[id];
@@ -1096,7 +1260,7 @@ document.getElementById('btn-draw').onclick = async () => {
     setStatus(`그리는 중 (${i + 1}/${queue.length}) — ${displayName(entry)}`);
     try {
       const ser = isSeries(entry);
-      const frames = ser ? entry.frames.map(f => ({ ...f, ms: Date.parse(f.t) })) : null;
+      const frames = ser ? framesOf(entry).map(f => ({ ...f, ms: Date.parse(f.t) })) : null;
       const res = ser ? await getFrame(entry, 0, frames)
                       : await renderCog(entry);
       if (ser) {
@@ -1151,11 +1315,11 @@ const FRAME_CACHE_MAX = 160;
 const frameCache = new Map();      // `${id}|${i}` -> renderCog 결과
 
 async function getFrame(entry, i, framesOverride) {
-  const key = entry.id + '|' + i;
+  const key = entry.id + '|' + i + '|' + bulMode + (entry.lut === 'sic' ? '|' + sicMode : '');
   const hit = frameCache.get(key);
   if (hit) { frameCache.delete(key); frameCache.set(key, hit); return hit; }
   const frames = framesOverride || (series[entry.id] && series[entry.id].frames)
-                 || entry.frames;
+                 || framesOf(entry);
   const res = await renderCog(entry, frames[i].cog);
   frameCache.set(key, res);
   while (frameCache.size > FRAME_CACHE_MAX)
@@ -1616,6 +1780,7 @@ document.getElementById('btn-clear').onclick = () => {
   hiddenIds.clear();
   renderQueue();
   renderLegends();
+  renderList();          // 섹션/그룹 선택 개수 배지 갱신
 };
 </script>
 </body>
